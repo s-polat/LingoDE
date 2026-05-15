@@ -5,9 +5,15 @@ export interface GrammarExample {
   translation: string;
 }
 
+export interface GrammarTable {
+  headers: string[];
+  rows: string[][];
+}
+
 export interface GrammarSection {
   title: string;
   explanation: string;
+  table?: GrammarTable;
   examples: GrammarExample[];
   tip?: string;
 }
