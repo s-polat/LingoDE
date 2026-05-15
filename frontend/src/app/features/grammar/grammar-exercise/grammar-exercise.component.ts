@@ -53,12 +53,6 @@ export class GrammarExerciseComponent implements OnChanges {
     return '📚';
   }
 
-  private scrollToCard(): void {
-    setTimeout(() => {
-      document.getElementById('exercise-card')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }, 50);
-  }
-
   select(option: string): void {
     if (this.showFeedback()) return;
     this.selectedAnswer.set(option);
@@ -66,7 +60,9 @@ export class GrammarExerciseComponent implements OnChanges {
     if (option === this.current.answer) {
       this.score.update(s => s + 1);
     }
-    this.scrollToCard();
+    setTimeout(() => {
+      document.getElementById('exercise-next-btn')?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    }, 50);
   }
 
   next(): void {
@@ -77,7 +73,9 @@ export class GrammarExerciseComponent implements OnChanges {
     } else {
       this.done.set(true);
     }
-    this.scrollToCard();
+    setTimeout(() => {
+      document.getElementById('exercise-card')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 50);
   }
 
   restart(): void {

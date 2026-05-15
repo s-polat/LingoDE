@@ -71,7 +71,7 @@
           }
         </div>
 
-        <button (click)="next()"
+        <button id="exercise-next-btn" (click)="next()"
                 class="w-full py-3 bg-primary-600 text-white rounded-xl font-semibold text-sm hover:bg-primary-700 transition-colors">
           {{ currentIndex() < total - 1 ? 'İleri →' : 'Sonucu Gör' }}
         </button>
