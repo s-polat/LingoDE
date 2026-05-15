@@ -78,10 +78,6 @@ export class NvvComponent implements OnInit {
     return Math.round(((this.exerciseIndex + 1) / this.exercises.length) * 100);
   }
 
-  get sentenceParts(): string[] {
-    return this.currentExercise?.sentence_with_gap.split('___') ?? [];
-  }
-
   ngOnInit() {
     this.loadList();
   }
