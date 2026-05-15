@@ -27,6 +27,11 @@ export const routes: Routes = [
       import('./features/grammar/grammar.routes').then((m) => m.GRAMMAR_ROUTES),
   },
   {
+    path: 'nvv',
+    loadComponent: () =>
+      import('./features/nvv/nvv.component').then((m) => m.NvvComponent),
+  },
+  {
     path: 'praepositionalverben',
     loadComponent: () =>
       import('./features/praepositionalverben/praepositionalverben.component').then(

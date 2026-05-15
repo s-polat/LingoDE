@@ -1,0 +1,167 @@
+<div class="p-4 space-y-4">
+
+  <!-- ===== LİSTE GÖRÜNÜMÜ ===== -->
+  @if (view === 'list') {
+
+    <!-- Başlık -->
+    <div>
+      <h2 class="text-2xl font-bold text-slate-800">Nomen-Verb-Verbindungen</h2>
+      <p class="text-slate-500 text-sm mt-1">C1 sınavı için en sık kullanılan {{ entries.length }} NVV ifadesi</p>
+    </div>
+
+    <!-- Arama -->
+    <div class="relative">
+      <input [(ngModel)]="searchTerm"
+             placeholder="İfade veya anlam ara…"
+             class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary-400" />
+    </div>
+
+    <!-- Alıştırma Butonu -->
+    <button (click)="startExercises()"
+            [disabled]="loading"
+            class="w-full py-3 bg-primary-600 text-white rounded-xl font-semibold text-sm hover:bg-primary-700 transition-colors flex items-center justify-center gap-2">
+      <span>🎯</span> Boşluk Doldurma Alıştırması
+    </button>
+
+    <!-- Yükleniyor -->
+    @if (loading) {
+      <div class="flex justify-center py-12">
+        <div class="w-8 h-8 border-4 border-primary-600 border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    } @else {
+
+      <!-- Gruplar -->
+      @for (cat of activeCategories; track cat) {
+        <div class="space-y-2">
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-bold uppercase tracking-wide px-2 py-0.5 rounded-full" [ngClass]="categoryColor(cat)">
+              {{ categoryLabels[cat] }}
+            </span>
+            <span class="text-xs text-slate-400">{{ groupedEntries[cat].length }} ifade</span>
+          </div>
+
+          <div class="bg-white rounded-2xl shadow divide-y divide-slate-100">
+            @for (entry of groupedEntries[cat]; track entry.id) {
+              <div class="px-4 py-3 space-y-1">
+                <div class="flex items-start justify-between gap-2">
+                  <p class="font-semibold text-slate-800 text-sm">{{ entry.phrase }}</p>
+                  <span class="text-xs text-slate-400 shrink-0">= {{ entry.equivalent_verb }}</span>
+                </div>
+                <p class="text-primary-600 text-xs font-medium">{{ entry.meaning_tr }}</p>
+                <p class="text-slate-500 text-xs italic">{{ entry.example_de }}</p>
+                <p class="text-slate-400 text-xs">{{ entry.example_tr }}</p>
+              </div>
+            }
+          </div>
+        </div>
+      }
+
+      @if (filteredEntries.length === 0) {
+        <div class="text-center py-12 text-slate-400">
+          <p class="text-3xl mb-2">🔍</p>
+          <p class="text-sm">Sonuç bulunamadı.</p>
+        </div>
+      }
+
+    }
+  }
+
+  <!-- ===== ALIŞTIRMA GÖRÜNÜMÜ ===== -->
+  @if (view === 'exercise') {
+
+    <!-- Üst bar -->
+    <div class="flex items-center justify-between">
+      <button (click)="backToList()" class="text-slate-400 text-sm hover:text-slate-600">← Liste</button>
+      <span class="text-xs text-slate-400">{{ exerciseIndex + 1 }}/{{ exercises.length }}</span>
+      @if (totalPages > 1) {
+        <div class="flex gap-2">
+          <button (click)="prevPage()" [disabled]="exercisePage === 1"
+                  class="text-xs px-2 py-1 rounded bg-slate-100 disabled:opacity-40">‹</button>
+          <span class="text-xs text-slate-400 self-center">{{ exercisePage }}/{{ totalPages }}</span>
+          <button (click)="nextPage()" [disabled]="exercisePage === totalPages"
+                  class="text-xs px-2 py-1 rounded bg-slate-100 disabled:opacity-40">›</button>
+        </div>
+      }
+    </div>
+
+    <!-- İlerleme -->
+    <div class="w-full bg-slate-100 rounded-full h-2">
+      <div class="bg-primary-500 h-2 rounded-full transition-all" [style.width.%]="progress"></div>
+    </div>
+
+    @if (currentExercise) {
+      <div id="nvv-exercise-card" class="bg-white rounded-2xl shadow p-5 space-y-4">
+
+        <!-- İpucu -->
+        <div class="flex items-center gap-2">
+          <span class="text-xs px-2 py-0.5 rounded-full font-medium" [ngClass]="categoryColor(currentExercise.category)">
+            {{ categoryLabels[currentExercise.category] }}
+          </span>
+          <span class="text-xs text-slate-400">= {{ currentExercise.hint }}</span>
+        </div>
+
+        <!-- Cümle -->
+        <div class="min-h-[52px] flex items-center">
+          <p class="text-slate-800 font-medium text-base leading-relaxed">
+            {{ sentenceParts[0] }}<span class="inline-block px-3 py-0.5 bg-primary-100 text-primary-700 font-bold rounded-lg mx-1">___</span>{{ sentenceParts[1] }}
+          </p>
+        </div>
+
+        <!-- Seçenekler -->
+        <div class="grid grid-cols-2 gap-2">
+          @for (option of currentExercise.options; track option) {
+            <button (click)="selectAnswer(option)"
+                    class="border-2 rounded-xl px-3 py-3 text-sm text-center transition-all font-medium"
+                    [ngClass]="optionClass(option)">
+              {{ option }}
+            </button>
+          }
+        </div>
+
+        <!-- Feedback -->
+        @if (answered) {
+          <div class="rounded-xl px-4 py-3 space-y-1"
+               [class.bg-green-50]="selectedAnswer === currentExercise.answer"
+               [class.border-green-200]="selectedAnswer === currentExercise.answer"
+               [class.bg-red-50]="selectedAnswer !== currentExercise.answer"
+               [class.border-red-200]="selectedAnswer !== currentExercise.answer"
+               [class.border]="true">
+            <p class="font-semibold text-sm"
+               [class.text-green-700]="selectedAnswer === currentExercise.answer"
+               [class.text-red-700]="selectedAnswer !== currentExercise.answer">
+              {{ selectedAnswer === currentExercise.answer ? '✓ Doğru!' : '✗ Yanlış — Doğru: ' + currentExercise.answer }}
+            </p>
+            <p class="text-xs font-medium text-slate-700">{{ currentExercise.phrase }}</p>
+            <p class="text-xs text-slate-500 italic">{{ currentExercise.meaning_tr }}</p>
+            <p class="text-xs text-slate-400">{{ currentExercise.example_tr }}</p>
+          </div>
+
+          @if (!isLastExercise()) {
+            <button (click)="next()"
+                    class="w-full py-3 bg-primary-600 text-white rounded-xl font-semibold text-sm hover:bg-primary-700 transition-colors">
+              İleri →
+            </button>
+          } @else {
+            <div class="bg-slate-50 rounded-xl p-4 text-center space-y-2">
+              <p class="text-2xl">{{ correctCount >= exercises.length * 0.8 ? '🏆' : correctCount >= exercises.length * 0.5 ? '⭐' : '📚' }}</p>
+              <p class="font-bold text-slate-700">{{ correctCount }}/{{ exercises.length }} doğru</p>
+              @if (totalPages > 1 && exercisePage < totalPages) {
+                <button (click)="nextPage()"
+                        class="w-full py-2 bg-primary-600 text-white rounded-xl text-sm font-semibold">
+                  Sonraki Sayfa →
+                </button>
+              }
+              <button (click)="backToList()"
+                      class="w-full py-2 border border-slate-200 text-slate-600 rounded-xl text-sm">
+                ← Listeye Dön
+              </button>
+            </div>
+          }
+        }
+
+      </div>
+    }
+
+  }
+
+</div>
