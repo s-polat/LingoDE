@@ -1,13 +1,14 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, ActivatedRoute } from '@angular/router';
 import { GrammarService } from '../../../core/services/grammar.service';
 import { GrammarLesson } from '../../../core/models/grammar.model';
+import { GrammarExerciseComponent } from '../grammar-exercise/grammar-exercise.component';
 
 @Component({
   selector: 'app-grammar-lesson',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, GrammarExerciseComponent],
   templateUrl: './grammar-lesson.component.html',
 })
 export class GrammarLessonComponent implements OnInit {
@@ -16,6 +17,7 @@ export class GrammarLessonComponent implements OnInit {
 
   lesson: GrammarLesson | null = null;
   loading = true;
+  showExercises = signal(false);
 
   ngOnInit() {
     const level = this.route.snapshot.paramMap.get('level')!;

@@ -1,0 +1,83 @@
+<div class="space-y-4">
+
+  @if (done()) {
+    <!-- Sonuç Ekranı -->
+    <div class="bg-white rounded-2xl shadow p-6 text-center space-y-4">
+      <p class="text-5xl">{{ scoreEmoji }}</p>
+      <h3 class="text-xl font-bold text-slate-800">Tamamlandı!</h3>
+      <p class="text-slate-500 text-sm">
+        {{ total }} sorudan <span class="font-bold text-primary-600">{{ score() }}</span> doğru
+      </p>
+      <div class="w-full bg-slate-100 rounded-full h-3">
+        <div class="bg-primary-500 h-3 rounded-full transition-all"
+             [style.width.%]="(score() / total) * 100"></div>
+      </div>
+      <button (click)="restart()"
+              class="w-full py-3 bg-primary-600 text-white rounded-xl font-semibold text-sm hover:bg-primary-700 transition-colors">
+        Tekrar Dene
+      </button>
+    </div>
+
+  } @else if (current) {
+    <!-- İlerleme -->
+    <div class="flex items-center gap-3">
+      <div class="flex-1 bg-slate-100 rounded-full h-2">
+        <div class="bg-primary-500 h-2 rounded-full transition-all"
+             [style.width.%]="progressPercent"></div>
+      </div>
+      <span class="text-xs text-slate-400 font-medium">{{ currentIndex() + 1 }}/{{ total }}</span>
+    </div>
+
+    <!-- Soru Kartı -->
+    <div class="bg-white rounded-2xl shadow p-5 space-y-4">
+
+      <!-- Soru Metni -->
+      <div class="min-h-[56px] flex items-center">
+        @if (isFillInBlank) {
+          <p class="text-slate-800 font-medium text-base leading-relaxed">
+            {{ questionParts[0] }}<span class="inline-block px-3 py-0.5 bg-primary-100 text-primary-700 font-bold rounded-lg mx-1">___</span>{{ questionParts[1] }}
+          </p>
+        } @else {
+          <p class="text-slate-800 font-medium text-base">{{ current.question }}</p>
+        }
+      </div>
+
+      <!-- Seçenekler -->
+      <div class="grid grid-cols-2 gap-2">
+        @for (option of current.options; track option) {
+          <button (click)="select(option)"
+                  class="border-2 rounded-xl px-3 py-3 text-sm text-center transition-all leading-snug"
+                  [ngClass]="optionClass(option)">
+            {{ option }}
+          </button>
+        }
+      </div>
+
+      <!-- Feedback -->
+      @if (showFeedback()) {
+        <div class="rounded-xl px-4 py-3 space-y-1"
+             [class.bg-green-50]="isCorrect"
+             [class.border-green-200]="isCorrect"
+             [class.border]="true"
+             [class.bg-red-50]="!isCorrect"
+             [class.border-red-200]="!isCorrect">
+          <p class="font-semibold text-sm"
+             [class.text-green-700]="isCorrect"
+             [class.text-red-700]="!isCorrect">
+            {{ isCorrect ? '✓ Doğru!' : '✗ Yanlış — Doğru: ' + current.answer }}
+          </p>
+          @if (current.explanation) {
+            <p class="text-xs text-slate-600">{{ current.explanation }}</p>
+          }
+        </div>
+
+        <button (click)="next()"
+                class="w-full py-3 bg-primary-600 text-white rounded-xl font-semibold text-sm hover:bg-primary-700 transition-colors">
+          {{ currentIndex() < total - 1 ? 'İleri →' : 'Sonucu Gör' }}
+        </button>
+      }
+
+    </div>
+  }
+
+</div>
