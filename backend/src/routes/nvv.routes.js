@@ -26,48 +26,64 @@ router.get('/', (req, res) => {
 
 router.get('/exercises', (req, res) => {
   const { category, page = 1 } = req.query;
-  const pageSize = 15;
+  const pageSize = 16; // 8 pairs: 8× type1 + 8× type2, interleaved
   let pool = allNvv;
   if (category) pool = pool.filter((e) => e.category === category);
 
-  const shuffled = [...pool].sort((a, b) => a.phrase.localeCompare(b.phrase));
-  const start = (Number(page) - 1) * pageSize;
-  const batch = shuffled.slice(start, start + pageSize);
+  const sorted = [...pool].sort((a, b) => a.phrase.localeCompare(b.phrase));
+  const start = (Number(page) - 1) * (pageSize / 2);
+  const batch = sorted.slice(start, start + pageSize / 2);
 
-  const exercises = batch.map((e) => ({
-    id: e.id,
-    phrase: e.phrase,
-    sentence_with_gap: buildGap(e),
-    options: buildOptions(e, pool),
-    answer: e.noun,
-    hint: e.equivalent_verb,
-    meaning_tr: e.meaning_tr,
-    example_tr: e.example_tr,
-    category: e.category,
-  }));
+  // Her entry için 1× tip1 + 1× tip2 üret, sonra karıştır
+  const type1 = batch.map((e) => buildType1(e, pool));
+  const type2 = batch.map((e) => buildType2(e, pool));
+  const exercises = shuffle([...type1, ...type2]);
 
   res.json({
     success: true,
     data: exercises,
-    total: shuffled.length,
+    total: sorted.length,
     page: Number(page),
-    pages: Math.ceil(shuffled.length / pageSize),
+    pages: Math.ceil(sorted.length / (pageSize / 2)),
   });
 });
 
-function buildGap(entry) {
-  const regex = new RegExp(`\\b${entry.noun}\\b`, 'i');
-  return entry.example_de.replace(regex, '___');
+// Tip 1: Türkçe anlam → doğru NVV ifadesini seç
+function buildType1(entry, pool) {
+  const correct = entry.phrase;
+  const distractors = shuffle(pool.filter((e) => e.phrase !== correct))
+    .slice(0, 3)
+    .map((e) => e.phrase);
+  return {
+    id: `${entry.id}-t1`,
+    type: 'tr_to_de',
+    question: entry.meaning_tr,
+    hint: `= ${entry.equivalent_verb}`,
+    options: shuffle([correct, ...distractors]),
+    answer: correct,
+    example_tr: entry.example_tr,
+    category: entry.category,
+  };
 }
 
-function buildOptions(entry, pool) {
-  const correct = entry.noun;
-  const sameCategory = pool.filter((e) => e.noun !== correct);
-  const distractors = shuffle(sameCategory)
-    .map((e) => e.noun)
-    .filter((n, i, arr) => arr.indexOf(n) === i)
+// Tip 2: "eine Entscheidung ___" → doğru fiili seç
+function buildType2(entry, pool) {
+  const correct = entry.verb;
+  const distractors = shuffle(pool.filter((e) => e.verb !== correct))
+    .map((e) => e.verb)
+    .filter((v, i, arr) => arr.indexOf(v) === i)
     .slice(0, 3);
-  return shuffle([correct, ...distractors]);
+  const stem = entry.article ? `${entry.article} ${entry.noun}` : entry.noun;
+  return {
+    id: `${entry.id}-t2`,
+    type: 'verb_completion',
+    question: `${stem} ___`,
+    hint: entry.meaning_tr,
+    options: shuffle([correct, ...distractors]),
+    answer: correct,
+    example_tr: entry.example_tr,
+    category: entry.category,
+  };
 }
 
 function shuffle(arr) {

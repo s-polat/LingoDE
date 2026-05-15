@@ -12,13 +12,12 @@ export interface NvvEntry {
 }
 
 export interface NvvExercise {
-  id: number;
-  phrase: string;
-  sentence_with_gap: string;
+  id: string;
+  type: 'tr_to_de' | 'verb_completion';
+  question: string;
+  hint: string;
   options: string[];
   answer: string;
-  hint: string;
-  meaning_tr: string;
   example_tr: string;
   category: string;
 }
