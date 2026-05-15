@@ -19,6 +19,13 @@ export class GrammarLessonComponent implements OnInit {
   loading = true;
   showExercises = signal(false);
 
+  openExercises(): void {
+    this.showExercises.set(true);
+    setTimeout(() => {
+      document.getElementById('exercise-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 50);
+  }
+
   ngOnInit() {
     const level = this.route.snapshot.paramMap.get('level')!;
     const id = this.route.snapshot.paramMap.get('lessonId')!;
