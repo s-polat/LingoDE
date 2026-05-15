@@ -1,0 +1,45 @@
+import { Routes } from '@angular/router';
+
+export const routes: Routes = [
+  {
+    path: '',
+    redirectTo: 'dashboard',
+    pathMatch: 'full',
+  },
+  {
+    path: 'dashboard',
+    loadComponent: () =>
+      import('./features/dashboard/dashboard.component').then((m) => m.DashboardComponent),
+  },
+  {
+    path: 'vocabulary',
+    loadChildren: () =>
+      import('./features/vocabulary/vocabulary.routes').then((m) => m.VOCABULARY_ROUTES),
+  },
+  {
+    path: 'games',
+    loadChildren: () =>
+      import('./features/games/games.routes').then((m) => m.GAMES_ROUTES),
+  },
+  {
+    path: 'grammar',
+    loadChildren: () =>
+      import('./features/grammar/grammar.routes').then((m) => m.GRAMMAR_ROUTES),
+  },
+  {
+    path: 'praepositionalverben',
+    loadComponent: () =>
+      import('./features/praepositionalverben/praepositionalverben.component').then(
+        (m) => m.PraepositionalverbenComponent
+      ),
+  },
+  {
+    path: 'profile',
+    loadComponent: () =>
+      import('./features/profile/profile.component').then((m) => m.ProfileComponent),
+  },
+  {
+    path: '**',
+    redirectTo: 'dashboard',
+  },
+];

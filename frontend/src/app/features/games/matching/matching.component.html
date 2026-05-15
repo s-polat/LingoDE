@@ -1,0 +1,212 @@
+<div class="p-4 pb-8 space-y-4">
+
+  <!-- ──── KURULUM ──── -->
+  @if (state === 'setup') {
+    <div class="bg-gradient-to-r from-yellow-400 to-orange-500 rounded-2xl p-4 text-white">
+      <h1 class="text-xl font-bold">Eşleştirme Oyunu</h1>
+      <p class="text-yellow-100 text-sm mt-1">Almanca kelimeyi Türkçe anlamıyla eşleştir</p>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow-sm p-4 space-y-4">
+
+      <!-- Mod seçimi -->
+      <div>
+        <label class="text-xs font-semibold text-slate-500 uppercase tracking-wide block mb-2">Oyun Modu</label>
+        <div class="grid grid-cols-2 gap-2">
+          <button (click)="gameMode = 'words'"
+                  class="py-3 rounded-xl text-sm font-semibold border-2 transition-all"
+                  [class.border-primary-600]="gameMode === 'words'"
+                  [class.bg-primary-50]="gameMode === 'words'"
+                  [class.text-primary-700]="gameMode === 'words'"
+                  [class.border-slate-200]="gameMode !== 'words'"
+                  [class.text-slate-500]="gameMode !== 'words'">
+            📚 Kelime → Anlam
+          </button>
+          <button (click)="gameMode = 'preps'"
+                  class="py-3 rounded-xl text-sm font-semibold border-2 transition-all"
+                  [class.border-primary-600]="gameMode === 'preps'"
+                  [class.bg-primary-50]="gameMode === 'preps'"
+                  [class.text-primary-700]="gameMode === 'preps'"
+                  [class.border-slate-200]="gameMode !== 'preps'"
+                  [class.text-slate-500]="gameMode !== 'preps'">
+            🔗 Fiil → Edat
+          </button>
+        </div>
+      </div>
+
+      <div>
+        <label class="text-xs font-semibold text-slate-500 uppercase tracking-wide block mb-2">Seviye</label>
+        <div class="flex gap-1.5 flex-wrap">
+          @for (lv of levels; track lv) {
+            <button (click)="selectedLevel = lv"
+                    class="px-3 py-1.5 rounded-full text-xs font-semibold border transition-colors"
+                    [class.bg-primary-600]="selectedLevel === lv"
+                    [class.text-white]="selectedLevel === lv"
+                    [class.border-primary-600]="selectedLevel === lv"
+                    [class.bg-white]="selectedLevel !== lv"
+                    [class.text-slate-500]="selectedLevel !== lv"
+                    [class.border-slate-200]="selectedLevel !== lv">
+              {{ lv || 'Tümü' }}
+            </button>
+          }
+        </div>
+      </div>
+
+      <div>
+        <label class="text-xs font-semibold text-slate-500 uppercase tracking-wide block mb-2">Çift sayısı</label>
+        <div class="flex gap-1.5">
+          @for (n of [4, 6, 8, 10]; track n) {
+            <button (click)="pairCount = n"
+                    class="flex-1 py-2 rounded-xl text-sm font-semibold border transition-colors"
+                    [class.bg-primary-600]="pairCount === n"
+                    [class.text-white]="pairCount === n"
+                    [class.border-primary-600]="pairCount === n"
+                    [class.bg-white]="pairCount !== n"
+                    [class.text-slate-500]="pairCount !== n"
+                    [class.border-slate-200]="pairCount !== n">
+              {{ n }}
+            </button>
+          }
+        </div>
+      </div>
+    </div>
+
+    @if (error) {
+      <div class="bg-red-50 border border-red-200 rounded-xl p-3 text-red-600 text-sm">{{ error }}</div>
+    }
+
+    <button (click)="startGame()"
+            class="w-full bg-yellow-400 text-white py-3.5 rounded-2xl font-bold text-base shadow-sm">
+      🎯 Oyunu Başlat
+    </button>
+  }
+
+  <!-- ──── YÜKLENİYOR ──── -->
+  @if (state === 'loading') {
+    <div class="text-center py-20">
+      <div class="inline-block w-10 h-10 border-4 border-yellow-400 border-t-transparent rounded-full animate-spin"></div>
+      <p class="text-slate-500 mt-3">Kelimeler hazırlanıyor...</p>
+    </div>
+  }
+
+  <!-- ──── OYUN ──── -->
+  @if (state === 'playing') {
+
+    <!-- Üst bar -->
+    <div class="flex items-center justify-between">
+      <button (click)="backToSetup()" class="text-slate-400 text-sm">← Çık</button>
+      <div class="flex gap-4 text-sm">
+        <span class="text-slate-500">⏱ <strong class="text-slate-700">{{ formatTime(seconds) }}</strong></span>
+        <span class="text-slate-500">🎯 <strong class="text-slate-700">{{ matchedCount }}/{{ totalPairs }}</strong></span>
+        <span class="text-slate-500">🔄 <strong class="text-slate-700">{{ moves }}</strong></span>
+      </div>
+    </div>
+
+    <!-- İlerleme çubuğu -->
+    <div class="h-1.5 bg-slate-100 rounded-full overflow-hidden">
+      <div class="h-full bg-yellow-400 rounded-full transition-all"
+           [style.width.%]="totalPairs > 0 ? (matchedCount / totalPairs * 100) : 0"></div>
+    </div>
+
+    <!-- İki kolon -->
+    <div class="grid grid-cols-2 gap-2">
+      <!-- Sol: Almanca -->
+      <div class="space-y-2">
+        <p class="text-center text-xs font-bold text-slate-400 uppercase tracking-wide">🇩🇪 Almanca</p>
+        @for (card of leftCards; track card.id) {
+          <button (click)="selectLeft(card)"
+                  class="w-full px-3 py-3 rounded-xl text-sm font-semibold border-2 transition-all text-left leading-tight"
+                  [class]="cardClass(card)">
+            {{ card.text }}
+          </button>
+        }
+      </div>
+
+      <!-- Sağ: Türkçe -->
+      <div class="space-y-2">
+        <p class="text-center text-xs font-bold text-slate-400 uppercase tracking-wide">🇹🇷 Türkçe</p>
+        @for (card of rightCards; track card.id) {
+          <button (click)="selectRight(card)"
+                  class="w-full px-3 py-3 rounded-xl text-sm font-medium border-2 transition-all text-left leading-tight"
+                  [class]="cardClass(card)">
+            {{ card.text }}
+          </button>
+        }
+      </div>
+    </div>
+  }
+
+  <!-- ──── BİTTİ ──── -->
+  @if (state === 'done') {
+    <div class="text-center py-6 space-y-4">
+
+      <!-- Yıldız + başlık -->
+      <div class="space-y-2">
+        <div class="text-4xl">
+          @for (i of [1,2,3]; track i) {
+            <span [class.opacity-20]="i > stars">⭐</span>
+          }
+        </div>
+        <h2 class="text-2xl font-bold text-slate-800">Tebrikler!</h2>
+        <p class="text-slate-400 text-sm">{{ totalPairs }} çifti tamamladın</p>
+      </div>
+
+      <!-- Süre + Hamle -->
+      <div class="grid grid-cols-2 gap-3 max-w-xs mx-auto">
+        <div class="bg-yellow-50 rounded-2xl p-4">
+          <p class="text-3xl font-bold text-yellow-500">{{ formatTime(seconds) }}</p>
+          <p class="text-xs text-slate-400 mt-1">Süre</p>
+        </div>
+        <div class="bg-primary-50 rounded-2xl p-4">
+          <p class="text-3xl font-bold text-primary-600">{{ moves }}</p>
+          <p class="text-xs text-slate-400 mt-1">Hamle</p>
+        </div>
+      </div>
+
+      <!-- Kişisel rekor -->
+      @if (newRecord) {
+        <div class="bg-yellow-400 rounded-2xl px-4 py-3 text-white font-bold text-sm">
+          🏆 Yeni Kişisel Rekor!
+        </div>
+      } @else if (personalBest) {
+        <div class="bg-slate-50 rounded-2xl px-4 py-3 text-sm space-y-0.5">
+          <p class="text-slate-400 font-medium">Kişisel Rekor</p>
+          <p class="text-slate-700 font-semibold">
+            {{ formatTime(personalBest.time) }} &nbsp;·&nbsp; {{ personalBest.moves }} hamle
+            <span class="text-slate-400 font-normal text-xs">({{ personalBest.date }})</span>
+          </p>
+        </div>
+      }
+
+      <!-- SM-2 bilgisi (sadece kelime modunda) -->
+      @if (gameMode === 'words') {
+        <div class="bg-primary-50 rounded-2xl px-4 py-3 text-sm text-primary-700 text-left">
+          <p class="font-semibold mb-1">📚 Tekrar planı güncellendi</p>
+          <p class="text-primary-500 text-xs leading-relaxed">
+            Sıfır hatayla eşleştirdiğin kelimeler daha geç, zorlandıkların daha erken flashcard'da çıkacak.
+          </p>
+        </div>
+      } @else {
+        <div class="bg-pink-50 rounded-2xl px-4 py-3 text-sm text-pink-700 text-left">
+          <p class="font-semibold mb-1">🔗 Edatları pekiştirdin</p>
+          <p class="text-pink-400 text-xs leading-relaxed">
+            Boşluk doldurma alıştırmaları için Edatlar sekmesine git.
+          </p>
+        </div>
+      }
+
+      <div class="space-y-2">
+        <button (click)="playAgain()"
+                class="w-full bg-yellow-400 text-white py-3.5 rounded-2xl font-bold">
+          Tekrar Oyna
+        </button>
+        <button (click)="backToSetup()"
+                class="w-full bg-white border border-slate-200 text-slate-600 py-3 rounded-2xl font-medium text-sm">
+          Ayarları Değiştir
+        </button>
+      </div>
+
+    </div>
+  }
+
+</div>

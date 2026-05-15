@@ -1,0 +1,147 @@
+<div class="p-4 space-y-4">
+
+  <!-- Başlık -->
+  <div class="flex items-center justify-between">
+    <h2 class="text-xl font-bold text-slate-800">Flashcard</h2>
+    <a routerLink="/games" class="text-slate-400 text-sm">← Geri</a>
+  </div>
+
+  <!-- Seviye filtresi -->
+  <div class="flex gap-2 overflow-x-auto pb-1">
+    @for (level of levels; track level) {
+      <button (click)="selectedLevel = level; load()"
+              class="flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-semibold transition-colors"
+              [class]="selectedLevel === level ? 'bg-primary-600 text-white' : 'bg-slate-100 text-slate-500'">
+        {{ level === '' ? 'Tümü' : level }}
+      </button>
+    }
+  </div>
+
+  <!-- Yükleniyor -->
+  @if (loading) {
+    <div class="flex justify-center py-16">
+      <div class="w-10 h-10 border-4 border-primary-600 border-t-transparent rounded-full animate-spin"></div>
+    </div>
+  }
+
+  <!-- Kelime yok -->
+  @else if (words.length === 0) {
+    <div class="text-center py-16 text-slate-400 space-y-3">
+      <p class="text-5xl">🎉</p>
+      <p class="font-semibold text-slate-600">Tüm kelimeler tekrar edildi!</p>
+      <p class="text-sm">Bugün için başka tekrar gereken kelime yok.</p>
+      <a routerLink="/vocabulary/add"
+         class="inline-block mt-2 bg-primary-600 text-white px-5 py-2.5 rounded-xl text-sm font-semibold">
+        Yeni Kelime Ekle
+      </a>
+    </div>
+  }
+
+  <!-- Bitti ekranı -->
+  @else if (finished) {
+    <div class="text-center py-12 space-y-4">
+      <p class="text-5xl">{{ accuracy >= 70 ? '🏆' : '💪' }}</p>
+      <h3 class="text-xl font-bold text-slate-800">Oturum Tamamlandı!</h3>
+      <div class="bg-white rounded-2xl shadow p-6 space-y-3">
+        <div class="flex justify-between text-sm">
+          <span class="text-slate-500">Toplam kart</span>
+          <span class="font-bold">{{ sessionTotal }}</span>
+        </div>
+        <div class="flex justify-between text-sm">
+          <span class="text-slate-500">Doğru</span>
+          <span class="font-bold text-green-600">{{ sessionCorrect }}</span>
+        </div>
+        <div class="flex justify-between text-sm">
+          <span class="text-slate-500">Başarı</span>
+          <span class="font-bold text-primary-600">%{{ accuracy }}</span>
+        </div>
+        <div class="h-2 bg-slate-100 rounded-full overflow-hidden mt-2">
+          <div class="h-full bg-primary-500 rounded-full" [style.width.%]="accuracy"></div>
+        </div>
+      </div>
+      <button (click)="load()"
+              class="w-full bg-primary-600 text-white py-3 rounded-xl font-semibold">
+        Tekrar Başlat
+      </button>
+    </div>
+  }
+
+  <!-- Kart -->
+  @else if (word) {
+    <div class="space-y-4">
+
+      <!-- İlerleme -->
+      <div class="flex items-center gap-3">
+        <div class="flex-1 h-1.5 bg-slate-100 rounded-full overflow-hidden">
+          <div class="h-full bg-primary-500 rounded-full transition-all"
+               [style.width.%]="(current / words.length) * 100"></div>
+        </div>
+        <span class="text-xs text-slate-400 flex-shrink-0">{{ current + 1 }} / {{ words.length }}</span>
+      </div>
+
+      <!-- Kart (çevirilebilir) -->
+      <div (click)="flip()"
+           class="min-h-52 bg-white rounded-2xl shadow-md p-6 flex flex-col items-center justify-center text-center cursor-pointer select-none transition-all active:scale-95"
+           [class.ring-2]="flipped"
+           [class.ring-primary-300]="flipped">
+
+        @if (!flipped) {
+          <!-- Ön yüz: Almanca -->
+          <div class="space-y-2">
+            <div class="flex items-baseline justify-center gap-2 flex-wrap">
+              @if (word.article) {
+                <span class="text-primary-500 font-medium text-lg">{{ word.article }}</span>
+              }
+              <span class="text-3xl font-bold text-slate-800">{{ word.german }}</span>
+            </div>
+            @if (word.plural) {
+              <p class="text-sm text-slate-400">Pl: {{ word.plural }}</p>
+            }
+            <span class="inline-block bg-primary-100 text-primary-700 text-xs font-bold px-2 py-0.5 rounded-full">
+              {{ word.level }}
+            </span>
+            <p class="text-slate-400 text-sm mt-4">Çevirmek için dokun 👆</p>
+          </div>
+        } @else {
+          <!-- Arka yüz: Türkçe + örnek -->
+          <div class="space-y-3 w-full">
+            @for (m of word.meanings; track $index) {
+              <div [class]="$index > 0 ? 'border-t border-slate-100 pt-3' : ''">
+                <p class="text-xl font-bold text-slate-800">{{ m.turkish }}</p>
+                @if (m.example_de) {
+                  <p class="text-sm text-slate-500 italic mt-1">{{ m.example_de }}</p>
+                  <p class="text-xs text-slate-400">{{ m.example_tr }}</p>
+                }
+              </div>
+            }
+          </div>
+        }
+      </div>
+
+      <!-- Değerlendirme butonları (sadece çevrilmişken) -->
+      @if (flipped) {
+        <div class="grid grid-cols-3 gap-3">
+          <button (click)="rate(1)"
+                  class="py-3 rounded-xl bg-red-50 border border-red-200 text-red-600 font-semibold text-sm flex flex-col items-center gap-1">
+            <span class="text-lg">😓</span>
+            Bilmedim
+          </button>
+          <button (click)="rate(3)"
+                  class="py-3 rounded-xl bg-yellow-50 border border-yellow-200 text-yellow-600 font-semibold text-sm flex flex-col items-center gap-1">
+            <span class="text-lg">🤔</span>
+            Zorlandım
+          </button>
+          <button (click)="rate(5)"
+                  class="py-3 rounded-xl bg-green-50 border border-green-200 text-green-600 font-semibold text-sm flex flex-col items-center gap-1">
+            <span class="text-lg">😊</span>
+            Bildim
+          </button>
+        </div>
+      } @else {
+        <p class="text-center text-xs text-slate-400">Karta dokun, ardından kendini değerlendir</p>
+      }
+
+    </div>
+  }
+
+</div>

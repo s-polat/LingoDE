@@ -1,0 +1,182 @@
+<div class="p-4 pb-8 space-y-4">
+
+  <!-- ──── LİSTE GÖRÜNÜMÜ ──── -->
+  @if (view === 'list') {
+
+    <div class="bg-gradient-to-r from-primary-600 to-primary-800 rounded-2xl p-4 text-white">
+      <h1 class="text-xl font-bold">Präpositionalverben</h1>
+      <p class="text-primary-200 text-sm mt-1">Edat gerektiren fiiller ve boşluk doldurma alıştırmaları</p>
+    </div>
+
+    <!-- Seviye filtresi + arama -->
+    <div class="space-y-2">
+      <div class="flex gap-1 flex-wrap">
+        <button (click)="selectedLevel = ''; loadList()"
+                class="px-3 py-1 rounded-full text-xs font-semibold border transition-colors"
+                [class.bg-primary-600]="selectedLevel === ''"
+                [class.text-white]="selectedLevel === ''"
+                [class.border-primary-600]="selectedLevel === ''"
+                [class.bg-white]="selectedLevel !== ''"
+                [class.text-slate-500]="selectedLevel !== ''"
+                [class.border-slate-200]="selectedLevel !== ''">Tümü</button>
+        @for (lv of levels; track lv) {
+          <button (click)="selectedLevel = lv; loadList()"
+                  class="px-3 py-1 rounded-full text-xs font-semibold border transition-colors"
+                  [class.bg-primary-600]="selectedLevel === lv"
+                  [class.text-white]="selectedLevel === lv"
+                  [class.border-primary-600]="selectedLevel === lv"
+                  [class.bg-white]="selectedLevel !== lv"
+                  [class.text-slate-500]="selectedLevel !== lv"
+                  [class.border-slate-200]="selectedLevel !== lv">{{ lv }}</button>
+        }
+      </div>
+      <input [(ngModel)]="searchTerm" type="text" placeholder="Fiil veya anlam ara..."
+             class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary-400" />
+    </div>
+
+    <!-- Alıştırma başlat -->
+    <div class="flex gap-2 items-center">
+      <select [(ngModel)]="exerciseLevel"
+              class="flex-1 border border-slate-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary-400">
+        <option value="">Tüm seviyeler</option>
+        @for (lv of levels; track lv) {
+          <option [value]="lv">{{ lv }}</option>
+        }
+      </select>
+      <button (click)="startExercises()" [disabled]="loading"
+              class="bg-primary-600 text-white px-5 py-2.5 rounded-xl text-sm font-semibold disabled:opacity-40 whitespace-nowrap">
+        🎯 Alıştırma Yap
+      </button>
+    </div>
+
+    <!-- Yükleniyor -->
+    @if (loading) {
+      <div class="text-center py-10">
+        <div class="inline-block w-8 h-8 border-4 border-primary-600 border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    }
+
+    <!-- Kelime listesi -->
+    @if (!loading) {
+      <p class="text-xs text-slate-400">{{ filteredVerbs.length }} fiil</p>
+      <div class="space-y-2">
+        @for (v of filteredVerbs; track v.verb + v.preposition) {
+          <div class="bg-white rounded-xl shadow-sm p-3 space-y-1">
+            <div class="flex items-center gap-2 flex-wrap">
+              <span class="font-bold text-slate-800 text-base">{{ v.verb }}</span>
+              <span class="bg-primary-100 text-primary-700 font-bold px-2 py-0.5 rounded-lg text-sm">+ {{ v.preposition }}</span>
+              <span class="text-xs px-2 py-0.5 rounded-full font-semibold" [class]="caseColor(v.case)">{{ v.case }}</span>
+              <span class="text-xs text-slate-400 ml-auto">{{ v.level }}</span>
+            </div>
+            <p class="text-slate-600 text-sm font-medium">{{ v.meaning_tr }}</p>
+            <p class="text-slate-500 text-sm italic">{{ v.example_de }}</p>
+            <p class="text-slate-400 text-xs">{{ v.example_tr }}</p>
+          </div>
+        }
+      </div>
+    }
+  }
+
+  <!-- ──── ALIŞTIRMA GÖRÜNÜMÜ ──── -->
+  @if (view === 'exercise') {
+
+    <!-- Yükleniyor -->
+    @if (loading) {
+      <div class="text-center py-16">
+        <div class="inline-block w-10 h-10 border-4 border-primary-600 border-t-transparent rounded-full animate-spin"></div>
+        <p class="text-slate-500 mt-3">Alıştırmalar hazırlanıyor...</p>
+      </div>
+    }
+
+    @if (!loading && currentExercise) {
+      <!-- Geri + ilerleme -->
+      <div class="flex items-center gap-3">
+        <button (click)="backToList()" class="text-slate-400 text-sm">← Geri</button>
+        <div class="flex-1 h-1.5 bg-slate-100 rounded-full overflow-hidden">
+          <div class="h-full bg-primary-500 rounded-full transition-all" [style.width.%]="progress"></div>
+        </div>
+        <span class="text-xs text-slate-400 flex-shrink-0">
+          {{ exerciseIndex + 1 }} / {{ exercises.length }}
+          @if (totalPages > 1) { <span class="text-primary-400"> (Sayfa {{ exercisePage }}/{{ totalPages }})</span> }
+        </span>
+      </div>
+
+      <!-- Skor -->
+      <div class="flex justify-between text-xs text-slate-400">
+        <span>✅ Doğru: <strong class="text-green-600">{{ correctCount }}</strong></span>
+        <span class="text-xs px-2 py-0.5 rounded-full font-semibold" [class]="caseColor(currentExercise.case)">{{ currentExercise.case }}</span>
+      </div>
+
+      <!-- Cümle kartı -->
+      <div class="bg-white rounded-2xl shadow p-5 space-y-3">
+        <p class="text-xs text-slate-400 font-medium uppercase tracking-wide">Doğru edatı seç</p>
+        <p class="text-lg font-semibold text-slate-800 leading-relaxed">
+          {{ currentExercise.sentence_with_gap }}
+        </p>
+        <div class="border-t border-slate-100 pt-2 space-y-0.5">
+          <p class="text-sm font-medium text-primary-600">{{ currentExercise.verb }} + ___</p>
+          <p class="text-slate-500 text-sm">{{ currentExercise.meaning_tr }}</p>
+        </div>
+      </div>
+
+      <!-- Şıklar -->
+      <div class="grid grid-cols-2 gap-2">
+        @for (opt of currentExercise.options; track opt) {
+          <button (click)="selectAnswer(opt)"
+                  class="py-3 rounded-xl border text-sm font-semibold transition-all"
+                  [class]="optionClass(opt)">
+            {{ opt }}
+          </button>
+        }
+      </div>
+
+      <!-- Cevap açıklaması -->
+      @if (answered) {
+        <div class="rounded-xl p-4 space-y-1"
+             [class.bg-green-50]="selectedAnswer === currentExercise.answer"
+             [class.bg-red-50]="selectedAnswer !== currentExercise.answer">
+          @if (selectedAnswer === currentExercise.answer) {
+            <p class="font-semibold text-green-700">✅ Doğru!</p>
+          } @else {
+            <p class="font-semibold text-red-600">❌ Yanlış — Doğru: <span class="font-bold">{{ currentExercise.answer }}</span></p>
+          }
+          <p class="text-slate-500 text-sm italic">{{ currentExercise.sentence_with_gap.replace('___', currentExercise.answer) }}</p>
+          <p class="text-slate-400 text-xs">{{ currentExercise.example_tr }}</p>
+        </div>
+
+        @if (!isLastExercise()) {
+          <button (click)="next()"
+                  class="w-full bg-primary-600 text-white py-3 rounded-xl font-semibold">
+            Sonraki →
+          </button>
+        } @else {
+          <!-- Son soru bitti -->
+          <div class="bg-primary-50 rounded-2xl p-5 text-center space-y-3">
+            <p class="text-4xl">🎉</p>
+            <p class="font-bold text-slate-800 text-lg">Tur bitti!</p>
+            <p class="text-slate-500">{{ correctCount }} / {{ exercises.length }} doğru</p>
+            <div class="flex gap-2">
+              @if (exercisePage < totalPages) {
+                <button (click)="nextPage()"
+                        class="flex-1 bg-primary-600 text-white py-3 rounded-xl font-semibold text-sm">
+                  Sonraki Sayfa →
+                </button>
+              }
+              @if (exercisePage > 1) {
+                <button (click)="prevPage()"
+                        class="flex-1 bg-white border border-slate-200 text-slate-600 py-3 rounded-xl font-medium text-sm">
+                  ← Önceki Sayfa
+                </button>
+              }
+              <button (click)="startExercises()"
+                      class="flex-1 bg-white border border-slate-200 text-slate-600 py-3 rounded-xl font-medium text-sm">
+                Tekrar
+              </button>
+            </div>
+          </div>
+        }
+      }
+    }
+  }
+
+</div>

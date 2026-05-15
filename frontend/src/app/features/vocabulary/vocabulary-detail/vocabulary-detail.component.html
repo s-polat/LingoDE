@@ -1,0 +1,118 @@
+<div class="p-4 space-y-4">
+
+  <!-- Başlık -->
+  <div class="flex items-center justify-between">
+    <a routerLink="/vocabulary" class="text-slate-400 text-sm flex items-center gap-1">← Geri</a>
+    <button (click)="delete()" class="text-red-400 text-sm hover:text-red-600">Sil</button>
+  </div>
+
+  @if (loading) {
+    <div class="space-y-3">
+      @for (i of [1,2,3]; track i) {
+        <div class="bg-white rounded-xl h-24 animate-pulse"></div>
+      }
+    </div>
+  } @else if (!word) {
+    <div class="text-center py-16 text-slate-400">
+      <p class="text-4xl mb-3">❓</p>
+      <p>Kelime bulunamadı.</p>
+    </div>
+  } @else {
+
+    <!-- Kelime kartı -->
+    <div class="bg-gradient-to-br from-primary-600 to-primary-800 rounded-2xl p-6 text-white">
+      <div class="flex items-start gap-2 flex-wrap">
+        @if (word.article) {
+          <span class="text-primary-200 text-lg font-medium">{{ word.article }}</span>
+        }
+        <span class="text-3xl font-bold">{{ word.german }}</span>
+      </div>
+      @if (word.plural) {
+        <p class="text-primary-200 text-sm mt-1">Çoğul: {{ word.plural }}</p>
+      }
+      <div class="flex gap-2 mt-3">
+        <span class="bg-white/20 text-white text-xs px-2 py-0.5 rounded-full">{{ word.type }}</span>
+        <span class="bg-white/20 text-white text-xs font-bold px-2 py-0.5 rounded-full">{{ word.level }}</span>
+      </div>
+    </div>
+
+    <!-- Anlamlar -->
+    <div class="bg-white rounded-2xl shadow p-4 space-y-4">
+      <h3 class="font-semibold text-slate-600 text-sm uppercase tracking-wide">Anlamlar</h3>
+      @for (m of word.meanings; track $index) {
+        <div class="border-l-2 border-primary-300 pl-4 space-y-1"
+             [class.border-t]="$index > 0" [class.pt-3]="$index > 0">
+          <p class="font-semibold text-slate-800 text-base">{{ m.turkish }}</p>
+          @if (m.example_de) {
+            <p class="text-slate-500 text-sm italic">{{ m.example_de }}</p>
+            <p class="text-slate-400 text-xs">{{ m.example_tr }}</p>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- Fiil Çekimi -->
+    @if (word.conjugation) {
+      <div class="bg-white rounded-2xl shadow p-4 space-y-4">
+        <h3 class="font-semibold text-slate-600 text-sm uppercase tracking-wide">Fiil Çekimi</h3>
+
+        <div>
+          <p class="text-xs font-bold text-primary-600 uppercase mb-2">Präsens</p>
+          <div class="grid grid-cols-2 gap-x-6 gap-y-1">
+            @for (entry of conjugationEntries('präsens'); track entry.person) {
+              <div class="flex gap-2 text-sm">
+                <span class="text-slate-400 w-20">{{ entry.person }}</span>
+                <span class="font-medium text-slate-700">{{ entry.form }}</span>
+              </div>
+            }
+          </div>
+        </div>
+
+        <div>
+          <p class="text-xs font-bold text-primary-600 uppercase mb-2">Präteritum</p>
+          <div class="grid grid-cols-2 gap-x-6 gap-y-1">
+            @for (entry of conjugationEntries('präteritum'); track entry.person) {
+              <div class="flex gap-2 text-sm">
+                <span class="text-slate-400 w-20">{{ entry.person }}</span>
+                <span class="font-medium text-slate-700">{{ entry.form }}</span>
+              </div>
+            }
+          </div>
+        </div>
+
+        @if (word.conjugation.perfekt) {
+          <div class="flex gap-2 text-sm border-t border-slate-100 pt-3">
+            <span class="text-slate-400 w-24">Perfekt</span>
+            <span class="font-medium text-slate-700">{{ word.conjugation.perfekt }}</span>
+          </div>
+        }
+        @if (word.conjugation.konjunktiv2) {
+          <div class="flex gap-2 text-sm">
+            <span class="text-slate-400 w-24">Konj. II</span>
+            <span class="font-medium text-slate-700">{{ word.conjugation.konjunktiv2 }}</span>
+          </div>
+        }
+      </div>
+    }
+
+    <!-- SM-2 bilgisi -->
+    <div class="bg-white rounded-2xl shadow p-4">
+      <h3 class="font-semibold text-slate-600 text-sm uppercase tracking-wide mb-3">Tekrar Durumu</h3>
+      <div class="grid grid-cols-3 gap-3 text-center text-sm">
+        <div>
+          <p class="text-2xl font-bold text-primary-600">{{ word.sm2_repetitions }}</p>
+          <p class="text-xs text-slate-400">Tekrar</p>
+        </div>
+        <div>
+          <p class="text-2xl font-bold text-primary-600">{{ word.sm2_interval }}</p>
+          <p class="text-xs text-slate-400">Gün aralık</p>
+        </div>
+        <div>
+          <p class="text-2xl font-bold text-primary-600">{{ word.sm2_easiness | number:'1.1-1' }}</p>
+          <p class="text-xs text-slate-400">Kolaylık</p>
+        </div>
+      </div>
+    </div>
+
+  }
+</div>

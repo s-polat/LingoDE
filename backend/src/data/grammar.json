@@ -1,0 +1,250 @@
+[
+  {
+    "id": "a1-artikel",
+    "level": "A1",
+    "category": "Artikel",
+    "title": "Bestimmte & Unbestimmte Artikel",
+    "description": "Almancada her ismin bir cinsi vardır: der (eril), die (dişil), das (yansız).",
+    "sections": [
+      {
+        "title": "Bestimmter Artikel (Belirli Tanımlık)",
+        "explanation": "der (eril), die (dişil), das (yansız). Çoğul için her zaman die kullanılır.",
+        "examples": [
+          { "sentence": "Der Mann ist groß.", "translation": "Adam büyük." },
+          { "sentence": "Die Frau ist klug.", "translation": "Kadın zekidir." },
+          { "sentence": "Das Kind spielt.", "translation": "Çocuk oynuyor." }
+        ],
+        "tip": "İsimleri her zaman artikelleriyle birlikte öğren!"
+      },
+      {
+        "title": "Unbestimmter Artikel (Belirsiz Tanımlık)",
+        "explanation": "ein (eril/yansız), eine (dişil). İngilizce'deki a/an gibi.",
+        "examples": [
+          { "sentence": "Das ist ein Buch.", "translation": "Bu bir kitap." },
+          { "sentence": "Ich habe eine Katze.", "translation": "Bir kedim var." },
+          { "sentence": "Er kauft ein Auto.", "translation": "O bir araba satın alıyor." }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "a1-praesens",
+    "level": "A1",
+    "category": "Verben",
+    "title": "Präsens (Geniş Zaman)",
+    "description": "Almancada şimdiki zaman çekimi. Düzenli ve düzensiz fiiller.",
+    "sections": [
+      {
+        "title": "Düzenli Fiil Çekimi",
+        "explanation": "Fiil köküne kişiye göre ek getirilir: -e, -st, -t, -en, -t, -en",
+        "examples": [
+          { "sentence": "Ich spiele Fußball.", "translation": "Ben futbol oynuyorum." },
+          { "sentence": "Du spielst gut.", "translation": "Sen iyi oynuyorsun." },
+          { "sentence": "Er/Sie/Es spielt Gitarre.", "translation": "O gitar çalıyor." },
+          { "sentence": "Wir spielen zusammen.", "translation": "Biz birlikte oynuyoruz." }
+        ],
+        "tip": "spielen → spiel + e/st/t/en/t/en"
+      }
+    ]
+  },
+  {
+    "id": "a2-perfekt",
+    "level": "A2",
+    "category": "Verben",
+    "title": "Perfekt (Geçmiş Zaman)",
+    "description": "Konuşmada kullanılan geçmiş zaman. haben/sein + Partizip II.",
+    "sections": [
+      {
+        "title": "haben ile Perfekt",
+        "explanation": "Çoğu fiil haben yardımcı fiiliyle Perfekt yapar.",
+        "examples": [
+          { "sentence": "Ich habe ein Buch gelesen.", "translation": "Bir kitap okudum." },
+          { "sentence": "Wir haben Pizza gegessen.", "translation": "Pizza yedik." },
+          { "sentence": "Sie hat Deutsch gelernt.", "translation": "O Almanca öğrendi." }
+        ]
+      },
+      {
+        "title": "sein ile Perfekt",
+        "explanation": "Hareket ve durum değişikliği fiilleri sein ile kullanılır.",
+        "examples": [
+          { "sentence": "Ich bin nach Berlin gefahren.", "translation": "Berlin'e gittim." },
+          { "sentence": "Er ist aufgestanden.", "translation": "O kalktı (ayağa)." },
+          { "sentence": "Wir sind gegangen.", "translation": "Biz gittik." }
+        ],
+        "tip": "gehen, fahren, kommen, fliegen → sein ile"
+      }
+    ]
+  },
+  {
+    "id": "b1-adjektive-deklination",
+    "level": "B1",
+    "category": "Adjektive",
+    "title": "Adjektivdeklination (Sıfat Çekimi)",
+    "description": "Sıfatlar isimden önce geldiğinde artikele göre çekilir.",
+    "sections": [
+      {
+        "title": "Starke Deklination (Artikelsiz)",
+        "explanation": "Artikel olmadan sıfat, artikelin görevini üstlenir.",
+        "examples": [
+          { "sentence": "Kalter Kaffee schmeckt nicht gut.", "translation": "Soğuk kahve iyi tatmaz." },
+          { "sentence": "Frisches Brot riecht gut.", "translation": "Taze ekmek iyi kokar." },
+          { "sentence": "Ich mag heißen Tee.", "translation": "Sıcak çayı severim." }
+        ]
+      },
+      {
+        "title": "Schwache Deklination (Bestimmter Artikel ile)",
+        "explanation": "der/die/das ile birlikte sıfat zayıf çekim alır (-e veya -en).",
+        "examples": [
+          { "sentence": "Der alte Mann liest.", "translation": "Yaşlı adam okuyor." },
+          { "sentence": "Die schöne Frau singt.", "translation": "Güzel kadın şarkı söylüyor." },
+          { "sentence": "Das kleine Kind schläft.", "translation": "Küçük çocuk uyuyor." }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "b1-passiv",
+    "level": "B1",
+    "category": "Passiv",
+    "title": "Passiv (Edilgen Yapı)",
+    "description": "Eylemin kim tarafından yapıldığı değil, eylemin kendisi ön plandadır.",
+    "sections": [
+      {
+        "title": "Vorgangspassiv",
+        "explanation": "werden + Partizip II. Eylem süreci anlatılır.",
+        "examples": [
+          { "sentence": "Das Buch wird gelesen.", "translation": "Kitap okunuyor." },
+          { "sentence": "Die Tür wird geöffnet.", "translation": "Kapı açılıyor." },
+          { "sentence": "Das Auto wurde repariert.", "translation": "Araba tamir edildi." }
+        ],
+        "tip": "von + Dativ ile eylemi yapanı belirtebilirsin: Das Buch wird von ihr gelesen."
+      }
+    ]
+  },
+  {
+    "id": "b2-konjunktiv2",
+    "level": "B2",
+    "category": "Konjunktiv",
+    "title": "Konjunktiv II (Dilek/Koşul Kipi)",
+    "description": "Gerçekleşmemiş veya hayali durumları anlatmak için kullanılır.",
+    "sections": [
+      {
+        "title": "Konjunktiv II Oluşturma",
+        "explanation": "würden + Infinitiv veya fiil kökü değişimi (wäre, hätte, könnte...)",
+        "examples": [
+          { "sentence": "Ich würde gerne reisen.", "translation": "Seyahat etmek isterdim." },
+          { "sentence": "Wenn ich reich wäre, würde ich ein Haus kaufen.", "translation": "Zengin olsaydım, ev alırdım." },
+          { "sentence": "Könntest du mir helfen?", "translation": "Bana yardım edebilir misin?" }
+        ],
+        "tip": "Modal fiillerin Konjunktiv II: könnte, müsste, dürfte, sollte, wollte"
+      },
+      {
+        "title": "Höfliche Bitten (Kibar İstekler)",
+        "explanation": "Konjunktiv II ile daha kibarca istekte bulunulur.",
+        "examples": [
+          { "sentence": "Würden Sie bitte warten?", "translation": "Lütfen bekler misiniz?" },
+          { "sentence": "Hätten Sie einen Moment?", "translation": "Bir dakikanız var mı?" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "b2-infinitivkonstruktionen",
+    "level": "B2",
+    "category": "Sätze",
+    "title": "Infinitivkonstruktionen (zu + Infinitiv)",
+    "description": "zu + Infinitiv yapısı yan cümle yerine daha kısa bir yapı sunar.",
+    "sections": [
+      {
+        "title": "zu + Infinitiv",
+        "explanation": "Özne aynı olduğunda dass-Satz yerine zu + Infinitiv kullanılır.",
+        "examples": [
+          { "sentence": "Ich versuche, Deutsch zu lernen.", "translation": "Almanca öğrenmeye çalışıyorum." },
+          { "sentence": "Es ist wichtig, gesund zu essen.", "translation": "Sağlıklı yemek önemlidir." },
+          { "sentence": "Sie hat vor, zu reisen.", "translation": "Seyahat etmeyi planlıyor." }
+        ]
+      },
+      {
+        "title": "um...zu (Amaç Belirtmek)",
+        "explanation": "Bir eylemin amacını belirtmek için um...zu kullanılır.",
+        "examples": [
+          { "sentence": "Ich lerne Deutsch, um in Deutschland zu arbeiten.", "translation": "Almanya'da çalışmak için Almanca öğreniyorum." },
+          { "sentence": "Sie spart, um ein Auto zu kaufen.", "translation": "Araba almak için para biriktiriyor." }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "c1-nominalisierung",
+    "level": "C1",
+    "category": "Wortbildung",
+    "title": "Nominalisierung (İsimleştirme)",
+    "description": "Fiil ve sıfatların isim haline getirilmesi. Yazılı dilde çok yaygın.",
+    "sections": [
+      {
+        "title": "Fiilden İsim",
+        "explanation": "Infinitiv büyük harfle isim olabilir, çoğunlukla das ile kullanılır.",
+        "examples": [
+          { "sentence": "Das Schreiben fällt mir schwer.", "translation": "Yazmak bana zor geliyor." },
+          { "sentence": "Das Lesen macht Spaß.", "translation": "Okumak eğlencelidir." },
+          { "sentence": "Beim Kochen höre ich Musik.", "translation": "Yemek pişirirken müzik dinlerim." }
+        ]
+      },
+      {
+        "title": "Sıfat ve Fiil + Suffix ile İsim",
+        "explanation": "-ung, -heit, -keit, -schaft, -ion ekleriyle isim türetilir.",
+        "examples": [
+          { "sentence": "die Entscheidung (entscheiden → karar vermek)", "translation": "karar" },
+          { "sentence": "die Freiheit (frei → özgür)", "translation": "özgürlük" },
+          { "sentence": "die Möglichkeit (möglich → mümkün)", "translation": "imkân / olasılık" }
+        ],
+        "tip": "-ung ve -heit/-keit ekli isimler her zaman die alır!"
+      }
+    ]
+  },
+  {
+    "id": "c1-konjunktiv1",
+    "level": "C1",
+    "category": "Konjunktiv",
+    "title": "Konjunktiv I (Dolaylı Anlatım)",
+    "description": "Başkasının sözlerini aktarırken kullanılır. Gazete ve haber dilinde yaygın.",
+    "sections": [
+      {
+        "title": "Konjunktiv I Kullanımı",
+        "explanation": "Er sagte, sie sei krank. → Konjunktiv I, aktarılan sözün doğruluğuna garanti verilmediğini gösterir.",
+        "examples": [
+          { "sentence": "Er sagte, er habe keine Zeit.", "translation": "Zamanı olmadığını söyledi." },
+          { "sentence": "Sie behauptet, sie sei unschuldig.", "translation": "Suçsuz olduğunu iddia ediyor." },
+          { "sentence": "Der Minister erklärte, die Lage sei stabil.", "translation": "Bakan, durumun istikrarlı olduğunu açıkladı." }
+        ],
+        "tip": "sein fiili Konjunktiv I: ich sei, du sei(e)st, er sei, wir seien..."
+      }
+    ]
+  },
+  {
+    "id": "c2-partizipialkonstruktionen",
+    "level": "C2",
+    "category": "Sätze",
+    "title": "Erweiterte Partizipialkonstruktionen",
+    "description": "Genişletilmiş sıfat öbeklerinin yan cümle yerine kullanılması. Bilimsel metinlerde çok yaygın.",
+    "sections": [
+      {
+        "title": "Partizip I (Geniş Zaman Sıfatı)",
+        "explanation": "Infinitiv + d → süregelen eylem anlatılır.",
+        "examples": [
+          { "sentence": "Das weinende Kind sucht seine Mutter.", "translation": "Ağlayan çocuk annesini arıyor." },
+          { "sentence": "Die singende Frau ist meine Schwester.", "translation": "Şarkı söyleyen kadın benim kız kardeşim." }
+        ]
+      },
+      {
+        "title": "Erweiterte Partizipialgruppe",
+        "explanation": "Partizip, başında genişletilmiş öbeklerle yan cümle görevini üstlenir.",
+        "examples": [
+          { "sentence": "Das von allen gelobte Buch wurde verfilmt.", "translation": "Herkes tarafından övülen kitap filme alındı." },
+          { "sentence": "Die seit Jahren geplante Reform tritt in Kraft.", "translation": "Yıllardır planlanan reform yürürlüğe giriyor." }
+        ],
+        "tip": "Bu yapılar Relativsatz ile eş anlamlıdır: Das Buch, das von allen gelobt wurde..."
+      }
+    ]
+  }
+]

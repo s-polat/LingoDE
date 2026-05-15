@@ -1,0 +1,11 @@
+<div class="p-4">
+  <h2 class="text-xl font-bold text-primary-700">Gramer Dersleri</h2>
+  <div class="mt-4 grid grid-cols-3 gap-3">
+    @for (level of levels; track level) {
+      <a [routerLink]="level"
+         class="flex items-center justify-center h-16 bg-white rounded-xl shadow font-bold text-primary-600 hover:bg-primary-50 transition-colors">
+        {{ level }}
+      </a>
+    }
+  </div>
+</div>

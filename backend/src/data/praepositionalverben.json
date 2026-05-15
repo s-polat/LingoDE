@@ -1,0 +1,1460 @@
+[
+  {
+    "verb": "warten",
+    "preposition": "auf",
+    "case": "Akkusativ",
+    "meaning_tr": "beklemek",
+    "example_de": "Ich warte auf den Bus.",
+    "example_tr": "Otobüsü bekliyorum.",
+    "level": "A1"
+  },
+  {
+    "verb": "danken",
+    "preposition": "für",
+    "case": "Akkusativ",
+    "meaning_tr": "teşekkür etmek",
+    "example_de": "Ich danke dir für deine Hilfe.",
+    "example_tr": "Yardımın için sana teşekkür ediyorum.",
+    "level": "A1"
+  },
+  {
+    "verb": "fragen",
+    "preposition": "nach",
+    "case": "Dativ",
+    "meaning_tr": "sormak, aramak",
+    "example_de": "Sie fragt nach dem Weg.",
+    "example_tr": "Yolu soruyor.",
+    "level": "A1"
+  },
+  {
+    "verb": "denken",
+    "preposition": "an",
+    "case": "Akkusativ",
+    "meaning_tr": "düşünmek",
+    "example_de": "Ich denke an dich.",
+    "example_tr": "Seni düşünüyorum.",
+    "level": "A1"
+  },
+  {
+    "verb": "schreiben",
+    "preposition": "an",
+    "case": "Akkusativ",
+    "meaning_tr": "yazmak (birine)",
+    "example_de": "Er schreibt an seine Eltern.",
+    "example_tr": "Ailesine yazıyor.",
+    "level": "A1"
+  },
+  {
+    "verb": "sprechen",
+    "preposition": "über",
+    "case": "Akkusativ",
+    "meaning_tr": "hakkında konuşmak",
+    "example_de": "Wir sprechen über das Wetter.",
+    "example_tr": "Hava hakkında konuşuyoruz.",
+    "level": "A1"
+  },
+  {
+    "verb": "sprechen",
+    "preposition": "mit",
+    "case": "Dativ",
+    "meaning_tr": "ile konuşmak",
+    "example_de": "Ich spreche mit meiner Mutter.",
+    "example_tr": "Annemle konuşuyorum.",
+    "level": "A1"
+  },
+  {
+    "verb": "interessieren",
+    "preposition": "für",
+    "case": "Akkusativ",
+    "meaning_tr": "ilgilenmek",
+    "example_de": "Er interessiert sich für Musik.",
+    "example_tr": "Müzikle ilgileniyor.",
+    "level": "A2"
+  },
+  {
+    "verb": "freuen",
+    "preposition": "auf",
+    "case": "Akkusativ",
+    "meaning_tr": "dört gözle beklemek (gelecek)",
+    "example_de": "Ich freue mich auf den Urlaub.",
+    "example_tr": "Tatili dört gözle bekliyorum.",
+    "level": "A2"
+  },
+  {
+    "verb": "freuen",
+    "preposition": "über",
+    "case": "Akkusativ",
+    "meaning_tr": "sevinmek (geçmiş/şimdiki)",
+    "example_de": "Sie freut sich über das Geschenk.",
+    "example_tr": "Hediyeye seviniyor.",
+    "level": "A2"
+  },
+  {
+    "verb": "träumen",
+    "preposition": "von",
+    "case": "Dativ",
+    "meaning_tr": "hayal kurmak, rüyasını görmek",
+    "example_de": "Er träumt von einer langen Reise.",
+    "example_tr": "Uzun bir yolculuk hayal ediyor.",
+    "level": "A2"
+  },
+  {
+    "verb": "hören",
+    "preposition": "von",
+    "case": "Dativ",
+    "meaning_tr": "duymak, haber almak",
+    "example_de": "Ich habe von ihm gehört.",
+    "example_tr": "Ondan haber aldım.",
+    "level": "A2"
+  },
+  {
+    "verb": "bitten",
+    "preposition": "um",
+    "case": "Akkusativ",
+    "meaning_tr": "rica etmek, istemek",
+    "example_de": "Ich bitte dich um Hilfe.",
+    "example_tr": "Senden yardım istiyorum.",
+    "level": "A2"
+  },
+  {
+    "verb": "suchen",
+    "preposition": "nach",
+    "case": "Dativ",
+    "meaning_tr": "aramak",
+    "example_de": "Sie sucht nach ihren Schlüsseln.",
+    "example_tr": "Anahtarlarını arıyor.",
+    "level": "A2"
+  },
+  {
+    "verb": "helfen",
+    "preposition": "bei",
+    "case": "Dativ",
+    "meaning_tr": "yardım etmek (konusunda)",
+    "example_de": "Er hilft mir bei den Hausaufgaben.",
+    "example_tr": "Ödevlerimde bana yardım ediyor.",
+    "level": "A2"
+  },
+  {
+    "verb": "anfangen",
+    "preposition": "mit",
+    "case": "Dativ",
+    "meaning_tr": "başlamak",
+    "example_de": "Wir fangen mit der Arbeit an.",
+    "example_tr": "İşe başlıyoruz.",
+    "level": "A2"
+  },
+  {
+    "verb": "aufhören",
+    "preposition": "mit",
+    "case": "Dativ",
+    "meaning_tr": "bırakmak, durdurmak",
+    "example_de": "Hör mit dem Lärm auf!",
+    "example_tr": "Gürültüyü kes!",
+    "level": "A2"
+  },
+  {
+    "verb": "beginnen",
+    "preposition": "mit",
+    "case": "Dativ",
+    "meaning_tr": "başlamak",
+    "example_de": "Sie beginnt mit dem Lernen.",
+    "example_tr": "Öğrenmeye başlıyor.",
+    "level": "A2"
+  },
+  {
+    "verb": "einladen",
+    "preposition": "zu",
+    "case": "Dativ",
+    "meaning_tr": "davet etmek",
+    "example_de": "Er lädt uns zum Essen ein.",
+    "example_tr": "Bizi yemeğe davet ediyor.",
+    "level": "A2"
+  },
+  {
+    "verb": "gratulieren",
+    "preposition": "zu",
+    "case": "Dativ",
+    "meaning_tr": "tebrik etmek",
+    "example_de": "Ich gratuliere dir zum Geburtstag.",
+    "example_tr": "Doğum günün kutlu olsun.",
+    "level": "A2"
+  },
+  {
+    "verb": "gehören",
+    "preposition": "zu",
+    "case": "Dativ",
+    "meaning_tr": "ait olmak, dahil olmak",
+    "example_de": "Das gehört zu meiner Sammlung.",
+    "example_tr": "Bu benim koleksiyonuma ait.",
+    "level": "A2"
+  },
+  {
+    "verb": "passen",
+    "preposition": "zu",
+    "case": "Dativ",
+    "meaning_tr": "uymak, yakışmak",
+    "example_de": "Das Hemd passt gut zu der Hose.",
+    "example_tr": "Gömlek pantolona iyi yakışıyor.",
+    "level": "A2"
+  },
+  {
+    "verb": "diskutieren",
+    "preposition": "über",
+    "case": "Akkusativ",
+    "meaning_tr": "tartışmak",
+    "example_de": "Wir diskutieren über Politik.",
+    "example_tr": "Politika hakkında tartışıyoruz.",
+    "level": "B1"
+  },
+  {
+    "verb": "reden",
+    "preposition": "über",
+    "case": "Akkusativ",
+    "meaning_tr": "hakkında konuşmak",
+    "example_de": "Lass uns über das Problem reden.",
+    "example_tr": "Problem hakkında konuşalım.",
+    "level": "B1"
+  },
+  {
+    "verb": "reden",
+    "preposition": "von",
+    "case": "Dativ",
+    "meaning_tr": "hakkında konuşmak",
+    "example_de": "Er redet ständig von seiner Arbeit.",
+    "example_tr": "Sürekli işinden bahsediyor.",
+    "level": "B1"
+  },
+  {
+    "verb": "nachdenken",
+    "preposition": "über",
+    "case": "Akkusativ",
+    "meaning_tr": "üzerine düşünmek",
+    "example_de": "Ich denke über deinen Vorschlag nach.",
+    "example_tr": "Teklifin üzerine düşünüyorum.",
+    "level": "B1"
+  },
+  {
+    "verb": "kümmern",
+    "preposition": "um",
+    "case": "Akkusativ",
+    "meaning_tr": "ilgilenmek, bakmak",
+    "example_de": "Er kümmert sich um seine Kinder.",
+    "example_tr": "Çocuklarıyla ilgileniyor.",
+    "level": "B1"
+  },
+  {
+    "verb": "ärgern",
+    "preposition": "über",
+    "case": "Akkusativ",
+    "meaning_tr": "sinirlemek, kızdırmak",
+    "example_de": "Ich ärgere mich über den Stau.",
+    "example_tr": "Trafik sıkışıklığına kızıyorum.",
+    "level": "B1"
+  },
+  {
+    "verb": "beschweren",
+    "preposition": "über",
+    "case": "Akkusativ",
+    "meaning_tr": "şikayet etmek",
+    "example_de": "Er beschwert sich über den Lärm.",
+    "example_tr": "Gürültüden şikayet ediyor.",
+    "level": "B1"
+  },
+  {
+    "verb": "entscheiden",
+    "preposition": "für",
+    "case": "Akkusativ",
+    "meaning_tr": "karar vermek (lehine)",
+    "example_de": "Ich entscheide mich für den roten.",
+    "example_tr": "Kırmızısına karar veriyorum.",
+    "level": "B1"
+  },
+  {
+    "verb": "bewerben",
+    "preposition": "um",
+    "case": "Akkusativ",
+    "meaning_tr": "başvurmak",
+    "example_de": "Sie bewirbt sich um die Stelle.",
+    "example_tr": "Pozisyona başvuruyor.",
+    "level": "B1"
+  },
+  {
+    "verb": "konzentrieren",
+    "preposition": "auf",
+    "case": "Akkusativ",
+    "meaning_tr": "konsantre olmak",
+    "example_de": "Konzentrier dich auf die Aufgabe.",
+    "example_tr": "Göreve konsantre ol.",
+    "level": "B1"
+  },
+  {
+    "verb": "beschäftigen",
+    "preposition": "mit",
+    "case": "Dativ",
+    "meaning_tr": "ile ilgilenmek, uğraşmak",
+    "example_de": "Sie beschäftigt sich mit Kunst.",
+    "example_tr": "Sanatla ilgileniyor.",
+    "level": "B1"
+  },
+  {
+    "verb": "treffen",
+    "preposition": "mit",
+    "case": "Dativ",
+    "meaning_tr": "buluşmak",
+    "example_de": "Ich treffe mich mit Freunden.",
+    "example_tr": "Arkadaşlarımla buluşuyorum.",
+    "level": "B1"
+  },
+  {
+    "verb": "unterhalten",
+    "preposition": "mit",
+    "case": "Dativ",
+    "meaning_tr": "sohbet etmek",
+    "example_de": "Ich unterhalte mich gern mit ihr.",
+    "example_tr": "Onunla sohbet etmekten zevk alıyorum.",
+    "level": "B1"
+  },
+  {
+    "verb": "rechnen",
+    "preposition": "mit",
+    "case": "Dativ",
+    "meaning_tr": "beklemek, hesaba katmak",
+    "example_de": "Wir müssen mit Verspätungen rechnen.",
+    "example_tr": "Gecikmeler beklemeliyiz.",
+    "level": "B1"
+  },
+  {
+    "verb": "achten",
+    "preposition": "auf",
+    "case": "Akkusativ",
+    "meaning_tr": "dikkat etmek",
+    "example_de": "Achte auf deine Gesundheit.",
+    "example_tr": "Sağlığına dikkat et.",
+    "level": "B1"
+  },
+  {
+    "verb": "sorgen",
+    "preposition": "für",
+    "case": "Akkusativ",
+    "meaning_tr": "sağlamak, bakmak",
+    "example_de": "Sie sorgt für ihre Familie.",
+    "example_tr": "Ailesiyle ilgileniyor.",
+    "level": "B1"
+  },
+  {
+    "verb": "arbeiten",
+    "preposition": "an",
+    "case": "Dativ",
+    "meaning_tr": "üzerinde çalışmak",
+    "example_de": "Er arbeitet an einem Projekt.",
+    "example_tr": "Bir proje üzerinde çalışıyor.",
+    "level": "B1"
+  },
+  {
+    "verb": "teilnehmen",
+    "preposition": "an",
+    "case": "Dativ",
+    "meaning_tr": "katılmak",
+    "example_de": "Sie nimmt am Kurs teil.",
+    "example_tr": "Kursa katılıyor.",
+    "level": "B1"
+  },
+  {
+    "verb": "glauben",
+    "preposition": "an",
+    "case": "Akkusativ",
+    "meaning_tr": "inanmak",
+    "example_de": "Er glaubt an sich selbst.",
+    "example_tr": "Kendine inanıyor.",
+    "level": "B1"
+  },
+  {
+    "verb": "erinnern",
+    "preposition": "an",
+    "case": "Akkusativ",
+    "meaning_tr": "hatırlamak, hatırlatmak",
+    "example_de": "Ich erinnere mich an den Sommer.",
+    "example_tr": "O yazı hatırlıyorum.",
+    "level": "B1"
+  },
+  {
+    "verb": "hoffen",
+    "preposition": "auf",
+    "case": "Akkusativ",
+    "meaning_tr": "ummak, umut etmek",
+    "example_de": "Wir hoffen auf besseres Wetter.",
+    "example_tr": "Daha iyi hava umuyoruz.",
+    "level": "B1"
+  },
+  {
+    "verb": "verzichten",
+    "preposition": "auf",
+    "case": "Akkusativ",
+    "meaning_tr": "vazgeçmek, feragat etmek",
+    "example_de": "Er verzichtet auf Süßigkeiten.",
+    "example_tr": "Şekerlemelerden vazgeçiyor.",
+    "level": "B1"
+  },
+  {
+    "verb": "reagieren",
+    "preposition": "auf",
+    "case": "Akkusativ",
+    "meaning_tr": "tepki göstermek",
+    "example_de": "Wie reagierst du auf Kritik?",
+    "example_tr": "Eleştiriye nasıl tepki gösteriyorsun?",
+    "level": "B1"
+  },
+  {
+    "verb": "antworten",
+    "preposition": "auf",
+    "case": "Akkusativ",
+    "meaning_tr": "cevap vermek",
+    "example_de": "Er antwortet auf meine Frage.",
+    "example_tr": "Soruma cevap veriyor.",
+    "level": "B1"
+  },
+  {
+    "verb": "vorbereiten",
+    "preposition": "auf",
+    "case": "Akkusativ",
+    "meaning_tr": "hazırlanmak",
+    "example_de": "Ich bereite mich auf das Examen vor.",
+    "example_tr": "Sınava hazırlanıyorum.",
+    "level": "B1"
+  },
+  {
+    "verb": "bestehen",
+    "preposition": "aus",
+    "case": "Dativ",
+    "meaning_tr": "oluşmak, meydana gelmek",
+    "example_de": "Wasser besteht aus H₂O.",
+    "example_tr": "Su H₂O'dan oluşur.",
+    "level": "B1"
+  },
+  {
+    "verb": "bestehen",
+    "preposition": "auf",
+    "case": "Dativ",
+    "meaning_tr": "ısrar etmek",
+    "example_de": "Er besteht auf seiner Meinung.",
+    "example_tr": "Görüşünde ısrarcı.",
+    "level": "B2"
+  },
+  {
+    "verb": "abhängen",
+    "preposition": "von",
+    "case": "Dativ",
+    "meaning_tr": "bağlı olmak, bağımlı olmak",
+    "example_de": "Es hängt von dir ab.",
+    "example_tr": "Sana bağlı.",
+    "level": "B1"
+  },
+  {
+    "verb": "leiden",
+    "preposition": "unter",
+    "case": "Dativ",
+    "meaning_tr": "acı çekmek, maruz kalmak",
+    "example_de": "Sie leidet unter dem Stress.",
+    "example_tr": "Stresten muzdarip.",
+    "level": "B2"
+  },
+  {
+    "verb": "leiden",
+    "preposition": "an",
+    "case": "Dativ",
+    "meaning_tr": "bir hastalıktan mustarip olmak",
+    "example_de": "Er leidet an Diabetes.",
+    "example_tr": "Diyabetten mustarip.",
+    "level": "B2"
+  },
+  {
+    "verb": "kämpfen",
+    "preposition": "für",
+    "case": "Akkusativ",
+    "meaning_tr": "uğruna mücadele etmek",
+    "example_de": "Sie kämpft für Gerechtigkeit.",
+    "example_tr": "Adalet için mücadele ediyor.",
+    "level": "B2"
+  },
+  {
+    "verb": "kämpfen",
+    "preposition": "gegen",
+    "case": "Akkusativ",
+    "meaning_tr": "karşı savaşmak",
+    "example_de": "Er kämpft gegen die Krankheit.",
+    "example_tr": "Hastalıkla mücadele ediyor.",
+    "level": "B2"
+  },
+  {
+    "verb": "kämpfen",
+    "preposition": "um",
+    "case": "Akkusativ",
+    "meaning_tr": "için mücadele etmek",
+    "example_de": "Die Teams kämpfen um den Sieg.",
+    "example_tr": "Takımlar zafer için mücadele ediyor.",
+    "level": "B2"
+  },
+  {
+    "verb": "zweifeln",
+    "preposition": "an",
+    "case": "Dativ",
+    "meaning_tr": "kuşku duymak, şüphe etmek",
+    "example_de": "Ich zweifle an seiner Ehrlichkeit.",
+    "example_tr": "Dürüstlüğünden şüphe duyuyorum.",
+    "level": "B2"
+  },
+  {
+    "verb": "führen",
+    "preposition": "zu",
+    "case": "Dativ",
+    "meaning_tr": "yol açmak, götürmek",
+    "example_de": "Das führt zu Problemen.",
+    "example_tr": "Bu problemlere yol açar.",
+    "level": "B2"
+  },
+  {
+    "verb": "beitragen",
+    "preposition": "zu",
+    "case": "Dativ",
+    "meaning_tr": "katkıda bulunmak",
+    "example_de": "Er trägt zum Erfolg bei.",
+    "example_tr": "Başarıya katkıda bulunuyor.",
+    "level": "B2"
+  },
+  {
+    "verb": "neigen",
+    "preposition": "zu",
+    "case": "Dativ",
+    "meaning_tr": "eğiliminde olmak, meyletmek",
+    "example_de": "Er neigt zu Übertreibungen.",
+    "example_tr": "Abartmaya meyilli.",
+    "level": "B2"
+  },
+  {
+    "verb": "berichten",
+    "preposition": "über",
+    "case": "Akkusativ",
+    "meaning_tr": "haber vermek, raporlamak",
+    "example_de": "Die Zeitung berichtet über den Unfall.",
+    "example_tr": "Gazete kazayı haberleştiriyor.",
+    "level": "B2"
+  },
+  {
+    "verb": "informieren",
+    "preposition": "über",
+    "case": "Akkusativ",
+    "meaning_tr": "bilgilendirmek",
+    "example_de": "Bitte informiere mich über die Änderungen.",
+    "example_tr": "Lütfen değişiklikler hakkında beni bilgilendir.",
+    "level": "B2"
+  },
+  {
+    "verb": "klagen",
+    "preposition": "über",
+    "case": "Akkusativ",
+    "meaning_tr": "şikayet etmek, yakınmak",
+    "example_de": "Er klagt über Rückenschmerzen.",
+    "example_tr": "Sırt ağrısından şikayet ediyor.",
+    "level": "B2"
+  },
+  {
+    "verb": "lachen",
+    "preposition": "über",
+    "case": "Akkusativ",
+    "meaning_tr": "güvenmek, gülmek",
+    "example_de": "Wir lachen über seinen Witz.",
+    "example_tr": "Şakasına gülüyoruz.",
+    "level": "B2"
+  },
+  {
+    "verb": "staunen",
+    "preposition": "über",
+    "case": "Akkusativ",
+    "meaning_tr": "şaşırmak, hayrete düşmek",
+    "example_de": "Ich staune über seine Leistung.",
+    "example_tr": "Performansına hayret ediyorum.",
+    "level": "B2"
+  },
+  {
+    "verb": "verfügen",
+    "preposition": "über",
+    "case": "Akkusativ",
+    "meaning_tr": "sahip olmak, emrinde olmak",
+    "example_de": "Er verfügt über viel Erfahrung.",
+    "example_tr": "Çok deneyime sahip.",
+    "level": "B2"
+  },
+  {
+    "verb": "verlassen",
+    "preposition": "auf",
+    "case": "Akkusativ",
+    "meaning_tr": "güvenmek, bel bağlamak",
+    "example_de": "Ich verlasse mich auf dich.",
+    "example_tr": "Sana güveniyorum.",
+    "level": "B2"
+  },
+  {
+    "verb": "hinweisen",
+    "preposition": "auf",
+    "case": "Akkusativ",
+    "meaning_tr": "belirtmek, işaret etmek",
+    "example_de": "Er weist auf den Fehler hin.",
+    "example_tr": "Hatayı belirtiyor.",
+    "level": "B2"
+  },
+  {
+    "verb": "stolz sein",
+    "preposition": "auf",
+    "case": "Akkusativ",
+    "meaning_tr": "gurur duymak",
+    "example_de": "Ich bin stolz auf mein Team.",
+    "example_tr": "Takımımla gurur duyuyorum.",
+    "level": "A2"
+  },
+  {
+    "verb": "zufrieden sein",
+    "preposition": "mit",
+    "case": "Dativ",
+    "meaning_tr": "memnun olmak, tatmin olmak",
+    "example_de": "Ich bin zufrieden mit dem Ergebnis.",
+    "example_tr": "Sonuçtan memnunum.",
+    "level": "A2"
+  },
+  {
+    "verb": "einverstanden sein",
+    "preposition": "mit",
+    "case": "Dativ",
+    "meaning_tr": "razı olmak, kabul etmek",
+    "example_de": "Ich bin mit dem Vorschlag einverstanden.",
+    "example_tr": "Teklifle razıyım.",
+    "level": "B1"
+  },
+  {
+    "verb": "verheiratet sein",
+    "preposition": "mit",
+    "case": "Dativ",
+    "meaning_tr": "evli olmak",
+    "example_de": "Sie ist mit einem Arzt verheiratet.",
+    "example_tr": "Bir doktorla evli.",
+    "level": "A2"
+  },
+  {
+    "verb": "schützen",
+    "preposition": "vor",
+    "case": "Dativ",
+    "meaning_tr": "korumak",
+    "example_de": "Sonnencreme schützt vor Sonnenbrand.",
+    "example_tr": "Güneş kremi güneş yanığından korur.",
+    "level": "B1"
+  },
+  {
+    "verb": "warnen",
+    "preposition": "vor",
+    "case": "Dativ",
+    "meaning_tr": "uyarmak",
+    "example_de": "Er warnte uns vor dem Sturm.",
+    "example_tr": "Bizi fırtına konusunda uyardı.",
+    "level": "B1"
+  },
+  {
+    "verb": "fürchten",
+    "preposition": "vor",
+    "case": "Dativ",
+    "meaning_tr": "korkmak",
+    "example_de": "Das Kind fürchtet sich vor der Dunkelheit.",
+    "example_tr": "Çocuk karanlıktan korkuyor.",
+    "level": "B1"
+  },
+  {
+    "verb": "unterscheiden",
+    "preposition": "von",
+    "case": "Dativ",
+    "meaning_tr": "ayırt etmek, farkı olmak",
+    "example_de": "Das unterscheidet sich stark von meiner Meinung.",
+    "example_tr": "Bu benim görüşümden çok farklı.",
+    "level": "B2"
+  },
+  {
+    "verb": "überzeugen",
+    "preposition": "von",
+    "case": "Dativ",
+    "meaning_tr": "ikna etmek",
+    "example_de": "Er konnte mich von seiner Idee überzeugen.",
+    "example_tr": "Beni fikrine ikna edebildi.",
+    "level": "B2"
+  },
+  {
+    "verb": "profitieren",
+    "preposition": "von",
+    "case": "Dativ",
+    "meaning_tr": "yararlanmak, faydalanmak",
+    "example_de": "Alle profitieren von dieser Lösung.",
+    "example_tr": "Herkes bu çözümden faydalanır.",
+    "level": "B2"
+  },
+  {
+    "verb": "ausgehen",
+    "preposition": "von",
+    "case": "Dativ",
+    "meaning_tr": "başlamak, esas almak",
+    "example_de": "Wir gehen von dem Worst Case aus.",
+    "example_tr": "En kötü senaryodan hareket ediyoruz.",
+    "level": "B2"
+  },
+  {
+    "verb": "handeln",
+    "preposition": "von",
+    "case": "Dativ",
+    "meaning_tr": "hakkında olmak (konu)",
+    "example_de": "Das Buch handelt von der Liebe.",
+    "example_tr": "Kitap aşk hakkında.",
+    "level": "B1"
+  },
+  {
+    "verb": "stammen",
+    "preposition": "aus",
+    "case": "Dativ",
+    "meaning_tr": "gelmek, köken almak",
+    "example_de": "Er stammt aus der Türkei.",
+    "example_tr": "Türkiye'den geliyor.",
+    "level": "A2"
+  },
+  {
+    "verb": "einigen",
+    "preposition": "auf",
+    "case": "Akkusativ",
+    "meaning_tr": "uzlaşmak, anlaşmak",
+    "example_de": "Sie einigten sich auf einen Kompromiss.",
+    "example_tr": "Bir uzlaşma üzerinde anlaştılar.",
+    "level": "B2"
+  },
+  {
+    "verb": "beziehen",
+    "preposition": "auf",
+    "case": "Akkusativ",
+    "meaning_tr": "atıfta bulunmak, ilgilendirmek",
+    "example_de": "Das bezieht sich auf mich.",
+    "example_tr": "Bu benimle ilgili.",
+    "level": "B2"
+  },
+  {
+    "verb": "spezialisieren",
+    "preposition": "auf",
+    "case": "Akkusativ",
+    "meaning_tr": "uzmanlaşmak",
+    "example_de": "Er hat sich auf Kardiologie spezialisiert.",
+    "example_tr": "Kardiyoloji üzerine uzmanlaşmış.",
+    "level": "C1"
+  },
+  {
+    "verb": "basieren",
+    "preposition": "auf",
+    "case": "Dativ",
+    "meaning_tr": "dayanmak, baz almak",
+    "example_de": "Der Film basiert auf einem Roman.",
+    "example_tr": "Film bir romana dayanıyor.",
+    "level": "B2"
+  },
+  {
+    "verb": "eingehen",
+    "preposition": "auf",
+    "case": "Akkusativ",
+    "meaning_tr": "ele almak, değinmek",
+    "example_de": "Er geht auf meine Frage ein.",
+    "example_tr": "Sorumu ele alıyor.",
+    "level": "B2"
+  },
+  {
+    "verb": "appellieren",
+    "preposition": "an",
+    "case": "Akkusativ",
+    "meaning_tr": "başvurmak, çağrıda bulunmak",
+    "example_de": "Sie appelliert an das Mitgefühl.",
+    "example_tr": "Şefkat duygusuna başvuruyor.",
+    "level": "C1"
+  },
+  {
+    "verb": "scheitern",
+    "preposition": "an",
+    "case": "Dativ",
+    "meaning_tr": "başarısız olmak, çökmek",
+    "example_de": "Das Projekt ist an fehlenden Mitteln gescheitert.",
+    "example_tr": "Proje yetersiz kaynaklar yüzünden başarısız oldu.",
+    "level": "C1"
+  },
+  {
+    "verb": "mangeln",
+    "preposition": "an",
+    "case": "Dativ",
+    "meaning_tr": "eksikliği olmak, yoksun kalmak",
+    "example_de": "Es mangelt an Unterstützung.",
+    "example_tr": "Destek eksikliği var.",
+    "level": "C1"
+  },
+  {
+    "verb": "streben",
+    "preposition": "nach",
+    "case": "Dativ",
+    "meaning_tr": "peşinden koşmak, hedeflemek",
+    "example_de": "Sie strebt nach Perfektion.",
+    "example_tr": "Mükemmeliyeti hedefliyor.",
+    "level": "B2"
+  },
+  {
+    "verb": "greifen",
+    "preposition": "nach",
+    "case": "Dativ",
+    "meaning_tr": "uzanmak, ele geçirmeye çalışmak",
+    "example_de": "Er greift nach der Macht.",
+    "example_tr": "İktidara uzanıyor.",
+    "level": "C1"
+  },
+  {
+    "verb": "urteilen",
+    "preposition": "über",
+    "case": "Akkusativ",
+    "meaning_tr": "hüküm vermek, yargılamak",
+    "example_de": "Man sollte nicht vorschnell über andere urteilen.",
+    "example_tr": "Başkaları hakkında aceleyle yargılamamalı.",
+    "level": "B2"
+  },
+  {
+    "verb": "klagen",
+    "preposition": "gegen",
+    "case": "Akkusativ",
+    "meaning_tr": "dava açmak",
+    "example_de": "Er klagt gegen das Unternehmen.",
+    "example_tr": "Şirkete karşı dava açıyor.",
+    "level": "B2"
+  },
+  {
+    "verb": "protestieren",
+    "preposition": "gegen",
+    "case": "Akkusativ",
+    "meaning_tr": "protesto etmek",
+    "example_de": "Die Bürger protestieren gegen das Gesetz.",
+    "example_tr": "Vatandaşlar yasayı protesto ediyor.",
+    "level": "B2"
+  },
+  {
+    "verb": "abraten",
+    "preposition": "von",
+    "case": "Dativ",
+    "meaning_tr": "caydırmak, vazgeçirmeye çalışmak",
+    "example_de": "Ich rate dir von diesem Plan ab.",
+    "example_tr": "Seni bu plandan vazgeçirmeye çalışıyorum.",
+    "level": "B2"
+  },
+  {
+    "verb": "abhalten",
+    "preposition": "von",
+    "case": "Dativ",
+    "meaning_tr": "engellemek, alıkoymak",
+    "example_de": "Was hält dich von der Arbeit ab?",
+    "example_tr": "Seni işten ne alıkoyuyor?",
+    "level": "B2"
+  },
+  {
+    "verb": "ablenken",
+    "preposition": "von",
+    "case": "Dativ",
+    "meaning_tr": "dikkatini dağıtmak, uzaklaştırmak",
+    "example_de": "Musik lenkt mich von den Problemen ab.",
+    "example_tr": "Müzik beni problemlerden uzaklaştırıyor.",
+    "level": "B2"
+  },
+  {
+    "verb": "ankommen",
+    "preposition": "auf",
+    "case": "Akkusativ",
+    "meaning_tr": "bağlı olmak, önemli olmak",
+    "example_de": "Es kommt auf die Details an.",
+    "example_tr": "Detaylara bağlı.",
+    "level": "B1"
+  },
+  {
+    "verb": "anpassen",
+    "preposition": "an",
+    "case": "Akkusativ",
+    "meaning_tr": "uyum sağlamak",
+    "example_de": "Wir müssen uns an die neue Situation anpassen.",
+    "example_tr": "Yeni duruma uyum sağlamalıyız.",
+    "level": "B1"
+  },
+  {
+    "verb": "auffordern",
+    "preposition": "zu",
+    "case": "Dativ",
+    "meaning_tr": "çağırmak, uyarmak",
+    "example_de": "Der Lehrer fordert die Schüler zu mehr Aufmerksamkeit auf.",
+    "example_tr": "Öğretmen öğrencileri daha dikkatli olmaya çağırıyor.",
+    "level": "B2"
+  },
+  {
+    "verb": "aufpassen",
+    "preposition": "auf",
+    "case": "Akkusativ",
+    "meaning_tr": "dikkat etmek, gözetmek",
+    "example_de": "Pass auf deine kleinen Geschwister auf!",
+    "example_tr": "Küçük kardeşlerine dikkat et!",
+    "level": "A2"
+  },
+  {
+    "verb": "aufrufen",
+    "preposition": "zu",
+    "case": "Dativ",
+    "meaning_tr": "çağrıda bulunmak",
+    "example_de": "Die Gewerkschaft ruft zu einem Streik auf.",
+    "example_tr": "Sendika greve çağırıyor.",
+    "level": "B2"
+  },
+  {
+    "verb": "aufregen",
+    "preposition": "über",
+    "case": "Akkusativ",
+    "meaning_tr": "sinirlemek, sinirlenmek",
+    "example_de": "Sie regt sich über die langen Warteschlangen auf.",
+    "example_tr": "Uzun kuyruklardan sinirlenıyor.",
+    "level": "B1"
+  },
+  {
+    "verb": "befreien",
+    "preposition": "von",
+    "case": "Dativ",
+    "meaning_tr": "kurtarmak, özgür kılmak",
+    "example_de": "Er wurde von der Pflicht befreit.",
+    "example_tr": "Görevden muaf tutuldu.",
+    "level": "B2"
+  },
+  {
+    "verb": "begeistern",
+    "preposition": "für",
+    "case": "Akkusativ",
+    "meaning_tr": "heyecanlandırmak, coşturmak",
+    "example_de": "Er begeistert die Kinder für Wissenschaft.",
+    "example_tr": "Çocukları bilime karşı heyecanlandırıyor.",
+    "level": "B2"
+  },
+  {
+    "verb": "begnügen",
+    "preposition": "mit",
+    "case": "Dativ",
+    "meaning_tr": "yetinmek, kanaat etmek",
+    "example_de": "Er begnügt sich mit einem kleinen Gehalt.",
+    "example_tr": "Küçük bir maaşla yetiniyor.",
+    "level": "B2"
+  },
+  {
+    "verb": "belohnen",
+    "preposition": "für",
+    "case": "Akkusativ",
+    "meaning_tr": "ödüllendirmek",
+    "example_de": "Sie wird für ihre harte Arbeit belohnt.",
+    "example_tr": "Sıkı çalışması için ödüllendiriliyor.",
+    "level": "B1"
+  },
+  {
+    "verb": "beruhen",
+    "preposition": "auf",
+    "case": "Dativ",
+    "meaning_tr": "dayanmak, temellenmek",
+    "example_de": "Dieser Film beruht auf wahren Begebenheiten.",
+    "example_tr": "Bu film gerçek olaylara dayanıyor.",
+    "level": "B2"
+  },
+  {
+    "verb": "beschränken",
+    "preposition": "auf",
+    "case": "Akkusativ",
+    "meaning_tr": "sınırlamak, kısıtlamak",
+    "example_de": "Das Angebot beschränkt sich auf Europa.",
+    "example_tr": "Teklif Avrupa ile sınırlı.",
+    "level": "B2"
+  },
+  {
+    "verb": "denken",
+    "preposition": "über",
+    "case": "Akkusativ",
+    "meaning_tr": "hakkında düşünmek, görüş oluşturmak",
+    "example_de": "Was denkst du über diesen Vorschlag?",
+    "example_tr": "Bu öneri hakkında ne düşünüyorsun?",
+    "level": "B1"
+  },
+  {
+    "verb": "drohen",
+    "preposition": "mit",
+    "case": "Dativ",
+    "meaning_tr": "tehdit etmek",
+    "example_de": "Er drohte mit einer Klage.",
+    "example_tr": "Dava açmakla tehdit etti.",
+    "level": "B2"
+  },
+  {
+    "verb": "einsetzen",
+    "preposition": "für",
+    "case": "Akkusativ",
+    "meaning_tr": "mücadele etmek, savunmak",
+    "example_de": "Sie setzt sich für Gerechtigkeit ein.",
+    "example_tr": "Adalet için mücadele ediyor.",
+    "level": "B2"
+  },
+  {
+    "verb": "entschuldigen",
+    "preposition": "bei",
+    "case": "Dativ",
+    "meaning_tr": "özür dilemek (kişiye)",
+    "example_de": "Er entschuldigt sich bei seiner Lehrerin.",
+    "example_tr": "Öğretmeninden özür diliyor.",
+    "level": "B1"
+  },
+  {
+    "verb": "entschuldigen",
+    "preposition": "für",
+    "case": "Akkusativ",
+    "meaning_tr": "özür dilemek (nedeniyle)",
+    "example_de": "Ich entschuldige mich für den Fehler.",
+    "example_tr": "Hata için özür diliyorum.",
+    "level": "B1"
+  },
+  {
+    "verb": "erkranken",
+    "preposition": "an",
+    "case": "Dativ",
+    "meaning_tr": "hastalanmak, bir hastalığa yakalanmak",
+    "example_de": "Sie erkrankte an einer schweren Grippe.",
+    "example_tr": "Ağır bir grip kapıldı.",
+    "level": "B2"
+  },
+  {
+    "verb": "ernennen",
+    "preposition": "zu",
+    "case": "Dativ",
+    "meaning_tr": "atamak, tayin etmek",
+    "example_de": "Er wurde zu einem Minister ernannt.",
+    "example_tr": "Bakan olarak atandı.",
+    "level": "C1"
+  },
+  {
+    "verb": "erschrecken",
+    "preposition": "vor",
+    "case": "Dativ",
+    "meaning_tr": "ürkmek, irkilmek",
+    "example_de": "Das Kind erschrickt vor lauten Geräuschen.",
+    "example_tr": "Çocuk yüksek seslerden ürküyor.",
+    "level": "B1"
+  },
+  {
+    "verb": "festhalten",
+    "preposition": "an",
+    "case": "Dativ",
+    "meaning_tr": "bağlı kalmak, ısrarcı olmak",
+    "example_de": "Er hält an seinen alten Gewohnheiten fest.",
+    "example_tr": "Eski alışkanlıklarına bağlı kalıyor.",
+    "level": "B2"
+  },
+  {
+    "verb": "forschen",
+    "preposition": "nach",
+    "case": "Dativ",
+    "meaning_tr": "araştırmak",
+    "example_de": "Wissenschaftler forschen nach einem Heilmittel.",
+    "example_tr": "Bilim insanları çare araştırıyor.",
+    "level": "B2"
+  },
+  {
+    "verb": "gehen",
+    "preposition": "um",
+    "case": "Akkusativ",
+    "meaning_tr": "söz konusu olmak, ilgili olmak",
+    "example_de": "Es geht um viel Geld.",
+    "example_tr": "Çok para söz konusu.",
+    "level": "A2"
+  },
+  {
+    "verb": "gewöhnen",
+    "preposition": "an",
+    "case": "Akkusativ",
+    "meaning_tr": "alışmak, alıştırmak",
+    "example_de": "Ich habe mich an das kalte Wetter gewöhnt.",
+    "example_tr": "Soğuk havaya alıştım.",
+    "level": "B1"
+  },
+  {
+    "verb": "handeln",
+    "preposition": "mit",
+    "case": "Dativ",
+    "meaning_tr": "ticaret yapmak, alıp satmak",
+    "example_de": "Das Unternehmen handelt mit Elektronikgeräten.",
+    "example_tr": "Şirket elektronik cihazlar alıp satıyor.",
+    "level": "B2"
+  },
+  {
+    "verb": "hindeuten",
+    "preposition": "auf",
+    "case": "Akkusativ",
+    "meaning_tr": "işaret etmek, göstermek",
+    "example_de": "Alle Zeichen deuten auf einen Erfolg hin.",
+    "example_tr": "Tüm işaretler bir başarıya işaret ediyor.",
+    "level": "C1"
+  },
+  {
+    "verb": "kommen",
+    "preposition": "auf",
+    "case": "Akkusativ",
+    "meaning_tr": "aklına gelmek, bulmak",
+    "example_de": "Ich komme auf eine gute Idee.",
+    "example_tr": "Aklıma iyi bir fikir geliyor.",
+    "level": "B1"
+  },
+  {
+    "verb": "mahnen",
+    "preposition": "zu",
+    "case": "Dativ",
+    "meaning_tr": "uyarmak, çağrıda bulunmak",
+    "example_de": "Der Arzt mahnte ihn zu mehr Ruhe.",
+    "example_tr": "Doktor onu daha fazla dinlenmeye uyardı.",
+    "level": "B2"
+  },
+  {
+    "verb": "orientieren",
+    "preposition": "an",
+    "case": "Dativ",
+    "meaning_tr": "yön bulmak, örnek almak",
+    "example_de": "Wir orientieren uns an den Kundenwünschen.",
+    "example_tr": "Müşteri isteklerini örnek alıyoruz.",
+    "level": "B2"
+  },
+  {
+    "verb": "prahlen",
+    "preposition": "mit",
+    "case": "Dativ",
+    "meaning_tr": "övünmek, böbürlenmek",
+    "example_de": "Er prahlt gern mit seinem neuen Auto.",
+    "example_tr": "Yeni arabasıyla övünmeyi sever.",
+    "level": "B1"
+  },
+  {
+    "verb": "richten",
+    "preposition": "an",
+    "case": "Akkusativ",
+    "meaning_tr": "yöneltmek, hitap etmek",
+    "example_de": "Er richtet seine Frage an den Professor.",
+    "example_tr": "Sorusunu profesöre yöneltiyor.",
+    "level": "B2"
+  },
+  {
+    "verb": "schämen",
+    "preposition": "für",
+    "case": "Akkusativ",
+    "meaning_tr": "utanmak",
+    "example_de": "Er schämt sich für sein unhöfliches Verhalten.",
+    "example_tr": "Kaba davranışından utanıyor.",
+    "level": "B1"
+  },
+  {
+    "verb": "schwärmen",
+    "preposition": "von",
+    "case": "Dativ",
+    "meaning_tr": "coşkuyla anlatmak, hayran olmak",
+    "example_de": "Sie schwärmt von ihrer Reise nach Japan.",
+    "example_tr": "Japonya yolculuğundan coşkuyla bahsediyor.",
+    "level": "B1"
+  },
+  {
+    "verb": "sprechen",
+    "preposition": "für",
+    "case": "Akkusativ",
+    "meaning_tr": "lehine konuşmak, desteklemek",
+    "example_de": "Viele Argumente sprechen für diesen Plan.",
+    "example_tr": "Pek çok argüman bu planı destekliyor.",
+    "level": "B2"
+  },
+  {
+    "verb": "stehen",
+    "preposition": "für",
+    "case": "Akkusativ",
+    "meaning_tr": "temsil etmek, simgelemek",
+    "example_de": "Dieses Symbol steht für Frieden.",
+    "example_tr": "Bu sembol barışı temsil eder.",
+    "level": "B2"
+  },
+  {
+    "verb": "stoßen",
+    "preposition": "auf",
+    "case": "Akkusativ",
+    "meaning_tr": "rastlamak, karşılaşmak",
+    "example_de": "Ich bin auf ein interessantes Buch gestoßen.",
+    "example_tr": "İlginç bir kitaba rastladım.",
+    "level": "B2"
+  },
+  {
+    "verb": "streiten",
+    "preposition": "um",
+    "case": "Akkusativ",
+    "meaning_tr": "için tartışmak, kavga etmek",
+    "example_de": "Die Kinder streiten um das Spielzeug.",
+    "example_tr": "Çocuklar oyuncak için kavga ediyor.",
+    "level": "B1"
+  },
+  {
+    "verb": "streiten",
+    "preposition": "über",
+    "case": "Akkusativ",
+    "meaning_tr": "hakkında tartışmak",
+    "example_de": "Sie streiten über Politik.",
+    "example_tr": "Politika hakkında tartışıyorlar.",
+    "level": "B1"
+  },
+  {
+    "verb": "verbinden",
+    "preposition": "mit",
+    "case": "Dativ",
+    "meaning_tr": "bağdaştırmak, ilişkilendirmek",
+    "example_de": "Ich verbinde dieses Lied mit guten Erinnerungen.",
+    "example_tr": "Bu şarkıyı güzel anılarla ilişkilendiriyorum.",
+    "level": "B2"
+  },
+  {
+    "verb": "vergleichen",
+    "preposition": "mit",
+    "case": "Dativ",
+    "meaning_tr": "karşılaştırmak",
+    "example_de": "Man kann ihn nicht mit seinem Bruder vergleichen.",
+    "example_tr": "Onu kardeşiyle karşılaştıramazsın.",
+    "level": "B1"
+  },
+  {
+    "verb": "verpflichten",
+    "preposition": "zu",
+    "case": "Dativ",
+    "meaning_tr": "yükümlü kılmak, taahhüt etmek",
+    "example_de": "Er verpflichtete sich zu regelmäßigen Zahlungen.",
+    "example_tr": "Düzenli ödeme yapmayı taahhüt etti.",
+    "level": "C1"
+  },
+  {
+    "verb": "vertrauen",
+    "preposition": "auf",
+    "case": "Akkusativ",
+    "meaning_tr": "güvenmek, itimat etmek",
+    "example_de": "Ich vertraue auf deine Ehrlichkeit.",
+    "example_tr": "Dürüstlüğüne güveniyorum.",
+    "level": "B2"
+  },
+  {
+    "verb": "verweisen",
+    "preposition": "auf",
+    "case": "Akkusativ",
+    "meaning_tr": "atıfta bulunmak, göndermek",
+    "example_de": "Er verweist auf die offiziellen Statistiken.",
+    "example_tr": "Resmi istatistiklere atıfta bulunuyor.",
+    "level": "B2"
+  },
+  {
+    "verb": "wechseln",
+    "preposition": "zu",
+    "case": "Dativ",
+    "meaning_tr": "geçmek, değiştirmek",
+    "example_de": "Ich möchte zu einem anderen Anbieter wechseln.",
+    "example_tr": "Başka bir sağlayıcıya geçmek istiyorum.",
+    "level": "B1"
+  },
+  {
+    "verb": "zählen",
+    "preposition": "zu",
+    "case": "Dativ",
+    "meaning_tr": "sayılmak, dahil olmak",
+    "example_de": "Er zählt zu den besten Spielern der Welt.",
+    "example_tr": "Dünyanın en iyi oyuncuları arasında sayılıyor.",
+    "level": "B1"
+  },
+  {
+    "verb": "zwingen",
+    "preposition": "zu",
+    "case": "Dativ",
+    "meaning_tr": "zorlamak, mecbur bırakmak",
+    "example_de": "Man kann niemanden zu einer Entscheidung zwingen.",
+    "example_tr": "Kimseyi bir karar almaya zorlayamazsın.",
+    "level": "B2"
+  },
+  {
+    "verb": "Angst haben",
+    "preposition": "vor",
+    "case": "Dativ",
+    "meaning_tr": "korkmak",
+    "example_de": "Ich habe Angst vor Spinnen.",
+    "example_tr": "Örümceklerden korkuyorum.",
+    "level": "A2"
+  },
+  {
+    "verb": "Interesse haben",
+    "preposition": "an",
+    "case": "Dativ",
+    "meaning_tr": "ilgi duymak",
+    "example_de": "Er hat großes Interesse an Geschichte.",
+    "example_tr": "Tarihe büyük ilgi duyuyor.",
+    "level": "A2"
+  },
+  {
+    "verb": "Lust haben",
+    "preposition": "auf",
+    "case": "Akkusativ",
+    "meaning_tr": "canı istemek, arzulamak",
+    "example_de": "Ich habe Lust auf ein Eis.",
+    "example_tr": "Dondurma canım istiyor.",
+    "level": "A2"
+  },
+  {
+    "verb": "Spaß haben",
+    "preposition": "an",
+    "case": "Dativ",
+    "meaning_tr": "zevk almak, eğlenmek",
+    "example_de": "Sie hat viel Spaß an der Arbeit.",
+    "example_tr": "İşten çok zevk alıyor.",
+    "level": "A2"
+  },
+  {
+    "verb": "Probleme haben",
+    "preposition": "mit",
+    "case": "Dativ",
+    "meaning_tr": "sorun yaşamak",
+    "example_de": "Er hat Probleme mit der Aussprache.",
+    "example_tr": "Telaffuzda sorun yaşıyor.",
+    "level": "A2"
+  },
+  {
+    "verb": "Hoffnung haben",
+    "preposition": "auf",
+    "case": "Akkusativ",
+    "meaning_tr": "umut beslemek",
+    "example_de": "Wir haben noch Hoffnung auf eine Lösung.",
+    "example_tr": "Bir çözüm için hâlâ umudumuz var.",
+    "level": "B1"
+  },
+  {
+    "verb": "Einfluss haben",
+    "preposition": "auf",
+    "case": "Akkusativ",
+    "meaning_tr": "etkisi olmak",
+    "example_de": "Das Wetter hat großen Einfluss auf die Stimmung.",
+    "example_tr": "Hava, ruh hali üzerinde büyük etki yapar.",
+    "level": "B1"
+  },
+  {
+    "verb": "Zugang haben",
+    "preposition": "zu",
+    "case": "Dativ",
+    "meaning_tr": "erişimi olmak",
+    "example_de": "Alle Schüler haben Zugang zu Computern.",
+    "example_tr": "Tüm öğrencilerin bilgisayarlara erişimi var.",
+    "level": "B1"
+  },
+  {
+    "verb": "Verständnis haben",
+    "preposition": "für",
+    "case": "Akkusativ",
+    "meaning_tr": "anlayış göstermek",
+    "example_de": "Ich habe Verständnis für deine Situation.",
+    "example_tr": "Durumunu anlıyorum.",
+    "level": "B1"
+  },
+  {
+    "verb": "Respekt haben",
+    "preposition": "vor",
+    "case": "Dativ",
+    "meaning_tr": "saygı duymak",
+    "example_de": "Er hat großen Respekt vor seiner Lehrerin.",
+    "example_tr": "Öğretmenine büyük saygı duyuyor.",
+    "level": "B1"
+  },
+  {
+    "verb": "Kontakt haben",
+    "preposition": "mit",
+    "case": "Dativ",
+    "meaning_tr": "iletişim kurmak, temas halinde olmak",
+    "example_de": "Hast du noch Kontakt mit deinen alten Freunden?",
+    "example_tr": "Eski arkadaşlarınla hâlâ iletişimde misin?",
+    "level": "B1"
+  },
+  {
+    "verb": "Erfahrung haben",
+    "preposition": "mit",
+    "case": "Dativ",
+    "meaning_tr": "deneyimi olmak",
+    "example_de": "Er hat viel Erfahrung mit Kindern.",
+    "example_tr": "Çocuklarla çok deneyimi var.",
+    "level": "B1"
+  },
+  {
+    "verb": "Schwierigkeiten haben",
+    "preposition": "mit",
+    "case": "Dativ",
+    "meaning_tr": "güçlük çekmek",
+    "example_de": "Sie hat Schwierigkeiten mit der deutschen Grammatik.",
+    "example_tr": "Almanca grameriyle güçlük çekiyor.",
+    "level": "B1"
+  },
+  {
+    "verb": "Mut haben",
+    "preposition": "zu",
+    "case": "Dativ",
+    "meaning_tr": "cesareti olmak",
+    "example_de": "Er hat den Mut zu einer ehrlichen Aussage.",
+    "example_tr": "Dürüst bir açıklama yapmaya cesareti var.",
+    "level": "B1"
+  },
+  {
+    "verb": "Freude haben",
+    "preposition": "an",
+    "case": "Dativ",
+    "meaning_tr": "zevk almak, sevinç duymak",
+    "example_de": "Sie hat große Freude an der Musik.",
+    "example_tr": "Müzikten büyük zevk alıyor.",
+    "level": "B1"
+  },
+  {
+    "verb": "Vertrauen haben",
+    "preposition": "in",
+    "case": "Akkusativ",
+    "meaning_tr": "güveni olmak",
+    "example_de": "Ich habe großes Vertrauen in dich.",
+    "example_tr": "Sana büyük güvenim var.",
+    "level": "B2"
+  },
+  {
+    "verb": "Schuld haben",
+    "preposition": "an",
+    "case": "Dativ",
+    "meaning_tr": "sorumlu olmak, suçlu olmak",
+    "example_de": "Wer hat Schuld an dem Unfall?",
+    "example_tr": "Kazadan kim sorumlu?",
+    "level": "B2"
+  },
+  {
+    "verb": "Einwände haben",
+    "preposition": "gegen",
+    "case": "Akkusativ",
+    "meaning_tr": "itirazı olmak",
+    "example_de": "Ich habe keine Einwände gegen diesen Vorschlag.",
+    "example_tr": "Bu teklife itirazım yok.",
+    "level": "B2"
+  },
+  {
+    "verb": "Sehnsucht haben",
+    "preposition": "nach",
+    "case": "Dativ",
+    "meaning_tr": "özlem duymak",
+    "example_de": "Er hat Sehnsucht nach seiner Heimat.",
+    "example_tr": "Yurdunu özlüyor.",
+    "level": "B2"
+  },
+  {
+    "verb": "Begeisterung haben",
+    "preposition": "für",
+    "case": "Akkusativ",
+    "meaning_tr": "coşku duymak, tutku beslemek",
+    "example_de": "Sie hat eine große Begeisterung für Kunst.",
+    "example_tr": "Sanata büyük coşku duyuyor.",
+    "level": "B2"
+  }
+]

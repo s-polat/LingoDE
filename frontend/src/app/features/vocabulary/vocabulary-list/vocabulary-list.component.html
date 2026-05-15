@@ -1,0 +1,95 @@
+<div class="p-4 space-y-4">
+
+  <!-- Başlık + Ekle butonu -->
+  <div class="flex items-center justify-between">
+    <h2 class="text-xl font-bold text-slate-800">Kelimelerim</h2>
+    <a routerLink="/vocabulary/add"
+       class="bg-primary-600 text-white px-4 py-2 rounded-xl text-sm font-semibold flex items-center gap-1">
+      + Ekle
+    </a>
+  </div>
+
+  <!-- Arama + Filtre -->
+  <div class="space-y-2">
+    <input [(ngModel)]="search"
+           (ngModelChange)="onSearch()"
+           type="search"
+           placeholder="Kelime ara..."
+           class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary-300" />
+    <div class="flex gap-2 overflow-x-auto pb-1">
+      @for (level of levels; track level) {
+        <button (click)="selectedLevel = level; onSearch()"
+                class="flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-semibold transition-colors"
+                [class]="selectedLevel === level
+                  ? 'bg-primary-600 text-white'
+                  : 'bg-slate-100 text-slate-500'">
+          {{ level === '' ? 'Tümü' : level }}
+        </button>
+      }
+    </div>
+  </div>
+
+  <!-- Toplam -->
+  <p class="text-xs text-slate-400">{{ total }} kelime bulundu</p>
+
+  <!-- Liste -->
+  @if (loading) {
+    <div class="space-y-3">
+      @for (i of [1,2,3,4,5]; track i) {
+        <div class="bg-white rounded-xl p-4 h-16 animate-pulse"></div>
+      }
+    </div>
+  } @else if (words.length === 0) {
+    <div class="text-center py-16 text-slate-400">
+      <p class="text-4xl mb-3">📭</p>
+      <p class="font-medium">Henüz kelime yok</p>
+      <a routerLink="/vocabulary/add" class="text-primary-600 text-sm mt-1 block">İlk kelimeyi ekle →</a>
+    </div>
+  } @else {
+    <div class="space-y-2">
+      @for (word of words; track word._id) {
+        <a [routerLink]="['/vocabulary', word._id]"
+           class="flex items-center justify-between bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow">
+          <div class="flex items-center gap-3 min-w-0">
+            <div class="min-w-0">
+              <div class="flex items-baseline gap-2">
+                @if (word.article) {
+                  <span class="text-xs text-primary-500 font-medium">{{ word.article }}</span>
+                }
+                <span class="font-semibold text-slate-800 truncate">{{ word.german }}</span>
+              </div>
+              <p class="text-xs text-slate-400 truncate">
+                {{ word.meanings[0]?.turkish || '—' }}
+              </p>
+            </div>
+          </div>
+          <div class="flex items-center gap-2 flex-shrink-0">
+            <span class="text-xs font-bold px-2 py-0.5 rounded-full bg-primary-100 text-primary-700">{{ word.level }}</span>
+            <button (click)="deleteWord(word._id!, $event)"
+                    class="text-slate-300 hover:text-red-400 transition-colors p-1">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+              </svg>
+            </button>
+          </div>
+        </a>
+      }
+    </div>
+
+    <!-- Sayfalama -->
+    @if (totalPages > 1) {
+      <div class="flex items-center justify-between pt-2">
+        <button (click)="prevPage()" [disabled]="page === 1"
+                class="px-4 py-2 rounded-xl text-sm font-medium bg-white border border-slate-200 disabled:opacity-40">
+          ← Önceki
+        </button>
+        <span class="text-xs text-slate-400">{{ page }} / {{ totalPages }}</span>
+        <button (click)="nextPage()" [disabled]="page === totalPages"
+                class="px-4 py-2 rounded-xl text-sm font-medium bg-white border border-slate-200 disabled:opacity-40">
+          Sonraki →
+        </button>
+      </div>
+    }
+  }
+
+</div>
