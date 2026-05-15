@@ -53,17 +53,15 @@ export class GrammarExerciseComponent implements OnChanges {
     return '📚';
   }
 
-  private scrollCardBottomAboveNav(): void {
+  private scrollToCardBottom(): void {
     setTimeout(() => {
       const el = document.getElementById('exercise-card');
       if (!el) return;
-      const rect = el.getBoundingClientRect();
-      const navHeight = 64 + 16;
-      const overflow = rect.bottom - (window.innerHeight - navHeight);
-      if (overflow > 0) {
-        window.scrollBy({ top: overflow, behavior: 'smooth' });
-      }
-    }, 200);
+      const cardBottom = el.offsetTop + el.offsetHeight;
+      const navHeight = 80;
+      const target = cardBottom - window.innerHeight + navHeight + 16;
+      window.scrollTo({ top: target, behavior: 'smooth' });
+    }, 100);
   }
 
   select(option: string): void {
@@ -73,7 +71,7 @@ export class GrammarExerciseComponent implements OnChanges {
     if (option === this.current.answer) {
       this.score.update(s => s + 1);
     }
-    this.scrollCardBottomAboveNav();
+    this.scrollToCardBottom();
   }
 
   next(): void {
