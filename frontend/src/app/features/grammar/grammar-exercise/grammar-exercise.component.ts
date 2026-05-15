@@ -53,17 +53,17 @@ export class GrammarExerciseComponent implements OnChanges {
     return '📚';
   }
 
-  private scrollIntoViewAboveNav(id: string): void {
+  private scrollCardBottomAboveNav(): void {
     setTimeout(() => {
-      const el = document.getElementById(id);
+      const el = document.getElementById('exercise-card');
       if (!el) return;
       const rect = el.getBoundingClientRect();
-      const navHeight = 64 + 12; // h-16 bottom nav + small padding
+      const navHeight = 64 + 16;
       const overflow = rect.bottom - (window.innerHeight - navHeight);
       if (overflow > 0) {
         window.scrollBy({ top: overflow, behavior: 'smooth' });
       }
-    }, 50);
+    }, 200);
   }
 
   select(option: string): void {
@@ -73,7 +73,7 @@ export class GrammarExerciseComponent implements OnChanges {
     if (option === this.current.answer) {
       this.score.update(s => s + 1);
     }
-    this.scrollIntoViewAboveNav('exercise-next-btn');
+    this.scrollCardBottomAboveNav();
   }
 
   next(): void {
