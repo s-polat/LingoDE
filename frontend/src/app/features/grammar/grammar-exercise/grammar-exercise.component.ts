@@ -53,6 +53,19 @@ export class GrammarExerciseComponent implements OnChanges {
     return '📚';
   }
 
+  private scrollIntoViewAboveNav(id: string): void {
+    setTimeout(() => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      const navHeight = 64 + 12; // h-16 bottom nav + small padding
+      const overflow = rect.bottom - (window.innerHeight - navHeight);
+      if (overflow > 0) {
+        window.scrollBy({ top: overflow, behavior: 'smooth' });
+      }
+    }, 50);
+  }
+
   select(option: string): void {
     if (this.showFeedback()) return;
     this.selectedAnswer.set(option);
@@ -60,9 +73,7 @@ export class GrammarExerciseComponent implements OnChanges {
     if (option === this.current.answer) {
       this.score.update(s => s + 1);
     }
-    setTimeout(() => {
-      document.getElementById('exercise-next-btn')?.scrollIntoView({ behavior: 'smooth', block: 'end' });
-    }, 50);
+    this.scrollIntoViewAboveNav('exercise-next-btn');
   }
 
   next(): void {
