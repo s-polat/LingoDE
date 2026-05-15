@@ -66,18 +66,19 @@ function buildType1(entry, pool) {
   };
 }
 
-// Tip 2: "eine Entscheidung ___" → doğru fiili seç
+// Tip 2: "auf den Punkt ___" → doğru fiili seç
 function buildType2(entry, pool) {
   const correct = entry.verb;
+  // Fiili phrase'den çıkar → tam bağlam korunur (preposition dahil)
+  const question = entry.phrase.replace(new RegExp(`\\b${entry.verb}\\b`), '___');
   const distractors = shuffle(pool.filter((e) => e.verb !== correct))
     .map((e) => e.verb)
     .filter((v, i, arr) => arr.indexOf(v) === i)
     .slice(0, 3);
-  const stem = entry.article ? `${entry.article} ${entry.noun}` : entry.noun;
   return {
     id: `${entry.id}-t2`,
     type: 'verb_completion',
-    question: `${stem} ___`,
+    question,
     hint: entry.meaning_tr,
     options: shuffle([correct, ...distractors]),
     answer: correct,
