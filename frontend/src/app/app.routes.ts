@@ -44,6 +44,11 @@ export const routes: Routes = [
       import('./features/schreibtrainer/schreibtrainer.component').then((m) => m.SchreibtrainerComponent),
   },
   {
+    path: 'redemittel',
+    loadComponent: () =>
+      import('./features/redemittel/redemittel.component').then((m) => m.RedemittelComponent),
+  },
+  {
     path: 'leseverstehen',
     loadComponent: () =>
       import('./features/leseverstehen/leseverstehen.component').then((m) => m.LeseverstehenComponent),
