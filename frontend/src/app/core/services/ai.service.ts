@@ -38,7 +38,7 @@ export class AiService {
     return this.http.post<ApiResponse<WritingFeedback>>(`${this.base}/schreiben`, { type, prompt, text });
   }
 
-  getLeseverstehen(examType: 'goethe' | 'testdaf' | 'dsh'): Observable<ApiResponse<LeseverstehenExercise>> {
+  getLeseverstehen(examType: 'goethe' | 'telc' | 'testdaf' | 'dsh'): Observable<ApiResponse<LeseverstehenExercise>> {
     return this.http.get<ApiResponse<LeseverstehenExercise>>(`${this.base}/leseverstehen`, { params: { examType } });
   }
 
