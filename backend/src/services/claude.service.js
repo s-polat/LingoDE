@@ -129,7 +129,7 @@ Yanıt: [ {...}, {...}, ... ]`;
 export async function extractWordsFromImage(base64Image, mediaType = 'image/jpeg') {
   const response = await client.messages.create({
     model: 'claude-opus-4-5',
-    max_tokens: 512,
+    max_tokens: 1024,
     messages: [
       {
         role: 'user',
@@ -140,7 +140,7 @@ export async function extractWordsFromImage(base64Image, mediaType = 'image/jpeg
           },
           {
             type: 'text',
-            text: 'Bu görseldeki Almanca kelimeleri listele. JSON formatında yanıt ver: {"words": ["kelime1", "kelime2", ...], "raw_text": "görüntüdeki tüm metin"}',
+            text: 'Bu görseldeki Almanca kelimeleri listele. Sadece kelime köklerini ver, tekrar edenleri bir kez yaz. JSON formatında yanıt ver: {"words": ["kelime1", "kelime2", ...]}',
           },
         ],
       },

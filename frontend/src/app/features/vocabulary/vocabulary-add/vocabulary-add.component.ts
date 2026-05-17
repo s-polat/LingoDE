@@ -17,7 +17,8 @@ type Step = 'input' | 'extracting' | 'select' | 'analyzing' | 'review' | 'done';
 })
 export class VocabularyAddComponent {
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
-  @ViewChild('cameraInput') cameraInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('videoEl') videoEl!: ElementRef<HTMLVideoElement>;
+  @ViewChild('canvasEl') canvasEl!: ElementRef<HTMLCanvasElement>;
 
   private aiService = inject(AiService);
   private wordService = inject(WordService);
@@ -45,30 +46,50 @@ export class VocabularyAddComponent {
     return this.analyses[this.reviewIndex] ?? null;
   }
 
-  setMode(m: InputMode) { this.mode = m; this.error = ''; }
+  cameraActive = false;
+  private cameraStream: MediaStream | null = null;
+
+  setMode(m: InputMode) { this.stopCamera(); this.mode = m; this.error = ''; }
 
   // ── ADIM 1: Veri Girişi ──────────────────────────────────
+
+  async startCamera() {
+    this.error = '';
+    try {
+      this.cameraStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+      this.cameraActive = true;
+      setTimeout(() => { this.videoEl.nativeElement.srcObject = this.cameraStream; }, 0);
+    } catch {
+      this.error = 'Kamera erişimi reddedildi veya desteklenmiyor.';
+    }
+  }
+
+  stopCamera() {
+    this.cameraStream?.getTracks().forEach(t => t.stop());
+    this.cameraStream = null;
+    this.cameraActive = false;
+  }
+
+  capturePhoto() {
+    const video = this.videoEl.nativeElement;
+    const canvas = this.canvasEl.nativeElement;
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    canvas.getContext('2d')!.drawImage(video, 0, 0);
+    const base64 = canvas.toDataURL('image/jpeg').split(',')[1];
+    this.stopCamera();
+    this.step = 'extracting';
+    this.aiService.extractFromImage(base64, 'image/jpeg').subscribe({
+      next: (res) => this.showWordSelection(res.data.words ?? []),
+      error: () => { this.error = 'Görsel analizi başarısız.'; this.step = 'input'; },
+    });
+  }
 
   analyzeManual() {
     if (!this.manualWord.trim()) return;
     this.extractedWords = [this.manualWord.trim()];
     this.selectedWords = new Set([this.manualWord.trim()]);
     this.startBatchAnalysis();
-  }
-
-  onCameraCapture(event: Event) {
-    const file = (event.target as HTMLInputElement).files?.[0];
-    if (!file) return;
-    this.step = 'extracting';
-    const reader = new FileReader();
-    reader.onload = () => {
-      const base64 = (reader.result as string).split(',')[1];
-      this.aiService.extractFromImage(base64, file.type as any).subscribe({
-        next: (res) => this.showWordSelection(res.data.words ?? []),
-        error: () => { this.error = 'Görsel analizi başarısız.'; this.step = 'input'; },
-      });
-    };
-    reader.readAsDataURL(file);
   }
 
   onFileUpload(event: Event) {
@@ -101,6 +122,12 @@ export class VocabularyAddComponent {
 
   selectAll() { this.selectedWords = new Set(this.extractedWords); }
   selectNone() { this.selectedWords.clear(); }
+
+  cancelSelection() {
+    this.extractedWords = [];
+    this.selectedWords.clear();
+    this.step = 'input';
+  }
 
   get selectedCount() { return this.selectedWords.size; }
 
@@ -154,6 +181,21 @@ export class VocabularyAddComponent {
     });
   }
 
+  isSavingAll = false;
+
+  saveAll() {
+    const remaining = this.analyses.slice(this.reviewIndex);
+    if (remaining.length === 0) return;
+    this.isSavingAll = true;
+    let done = 0;
+    for (const analysis of remaining) {
+      this.wordService.createWord(analysis as any).subscribe({
+        next: () => { this.savedCount++; done++; if (done === remaining.length) { this.isSavingAll = false; this.step = 'done'; } },
+        error: () => { done++; if (done === remaining.length) { this.isSavingAll = false; this.step = 'done'; } },
+      });
+    }
+  }
+
   skipCurrent() { this.next(); }
 
   private next() {
@@ -186,6 +228,7 @@ export class VocabularyAddComponent {
 
   goToVocabulary() { this.router.navigate(['/vocabulary']); }
   addMore() {
+    this.stopCamera();
     this.step = 'input';
     this.manualWord = '';
     this.extractedWords = [];
