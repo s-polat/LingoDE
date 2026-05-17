@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { ApiResponse, AiWordAnalysis, ExtractedWordsResult, WritingFeedback, HochschuleFeedback } from '../models/api.model';
+import { ApiResponse, AiWordAnalysis, ExtractedWordsResult, WritingFeedback, HochschuleFeedback, LeseverstehenExercise } from '../models/api.model';
 
 @Injectable({ providedIn: 'root' })
 export class AiService {
@@ -36,6 +36,10 @@ export class AiService {
 
   analyzeWriting(type: 'brief' | 'essay', prompt: string, text: string): Observable<ApiResponse<WritingFeedback>> {
     return this.http.post<ApiResponse<WritingFeedback>>(`${this.base}/schreiben`, { type, prompt, text });
+  }
+
+  getLeseverstehen(examType: 'goethe' | 'testdaf' | 'dsh'): Observable<ApiResponse<LeseverstehenExercise>> {
+    return this.http.get<ApiResponse<LeseverstehenExercise>>(`${this.base}/leseverstehen`, { params: { examType } });
   }
 
   generateHochschulePrompt(type: 'testdaf' | 'dsh'): Observable<ApiResponse<{ prompt: string; topic: string }>> {

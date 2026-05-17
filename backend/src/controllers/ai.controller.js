@@ -1,4 +1,4 @@
-import { analyzeWord, analyzeWordsBatch, extractWordsFromText, extractWordsFromImage, analyzeWriting, generateWritingPrompt, generateHochschulePrompt, analyzeHochschuleWriting } from '../services/claude.service.js';
+import { analyzeWord, analyzeWordsBatch, extractWordsFromText, extractWordsFromImage, analyzeWriting, generateWritingPrompt, generateHochschulePrompt, analyzeHochschuleWriting, generateLeseverstehen } from '../services/claude.service.js';
 import { extractTextFromFile } from '../services/file.service.js';
 
 export async function analyzeWordHandler(req, res) {
@@ -39,6 +39,15 @@ export async function analyzeWritingHandler(req, res) {
   if (text.length < 50) return res.status(400).json({ success: false, message: 'Metin çok kısa' });
 
   const result = await analyzeWriting(type, prompt, text);
+  res.json({ success: true, data: result });
+}
+
+export async function leseverstehenHandler(req, res) {
+  const { examType } = req.query;
+  if (!['goethe', 'testdaf', 'dsh'].includes(examType)) {
+    return res.status(400).json({ success: false, message: 'examType: goethe, testdaf veya dsh olmalı' });
+  }
+  const result = await generateLeseverstehen(examType);
   res.json({ success: true, data: result });
 }
 

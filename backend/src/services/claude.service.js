@@ -205,6 +205,111 @@ Maximal 4 Korrekturen, 2 Stärken, 3 Verbesserungsvorschläge.`,
   return parseJson(response.content[0].text);
 }
 
+const LESE_TOPICS = {
+  goethe: [
+    'Arbeit und Digitalisierung', 'Kunst und Kultur in der Gesellschaft',
+    'Medien und Meinungsbildung', 'Bildung und soziale Gerechtigkeit',
+    'Umweltbewusstsein und Konsum', 'Gesundheit im Alltag',
+    'Migration und gesellschaftlicher Wandel', 'Technologie und Privatsphäre',
+  ],
+  testdaf: [
+    'Klimawandel und gesellschaftliche Verantwortung', 'Wissenschaft und Forschungsethik',
+    'Digitalisierung in der Arbeitswelt', 'Demographischer Wandel in Europa',
+    'Nachhaltigkeit und Wirtschaft', 'Bildungssystem im Wandel',
+    'Migration und Integration', 'Gesundheitsversorgung der Zukunft',
+  ],
+  dsh: [
+    'Globalisierung und kulturelle Identität', 'Umweltpolitik und internationale Abkommen',
+    'Digitalisierung und sozialer Wandel', 'Wissenschaftsethik und KI',
+    'Bildungsgerechtigkeit', 'Urbanisierung und Stadtentwicklung',
+    'Sprachenpolitik in mehrsprachigen Gesellschaften', 'Nachhaltige Entwicklung',
+  ],
+};
+
+export async function generateLeseverstehen(examType) {
+  const topicPool = LESE_TOPICS[examType] ?? LESE_TOPICS.goethe;
+  const topic = topicPool[Math.floor(Math.random() * topicPool.length)];
+
+  const configs = {
+    goethe: {
+      label: 'Goethe-Zertifikat C1 Allgemein',
+      textStyle: 'journalistisch/feuilletonistisch (Zeitung oder Magazin)',
+      textLength: '400–480 Wörter',
+      mix: '5 Multiple-Choice-Fragen (je 4 Optionen A/B/C/D) + 3 Richtig/Falsch/Nicht-im-Text-Aussagen',
+      mcOptions: 4,
+    },
+    testdaf: {
+      label: 'TestDaF — Lesetext 2',
+      textStyle: 'journalistisch zu einem wissenschaftlichen oder gesellschaftspolitischen Thema',
+      textLength: '450–530 Wörter',
+      mix: '5 Multiple-Choice-Fragen (je 3 Optionen A/B/C) + 3 Richtig/Falsch/Nicht-im-Text-Aussagen',
+      mcOptions: 3,
+    },
+    dsh: {
+      label: 'DSH — Leseverständnis',
+      textStyle: 'akademisch/wissenschaftlich',
+      textLength: '500–580 Wörter',
+      mix: '4 Richtig/Falsch/Nicht-im-Text-Aussagen + 4 Multiple-Choice-Fragen (je 3 Optionen A/B/C)',
+      mcOptions: 3,
+    },
+  };
+
+  const cfg = configs[examType] ?? configs.goethe;
+
+  const optionList = cfg.mcOptions === 4
+    ? '["A) ...", "B) ...", "C) ...", "D) ..."]'
+    : '["A) ...", "B) ...", "C) ..."]';
+
+  const response = await client.messages.create({
+    model: 'claude-opus-4-5',
+    max_tokens: 3500,
+    messages: [{
+      role: 'user',
+      content: `Erstelle eine vollständige Leseverstehen-Übung im Stil von "${cfg.label}".
+
+Thema: ${topic}
+Textstil: ${cfg.textStyle}
+Textlänge: ${cfg.textLength}
+Fragenformat: ${cfg.mix}
+
+Regeln:
+- Text auf C1-Niveau, authentisch und inhaltlich anspruchsvoll
+- MC-Fragen prüfen: Hauptaussagen, Details, Implikationen, Wortbedeutung im Kontext
+- R/F/NiT-Aussagen sind eindeutig und direkt im Text überprüfbar
+- "nicht_im_text" bedeutet: weder bestätigt noch widerlegt durch den Text
+- Erklärungen auf Türkisch, präzise und lehrreich
+- Fragen in der Reihenfolge des Textes (keine Sprungreihenfolge)
+
+Antworte NUR mit diesem JSON (kein Markdown):
+{
+  "examType": "${examType}",
+  "topic": "${topic}",
+  "text": "...",
+  "fragen": [
+    {
+      "nr": 1,
+      "type": "mc",
+      "frage": "...",
+      "optionen": ${optionList},
+      "antwort": "A",
+      "erklaerung": "..."
+    },
+    {
+      "nr": 2,
+      "type": "rfn",
+      "aussage": "...",
+      "antwort": "richtig",
+      "erklaerung": "..."
+    }
+  ]
+}
+Mögliche "antwort"-Werte: für MC: "A","B","C","D" — für R/F/NiT: "richtig","falsch","nicht_im_text"`,
+    }],
+  });
+
+  return parseJson(response.content[0].text);
+}
+
 const HOCHSCHULE_TOPICS = [
   'Digitalisierung und Gesellschaft', 'Nachhaltigkeit und Umweltschutz',
   'Bildungssystem und Chancengleichheit', 'Migration und Integration',

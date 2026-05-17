@@ -76,6 +76,23 @@ export interface WritingFeedback {
   verbesserungen: string[];
 }
 
+export interface LeseverstehenFrage {
+  nr: number;
+  type: 'mc' | 'rfn';
+  frage?: string;
+  aussage?: string;
+  optionen?: string[];
+  antwort: string;
+  erklaerung: string;
+}
+
+export interface LeseverstehenExercise {
+  examType: 'goethe' | 'testdaf' | 'dsh';
+  topic: string;
+  text: string;
+  fragen: LeseverstehenFrage[];
+}
+
 export interface HochschuleKategorie {
   punkte: number;
   maxpunkte: number;

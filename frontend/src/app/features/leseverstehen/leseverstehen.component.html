@@ -1,0 +1,202 @@
+<div class="p-4 pb-8 space-y-4">
+
+  <h2 class="text-xl font-bold text-slate-800">📖 Leseverstehen</h2>
+
+  <!-- ───── SINAV SEÇ ───── -->
+  @if (step === 'pick') {
+    <p class="text-slate-500 text-sm">Sınav tipini seç, uygun metin ve sorular üretilsin.</p>
+    <div class="space-y-3 pt-2">
+
+      <button (click)="selectExam('goethe')"
+              class="w-full bg-white rounded-2xl shadow p-5 text-left hover:shadow-md transition-shadow border border-transparent hover:border-teal-200">
+        <div class="flex items-center gap-3">
+          <span class="text-3xl">🏅</span>
+          <div>
+            <p class="font-bold text-slate-800">Goethe C1 Allgemein</p>
+            <p class="text-sm text-slate-400 mt-0.5">4 şıklı MC + Richtig/Falsch/N.i.T.</p>
+          </div>
+        </div>
+      </button>
+
+      <button (click)="selectExam('testdaf')"
+              class="w-full bg-white rounded-2xl shadow p-5 text-left hover:shadow-md transition-shadow border border-transparent hover:border-teal-200">
+        <div class="flex items-center gap-3">
+          <span class="text-3xl">📊</span>
+          <div>
+            <p class="font-bold text-slate-800">TestDaF — Lesetext 2</p>
+            <p class="text-sm text-slate-400 mt-0.5">3 şıklı MC + Richtig/Falsch/N.i.T. · TDN 3/4/5</p>
+          </div>
+        </div>
+      </button>
+
+      <button (click)="selectExam('dsh')"
+              class="w-full bg-white rounded-2xl shadow p-5 text-left hover:shadow-md transition-shadow border border-transparent hover:border-teal-200">
+        <div class="flex items-center gap-3">
+          <span class="text-3xl">🏛️</span>
+          <div>
+            <p class="font-bold text-slate-800">DSH — Leseverständnis</p>
+            <p class="text-sm text-slate-400 mt-0.5">Richtig/Falsch/N.i.T. + MC · DSH-1/2/3</p>
+          </div>
+        </div>
+      </button>
+    </div>
+
+    @if (error) {
+      <div class="bg-red-50 border border-red-200 rounded-xl p-3 text-red-600 text-sm">{{ error }}</div>
+    }
+  }
+
+  <!-- ───── YÜKLENİYOR ───── -->
+  @if (step === 'loading') {
+    <div class="text-center py-16 space-y-3">
+      <div class="inline-block w-10 h-10 border-4 border-teal-600 border-t-transparent rounded-full animate-spin"></div>
+      <p class="text-slate-600 font-medium">Metin ve sorular hazırlanıyor...</p>
+    </div>
+  }
+
+  <!-- ───── OKU & YANIT VER ───── -->
+  @if (step === 'read' && exercise) {
+
+    <!-- Metin -->
+    <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4">
+      <div class="flex items-center justify-between mb-2">
+        <div>
+          <p class="text-xs font-bold text-teal-600 uppercase tracking-wide">Lesetext · {{ exercise.examType.toUpperCase() }}</p>
+          <p class="text-xs text-slate-400 mt-0.5">{{ exercise.topic }}</p>
+        </div>
+        <button (click)="textVisible = !textVisible"
+                class="text-xs text-slate-400 hover:text-teal-600 flex-shrink-0 px-2 py-1 bg-white rounded-lg border border-slate-200">
+          {{ textVisible ? 'Gizle ▲' : 'Göster ▼' }}
+        </button>
+      </div>
+      @if (textVisible) {
+        <p class="text-sm text-slate-700 leading-relaxed whitespace-pre-line">{{ exercise.text }}</p>
+      }
+    </div>
+
+    <!-- İlerleme -->
+    <div class="flex items-center justify-between text-sm text-slate-500">
+      <span>{{ answeredCount }}/{{ totalQuestions }} yanıtlandı</span>
+      <button (click)="loadExercise()" class="text-xs text-slate-400 hover:text-teal-600">
+        🔀 Yeni metin
+      </button>
+    </div>
+
+    <!-- Sorular -->
+    @for (frage of exercise.fragen; track frage.nr) {
+      <div class="bg-white rounded-2xl shadow p-4 space-y-3">
+        <p class="text-sm font-semibold text-slate-700 leading-snug">
+          <span class="text-teal-600 font-bold mr-1">{{ frage.nr }}.</span>
+          {{ frage.type === 'mc' ? frage.frage : frage.aussage }}
+        </p>
+
+        @if (frage.type === 'mc') {
+          <div class="space-y-2">
+            @for (opt of frage.optionen; track $index) {
+              <button (click)="setAnswer(frage.nr, opt[0])"
+                      class="w-full text-left px-4 py-2.5 rounded-xl border text-sm transition-colors"
+                      [class]="userAnswers[frage.nr] === opt[0]
+                        ? 'border-teal-400 bg-teal-50 text-teal-800 font-medium'
+                        : 'border-slate-100 text-slate-700 hover:border-teal-200'">
+                {{ opt }}
+              </button>
+            }
+          </div>
+        }
+
+        @if (frage.type === 'rfn') {
+          <div class="grid grid-cols-3 gap-2">
+            @for (val of ['richtig', 'falsch', 'nicht_im_text']; track $index) {
+              <button (click)="setAnswer(frage.nr, val)"
+                      class="py-2 text-xs rounded-xl border font-medium transition-colors"
+                      [class]="userAnswers[frage.nr] === val
+                        ? 'border-teal-400 bg-teal-50 text-teal-700'
+                        : 'border-slate-200 text-slate-600 hover:border-teal-200'">
+                {{ rfnLabel(val) }}
+              </button>
+            }
+          </div>
+        }
+      </div>
+    }
+
+    <button (click)="submit()" [disabled]="!allAnswered"
+            class="w-full py-3 rounded-xl bg-teal-600 text-white font-semibold text-sm disabled:opacity-40">
+      Sonuçları Gör ({{ answeredCount }}/{{ totalQuestions }})
+    </button>
+  }
+
+  <!-- ───── SONUÇLAR ───── -->
+  @if (step === 'results' && exercise) {
+
+    <!-- Skor özeti -->
+    <div class="bg-white rounded-2xl shadow p-5 flex items-center justify-between">
+      <div>
+        <p class="text-xs text-slate-400 uppercase tracking-wide font-semibold">Sonuç</p>
+        <p class="text-4xl font-bold text-slate-800 mt-1">
+          {{ correctCount }}<span class="text-xl text-slate-400">/{{ totalQuestions }}</span>
+        </p>
+        <p class="text-sm text-slate-500 mt-0.5">%{{ scorePercent }}</p>
+      </div>
+      <span class="text-xl font-bold px-4 py-2 rounded-xl" [class]="grade().color">
+        {{ grade().label }}
+      </span>
+    </div>
+
+    <!-- Metin (tekrar bakabilmek için) -->
+    <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4">
+      <div class="flex items-center justify-between mb-2">
+        <p class="text-xs font-bold text-teal-600 uppercase tracking-wide">{{ exercise.topic }}</p>
+        <button (click)="textVisible = !textVisible"
+                class="text-xs text-slate-400 hover:text-teal-600 px-2 py-1 bg-white rounded-lg border border-slate-200">
+          {{ textVisible ? 'Gizle ▲' : 'Metni Göster ▼' }}
+        </button>
+      </div>
+      @if (textVisible) {
+        <p class="text-sm text-slate-700 leading-relaxed whitespace-pre-line">{{ exercise.text }}</p>
+      }
+    </div>
+
+    <!-- Soru soru sonuçlar -->
+    @for (frage of exercise.fragen; track frage.nr) {
+      <div class="bg-white rounded-2xl shadow p-4 space-y-2"
+           [class]="isCorrect(frage.nr) ? 'border-l-4 border-green-400' : 'border-l-4 border-red-400'">
+
+        <div class="flex items-start gap-2">
+          <span class="text-lg flex-shrink-0">{{ isCorrect(frage.nr) ? '✓' : '✗' }}</span>
+          <p class="text-sm font-semibold text-slate-700 leading-snug">
+            {{ frage.nr }}. {{ frage.type === 'mc' ? frage.frage : frage.aussage }}
+          </p>
+        </div>
+
+        <div class="flex flex-wrap gap-2 text-xs ml-7">
+          <span class="px-2 py-1 rounded-lg"
+                [class]="isCorrect(frage.nr) ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'">
+            Senin cevabın:
+            {{ frage.type === 'rfn' ? rfnFullLabel(userAnswers[frage.nr]) : userAnswers[frage.nr] }}
+          </span>
+          @if (!isCorrect(frage.nr)) {
+            <span class="px-2 py-1 rounded-lg bg-green-100 text-green-700">
+              Doğru:
+              {{ frage.type === 'rfn' ? rfnFullLabel(frage.antwort) : frage.antwort }}
+            </span>
+          }
+        </div>
+
+        <p class="text-xs text-slate-500 leading-relaxed ml-7">{{ frage.erklaerung }}</p>
+      </div>
+    }
+
+    <div class="grid grid-cols-2 gap-3 pt-2">
+      <button (click)="loadExercise()"
+              class="py-3 rounded-xl bg-white border border-slate-200 text-slate-600 font-medium text-sm">
+        🔀 Yeni Metin
+      </button>
+      <button (click)="restart()"
+              class="py-3 rounded-xl bg-teal-600 text-white font-semibold text-sm">
+        Sınav Değiştir
+      </button>
+    </div>
+  }
+
+</div>
