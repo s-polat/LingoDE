@@ -59,6 +59,11 @@ export const routes: Routes = [
       import('./features/hochschulschreibtrainer/hochschulschreibtrainer.component').then((m) => m.HochschulschreibtrainerComponent),
   },
   {
+    path: 'passivtrainer',
+    loadComponent: () =>
+      import('./features/passivtrainer/passivtrainer.component').then((m) => m.PassivtrainerComponent),
+  },
+  {
     path: 'profile',
     loadComponent: () =>
       import('./features/profile/profile.component').then((m) => m.ProfileComponent),
