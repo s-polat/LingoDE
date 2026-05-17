@@ -44,6 +44,11 @@ export const routes: Routes = [
       import('./features/schreibtrainer/schreibtrainer.component').then((m) => m.SchreibtrainerComponent),
   },
   {
+    path: 'hochschulschreibtrainer',
+    loadComponent: () =>
+      import('./features/hochschulschreibtrainer/hochschulschreibtrainer.component').then((m) => m.HochschulschreibtrainerComponent),
+  },
+  {
     path: 'profile',
     loadComponent: () =>
       import('./features/profile/profile.component').then((m) => m.ProfileComponent),

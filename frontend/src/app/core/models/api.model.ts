@@ -76,6 +76,23 @@ export interface WritingFeedback {
   verbesserungen: string[];
 }
 
+export interface HochschuleKategorie {
+  punkte: number;
+  maxpunkte: number;
+  feedback: string;
+}
+
+export interface HochschuleFeedback {
+  pruefung: 'TestDaF' | 'DSH';
+  note: string;
+  gesamtpunkte: number;
+  maxpunkte: number;
+  kategorien: Record<string, HochschuleKategorie>;
+  korrekturen: WritingKorrektur[];
+  staerken: string[];
+  verbesserungen: string[];
+}
+
 export interface ExercisesResponse {
   data: GapFillExercise[];
   total: number;

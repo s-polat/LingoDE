@@ -1,4 +1,4 @@
-import { analyzeWord, analyzeWordsBatch, extractWordsFromText, extractWordsFromImage, analyzeWriting, generateWritingPrompt } from '../services/claude.service.js';
+import { analyzeWord, analyzeWordsBatch, extractWordsFromText, extractWordsFromImage, analyzeWriting, generateWritingPrompt, generateHochschulePrompt, analyzeHochschuleWriting } from '../services/claude.service.js';
 import { extractTextFromFile } from '../services/file.service.js';
 
 export async function analyzeWordHandler(req, res) {
@@ -39,6 +39,21 @@ export async function analyzeWritingHandler(req, res) {
   if (text.length < 50) return res.status(400).json({ success: false, message: 'Metin çok kısa' });
 
   const result = await analyzeWriting(type, prompt, text);
+  res.json({ success: true, data: result });
+}
+
+export async function generateHochschulePromptHandler(req, res) {
+  const { type } = req.query;
+  if (type !== 'testdaf' && type !== 'dsh') return res.status(400).json({ success: false, message: 'type: testdaf veya dsh olmalı' });
+  const result = await generateHochschulePrompt(type);
+  res.json({ success: true, data: result });
+}
+
+export async function analyzeHochschuleWritingHandler(req, res) {
+  const { type, prompt, text } = req.body;
+  if (!type || !prompt || !text) return res.status(400).json({ success: false, message: 'type, prompt ve text gerekli' });
+  if (text.length < 50) return res.status(400).json({ success: false, message: 'Metin çok kısa' });
+  const result = await analyzeHochschuleWriting(type, prompt, text);
   res.json({ success: true, data: result });
 }
 
