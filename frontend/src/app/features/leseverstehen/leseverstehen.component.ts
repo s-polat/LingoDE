@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { AiService } from '../../core/services/ai.service';
 import { LeseverstehenExercise } from '../../core/models/api.model';
 
-type ExamType = 'goethe' | 'testdaf' | 'dsh';
+type ExamType = 'goethe' | 'telc' | 'testdaf' | 'dsh';
 type Step = 'pick' | 'loading' | 'read' | 'results';
 
 @Component({
@@ -88,12 +88,24 @@ export class LeseverstehenComponent {
     return this.userAnswers[nr] === this.exercise?.fragen.find(f => f.nr === nr)?.antwort;
   }
 
+  kontext(raw: string | undefined, luecke: string | undefined): { before: string; after: string } {
+    if (!raw || !luecke) return { before: raw ?? '', after: '' };
+    const parts = raw.split(`[${luecke}]`);
+    return { before: parts[0] ?? '', after: parts[1] ?? '' };
+  }
+
   grade(): { label: string; color: string } {
     const pct = this.scorePercent;
     if (this.examType === 'goethe') {
       if (pct >= 87) return { label: 'Sehr gut', color: 'bg-green-100 text-green-700' };
       if (pct >= 62) return { label: 'Gut', color: 'bg-yellow-100 text-yellow-700' };
       if (pct >= 37) return { label: 'Ausreichend', color: 'bg-orange-100 text-orange-700' };
+      return { label: 'Nicht bestanden', color: 'bg-red-100 text-red-700' };
+    }
+    if (this.examType === 'telc') {
+      if (pct >= 80) return { label: 'Sehr gut', color: 'bg-green-100 text-green-700' };
+      if (pct >= 62) return { label: 'Gut (bestanden)', color: 'bg-yellow-100 text-yellow-700' };
+      if (pct >= 45) return { label: 'Ausreichend', color: 'bg-orange-100 text-orange-700' };
       return { label: 'Nicht bestanden', color: 'bg-red-100 text-red-700' };
     }
     if (this.examType === 'testdaf') {

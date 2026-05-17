@@ -78,16 +78,18 @@ export interface WritingFeedback {
 
 export interface LeseverstehenFrage {
   nr: number;
-  type: 'mc' | 'rfn';
+  type: 'mc' | 'rfn' | 'satz_insert';
   frage?: string;
   aussage?: string;
+  kontext?: string;
+  luecke?: string;
   optionen?: string[];
   antwort: string;
   erklaerung: string;
 }
 
 export interface LeseverstehenExercise {
-  examType: 'goethe' | 'testdaf' | 'dsh';
+  examType: 'goethe' | 'telc' | 'testdaf' | 'dsh';
   topic: string;
   text: string;
   fragen: LeseverstehenFrage[];

@@ -206,7 +206,7 @@ Maximal 4 Korrekturen, 2 Stärken, 3 Verbesserungsvorschläge.`,
 }
 
 const LESE_TOPICS = {
-  goethe: [
+  allgemein: [
     'Arbeit und Digitalisierung', 'Kunst und Kultur in der Gesellschaft',
     'Medien und Meinungsbildung', 'Bildung und soziale Gerechtigkeit',
     'Umweltbewusstsein und Konsum', 'Gesundheit im Alltag',
@@ -227,45 +227,115 @@ const LESE_TOPICS = {
 };
 
 export async function generateLeseverstehen(examType) {
-  const topicPool = LESE_TOPICS[examType] ?? LESE_TOPICS.goethe;
+  const topicKey = (examType === 'goethe' || examType === 'telc') ? 'allgemein' : examType;
+  const topicPool = LESE_TOPICS[topicKey] ?? LESE_TOPICS.allgemein;
   const topic = topicPool[Math.floor(Math.random() * topicPool.length)];
 
+  // Goethe C1: Aufgabe 3 Stil — Wortschatz im Kontext (4-Option MC) + R/F/NiT
+  if (examType === 'goethe') {
+    const response = await client.messages.create({
+      model: 'claude-opus-4-5',
+      max_tokens: 3500,
+      messages: [{
+        role: 'user',
+        content: `Erstelle eine Goethe-Zertifikat C1 Allgemein Leseverstehen-Übung (Aufgabe 3 Stil).
+
+Thema: ${topic}
+Textstil: Journalistisch/feuilletonistisch (Zeitungsartikel oder Magazinbeitrag)
+Textlänge: 420–480 Wörter
+
+Fragenformat (10 Fragen):
+- 6 Wortschatz-im-Kontext-Fragen (Typ "mc", je 4 Optionen A/B/C/D):
+  Zitiere einen Satz aus dem Text mit einem [_____] für das fehlende Wort als "frage"-Feld.
+  Die 4 Optionen sind einzelne Wörter oder kurze Ausdrücke.
+  Teste: Kollokationen, Synonyme, Register, Wortbedeutung im Kontext.
+- 4 Richtig/Falsch/Nicht-im-Text-Aussagen (Typ "rfn")
+
+Regeln:
+- Text C1-Niveau, authentisch
+- Erklärungen auf Türkisch
+- Fragen in Textreihenfolge
+
+Antworte NUR mit diesem JSON (kein Markdown):
+{
+  "examType": "goethe",
+  "topic": "${topic}",
+  "text": "...",
+  "fragen": [
+    { "nr": 1, "type": "mc", "frage": "Im Text heißt es: '...das [_____] der Bevölkerung...' Welches Wort passt?", "optionen": ["A) ...", "B) ...", "C) ...", "D) ..."], "antwort": "A", "erklaerung": "..." },
+    { "nr": 2, "type": "rfn", "aussage": "...", "antwort": "richtig", "erklaerung": "..." }
+  ]
+}`,
+      }],
+    });
+    return parseJson(response.content[0].text);
+  }
+
+  // telc C1: Aufgabe 1 (Satz-Einfügen) + Aufgabe 3 (R/F/NiT)
+  if (examType === 'telc') {
+    const response = await client.messages.create({
+      model: 'claude-opus-4-5',
+      max_tokens: 4000,
+      messages: [{
+        role: 'user',
+        content: `Erstelle eine telc Deutsch C1 Leseverstehen-Übung (Aufgabe 1 + 3 Stil).
+
+Thema: ${topic}
+Textstil: Journalistisch/essayistisch, strukturiert mit mehreren Abschnitten
+Textlänge: 480–550 Wörter
+WICHTIG: Baue 3 natürliche Lücken in den Text ein, markiert mit [LÜCKE_1], [LÜCKE_2], [LÜCKE_3].
+Die Lücken stehen zwischen Absätzen oder am Ende eines Absatzes — nicht mitten im Satz.
+
+Fragenformat (9 Fragen):
+- 3 Satz-Einfüge-Fragen (Typ "satz_insert"):
+  "kontext": Der Textausschnitt rund um die Lücke (2-3 Sätze vor + nach [LÜCKE]).
+  "optionen": 4 vollständige Sätze (A-D). Nur einer passt inhaltlich und kohäsiv.
+  Die 3 Ablenkungssätze sind grammatisch korrekt aber thematisch oder stilistisch unpassend.
+- 6 Richtig/Falsch/Nicht-im-Text-Aussagen (Typ "rfn") — decken alle Textabschnitte ab
+
+Regeln:
+- Erklärungen auf Türkisch, lehrreich
+- rfn-Aussagen: eindeutig prüfbar, nicht im Text = weder bestätigt noch widerlegt
+
+Antworte NUR mit diesem JSON (kein Markdown):
+{
+  "examType": "telc",
+  "topic": "${topic}",
+  "text": "...Text mit [LÜCKE_1], [LÜCKE_2], [LÜCKE_3]...",
+  "fragen": [
+    { "nr": 1, "type": "satz_insert", "luecke": "LÜCKE_1", "kontext": "...Satz davor. [LÜCKE_1] Satz danach...", "optionen": ["A) ...", "B) ...", "C) ...", "D) ..."], "antwort": "B", "erklaerung": "..." },
+    { "nr": 4, "type": "rfn", "aussage": "...", "antwort": "falsch", "erklaerung": "..." }
+  ]
+}`,
+      }],
+    });
+    return parseJson(response.content[0].text);
+  }
+
+  // TestDaF + DSH (bestehende Logik)
   const configs = {
-    goethe: {
-      label: 'Goethe-Zertifikat C1 Allgemein',
-      textStyle: 'journalistisch/feuilletonistisch (Zeitung oder Magazin)',
-      textLength: '400–480 Wörter',
-      mix: '5 Multiple-Choice-Fragen (je 4 Optionen A/B/C/D) + 3 Richtig/Falsch/Nicht-im-Text-Aussagen',
-      mcOptions: 4,
-    },
     testdaf: {
       label: 'TestDaF — Lesetext 2',
       textStyle: 'journalistisch zu einem wissenschaftlichen oder gesellschaftspolitischen Thema',
       textLength: '450–530 Wörter',
       mix: '5 Multiple-Choice-Fragen (je 3 Optionen A/B/C) + 3 Richtig/Falsch/Nicht-im-Text-Aussagen',
-      mcOptions: 3,
     },
     dsh: {
       label: 'DSH — Leseverständnis',
       textStyle: 'akademisch/wissenschaftlich',
       textLength: '500–580 Wörter',
       mix: '4 Richtig/Falsch/Nicht-im-Text-Aussagen + 4 Multiple-Choice-Fragen (je 3 Optionen A/B/C)',
-      mcOptions: 3,
     },
   };
 
-  const cfg = configs[examType] ?? configs.goethe;
-
-  const optionList = cfg.mcOptions === 4
-    ? '["A) ...", "B) ...", "C) ...", "D) ..."]'
-    : '["A) ...", "B) ...", "C) ..."]';
+  const cfg = configs[examType] ?? configs.testdaf;
 
   const response = await client.messages.create({
     model: 'claude-opus-4-5',
     max_tokens: 3500,
     messages: [{
       role: 'user',
-      content: `Erstelle eine vollständige Leseverstehen-Übung im Stil von "${cfg.label}".
+      content: `Erstelle eine Leseverstehen-Übung im Stil von "${cfg.label}".
 
 Thema: ${topic}
 Textstil: ${cfg.textStyle}
@@ -273,12 +343,11 @@ Textlänge: ${cfg.textLength}
 Fragenformat: ${cfg.mix}
 
 Regeln:
-- Text auf C1-Niveau, authentisch und inhaltlich anspruchsvoll
-- MC-Fragen prüfen: Hauptaussagen, Details, Implikationen, Wortbedeutung im Kontext
-- R/F/NiT-Aussagen sind eindeutig und direkt im Text überprüfbar
-- "nicht_im_text" bedeutet: weder bestätigt noch widerlegt durch den Text
-- Erklärungen auf Türkisch, präzise und lehrreich
-- Fragen in der Reihenfolge des Textes (keine Sprungreihenfolge)
+- Text C1-Niveau, authentisch
+- MC prüfen: Hauptaussagen, Details, Implikationen
+- R/F/NiT: eindeutig prüfbar, "nicht_im_text" = weder bestätigt noch widerlegt
+- Erklärungen auf Türkisch
+- Fragen in Textreihenfolge
 
 Antworte NUR mit diesem JSON (kein Markdown):
 {
@@ -286,24 +355,11 @@ Antworte NUR mit diesem JSON (kein Markdown):
   "topic": "${topic}",
   "text": "...",
   "fragen": [
-    {
-      "nr": 1,
-      "type": "mc",
-      "frage": "...",
-      "optionen": ${optionList},
-      "antwort": "A",
-      "erklaerung": "..."
-    },
-    {
-      "nr": 2,
-      "type": "rfn",
-      "aussage": "...",
-      "antwort": "richtig",
-      "erklaerung": "..."
-    }
+    { "nr": 1, "type": "mc", "frage": "...", "optionen": ["A) ...", "B) ...", "C) ..."], "antwort": "A", "erklaerung": "..." },
+    { "nr": 2, "type": "rfn", "aussage": "...", "antwort": "richtig", "erklaerung": "..." }
   ]
 }
-Mögliche "antwort"-Werte: für MC: "A","B","C","D" — für R/F/NiT: "richtig","falsch","nicht_im_text"`,
+"antwort"-Werte: MC: "A","B","C" — R/F/NiT: "richtig","falsch","nicht_im_text"`,
     }],
   });
 

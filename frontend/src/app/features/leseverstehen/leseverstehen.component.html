@@ -13,7 +13,18 @@
           <span class="text-3xl">🏅</span>
           <div>
             <p class="font-bold text-slate-800">Goethe C1 Allgemein</p>
-            <p class="text-sm text-slate-400 mt-0.5">4 şıklı MC + Richtig/Falsch/N.i.T.</p>
+            <p class="text-sm text-slate-400 mt-0.5">Wortschatz-MC (4 şık) + Richtig/Falsch/N.i.T.</p>
+          </div>
+        </div>
+      </button>
+
+      <button (click)="selectExam('telc')"
+              class="w-full bg-white rounded-2xl shadow p-5 text-left hover:shadow-md transition-shadow border border-transparent hover:border-teal-200">
+        <div class="flex items-center gap-3">
+          <span class="text-3xl">📋</span>
+          <div>
+            <p class="font-bold text-slate-800">telc Deutsch C1</p>
+            <p class="text-sm text-slate-400 mt-0.5">Satz-Einfügen + Richtig/Falsch/N.i.T. (ağırlıklı)</p>
           </div>
         </div>
       </button>
@@ -90,6 +101,25 @@
           {{ frage.type === 'mc' ? frage.frage : frage.aussage }}
         </p>
 
+        @if (frage.type === 'satz_insert') {
+          <div class="bg-slate-50 rounded-xl p-3 text-sm text-slate-700 leading-relaxed mb-1">
+            <span>{{ kontext(frage.kontext, frage.luecke).before }}</span>
+            <span class="inline-block bg-yellow-200 text-yellow-800 font-semibold px-2 rounded mx-1">[ ? ]</span>
+            <span>{{ kontext(frage.kontext, frage.luecke).after }}</span>
+          </div>
+          <div class="space-y-2">
+            @for (opt of frage.optionen; track $index) {
+              <button (click)="setAnswer(frage.nr, opt[0])"
+                      class="w-full text-left px-4 py-2.5 rounded-xl border text-sm transition-colors"
+                      [class]="userAnswers[frage.nr] === opt[0]
+                        ? 'border-teal-400 bg-teal-50 text-teal-800 font-medium'
+                        : 'border-slate-100 text-slate-700 hover:border-teal-200'">
+                {{ opt }}
+              </button>
+            }
+          </div>
+        }
+
         @if (frage.type === 'mc') {
           <div class="space-y-2">
             @for (opt of frage.optionen; track $index) {
@@ -165,9 +195,19 @@
         <div class="flex items-start gap-2">
           <span class="text-lg flex-shrink-0">{{ isCorrect(frage.nr) ? '✓' : '✗' }}</span>
           <p class="text-sm font-semibold text-slate-700 leading-snug">
-            {{ frage.nr }}. {{ frage.type === 'mc' ? frage.frage : frage.aussage }}
+            {{ frage.nr }}.
+            @if (frage.type === 'satz_insert') { Welcher Satz passt in die Lücke? }
+            @else if (frage.type === 'mc') { {{ frage.frage }} }
+            @else { {{ frage.aussage }} }
           </p>
         </div>
+        @if (frage.type === 'satz_insert') {
+          <div class="bg-slate-50 rounded-xl p-3 text-xs text-slate-600 leading-relaxed ml-7">
+            <span>{{ kontext(frage.kontext, frage.luecke).before }}</span>
+            <span class="inline-block bg-yellow-200 text-yellow-800 font-semibold px-1 rounded mx-1">[ ? ]</span>
+            <span>{{ kontext(frage.kontext, frage.luecke).after }}</span>
+          </div>
+        }
 
         <div class="flex flex-wrap gap-2 text-xs ml-7">
           <span class="px-2 py-1 rounded-lg"

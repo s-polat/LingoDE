@@ -44,7 +44,7 @@ export async function analyzeWritingHandler(req, res) {
 
 export async function leseverstehenHandler(req, res) {
   const { examType } = req.query;
-  if (!['goethe', 'testdaf', 'dsh'].includes(examType)) {
+  if (!['goethe', 'telc', 'testdaf', 'dsh'].includes(examType)) {
     return res.status(400).json({ success: false, message: 'examType: goethe, testdaf veya dsh olmalı' });
   }
   const result = await generateLeseverstehen(examType);
