@@ -1,5 +1,10 @@
 import Word from '../models/word.model.js';
+import ActivityLog from '../models/activity-log.model.js';
 import { calculateSM2 } from '../services/sm2.service.js';
+
+function todayStr() {
+  return new Date().toISOString().slice(0, 10);
+}
 
 export async function getWords(req, res) {
   const { level, type, search, page = 1, limit = 20 } = req.query;
@@ -59,7 +64,33 @@ export async function reviewWord(req, res) {
   Object.assign(word, updated);
   await word.save();
 
+  const inc = { $inc: { reviewed: 1, ...(quality >= 3 ? { correct: 1 } : {}) } };
+  await ActivityLog.findOneAndUpdate({ date: todayStr() }, inc, { upsert: true });
+
   res.json({ success: true, data: word });
+}
+
+export async function getActivity(req, res) {
+  const days = 30;
+  const logs = await ActivityLog.find().sort({ date: -1 }).limit(days);
+  const map = Object.fromEntries(logs.map((l) => [l.date, { reviewed: l.reviewed, correct: l.correct }]));
+
+  const result = [];
+  for (let i = 0; i < days; i++) {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    const key = d.toISOString().slice(0, 10);
+    result.push({ date: key, ...(map[key] ?? { reviewed: 0, correct: 0 }) });
+  }
+
+  // streak: bugünden geriye kaç ardışık gün çalışılmış
+  let streak = 0;
+  for (const entry of result) {
+    if (entry.reviewed > 0) streak++;
+    else break;
+  }
+
+  res.json({ success: true, data: { activity: result.reverse(), streak } });
 }
 
 export async function getStats(req, res) {

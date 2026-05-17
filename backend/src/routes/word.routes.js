@@ -1,12 +1,13 @@
 import { Router } from 'express';
 import {
   getWords, getWord, createWord, updateWord, deleteWord,
-  getReviewWords, reviewWord, getStats,
+  getReviewWords, reviewWord, getStats, getActivity,
 } from '../controllers/word.controller.js';
 
 const router = Router();
 
 router.get('/stats', getStats);
+router.get('/activity', getActivity);
 router.get('/review', getReviewWords);
 router.post('/:id/review', reviewWord);
 

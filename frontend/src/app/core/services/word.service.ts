@@ -49,4 +49,8 @@ export class WordService {
   getStats(): Observable<ApiResponse<{ total: number; byLevel: { _id: string; count: number }[]; dueToday: number }>> {
     return this.http.get<ApiResponse<any>>(`${this.base}/stats`);
   }
+
+  getActivity(): Observable<ApiResponse<{ activity: { date: string; reviewed: number; correct: number }[]; streak: number }>> {
+    return this.http.get<ApiResponse<any>>(`${this.base}/activity`);
+  }
 }
