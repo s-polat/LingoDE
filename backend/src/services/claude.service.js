@@ -126,6 +126,85 @@ Yanıt: [ {...}, {...}, ... ]`;
   });
 }
 
+export async function generateWritingPrompt(type) {
+  const topics = [
+    'Arbeit und Beruf', 'Gesellschaft und Politik', 'Umwelt und Natur',
+    'Wissenschaft und Technik', 'Bildung und Erziehung', 'Gesundheit',
+    'Kultur und Medien', 'Wirtschaft und Konsum', 'Digitalisierung', 'Migration und Integration',
+  ];
+  const topic = topics[Math.floor(Math.random() * topics.length)];
+
+  const typeInstruction = type === 'brief'
+    ? `Erstelle eine telc C1 Allgemein Schreibaufgabe: formeller Brief oder E-Mail.
+Format:
+- 2-3 Sätze Situationsbeschreibung (auf Deutsch)
+- "Schreiben Sie einen formellen Brief / eine E-Mail an [Empfänger]."
+- 3–4 Aufgabenpunkte als Stichpunkte (was soll der Schreiber tun: sich vorstellen, Kritik äußern, Informationen erfragen, Vorschlag machen, etc.)
+- Am Ende: "Schreiben Sie 200–250 Wörter."
+Themenbereich: ${topic}`
+    : `Erstelle eine telc C1 Allgemein Schreibaufgabe: Erörterung / argumentativer Text.
+Format:
+- 1 provokante These oder ein kurzes Zitat (2-3 Sätze) zum Thema
+- "Nehmen Sie in einem zusammenhängenden Text Stellung."
+- 3 Leitfragen oder Aspekte als Stichpunkte (Pro/Kontra, eigene Meinung, Zukunftsperspektive etc.)
+- Am Ende: "Schreiben Sie 200–250 Wörter."
+Themenbereich: ${topic}`;
+
+  const response = await client.messages.create({
+    model: 'claude-haiku-4-5-20251001',
+    max_tokens: 512,
+    messages: [{
+      role: 'user',
+      content: `${typeInstruction}
+
+Antworte NUR mit dem Aufgabentext auf Deutsch. Kein JSON, kein Markdown, kein Kommentar.`,
+    }],
+  });
+
+  return { prompt: response.content[0].text.trim(), topic };
+}
+
+export async function analyzeWriting(type, prompt, text) {
+  const typeLabel = type === 'brief' ? 'formeller Brief' : 'Erörterung/Essay';
+  const response = await client.messages.create({
+    model: 'claude-opus-4-5',
+    max_tokens: 2048,
+    messages: [{
+      role: 'user',
+      content: `Du bist ein Deutschlehrer und bewertest die folgende C1-Schreibaufgabe.
+
+Aufgabentyp: ${typeLabel}
+Aufgabenstellung: "${prompt}"
+
+Schülertext:
+"""
+${text}
+"""
+
+Bewerte den Text nach diesen 4 Kategorien (je 0-25 Punkte) und gib konkretes Feedback auf Türkisch.
+Antworte NUR mit diesem JSON-Format (kein Markdown):
+{
+  "gesamtnote": "B2" | "C1" | "C2" (oder darunter falls nötig),
+  "gesamtpunkte": <Zahl 0-100>,
+  "kategorien": {
+    "grammatik": { "punkte": <0-25>, "feedback": "..." },
+    "wortschatz": { "punkte": <0-25>, "feedback": "..." },
+    "kohaerenz": { "punkte": <0-25>, "feedback": "..." },
+    "register": { "punkte": <0-25>, "feedback": "..." }
+  },
+  "korrekturen": [
+    { "original": "...", "korrektur": "...", "erklaerung": "..." }
+  ],
+  "staerken": ["...", "..."],
+  "verbesserungen": ["...", "..."]
+}
+Maximal 4 Korrekturen, 2 Stärken, 3 Verbesserungsvorschläge.`,
+    }],
+  });
+
+  return parseJson(response.content[0].text);
+}
+
 export async function extractWordsFromImage(base64Image, mediaType = 'image/jpeg') {
   const response = await client.messages.create({
     model: 'claude-opus-4-5',

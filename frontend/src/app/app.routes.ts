@@ -39,6 +39,11 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'schreibtrainer',
+    loadComponent: () =>
+      import('./features/schreibtrainer/schreibtrainer.component').then((m) => m.SchreibtrainerComponent),
+  },
+  {
     path: 'profile',
     loadComponent: () =>
       import('./features/profile/profile.component').then((m) => m.ProfileComponent),

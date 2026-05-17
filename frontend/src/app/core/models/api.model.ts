@@ -51,6 +51,31 @@ export interface GapFillExercise {
   level: string;
 }
 
+export interface WritingKategorie {
+  punkte: number;
+  feedback: string;
+}
+
+export interface WritingKorrektur {
+  original: string;
+  korrektur: string;
+  erklaerung: string;
+}
+
+export interface WritingFeedback {
+  gesamtnote: string;
+  gesamtpunkte: number;
+  kategorien: {
+    grammatik: WritingKategorie;
+    wortschatz: WritingKategorie;
+    kohaerenz: WritingKategorie;
+    register: WritingKategorie;
+  };
+  korrekturen: WritingKorrektur[];
+  staerken: string[];
+  verbesserungen: string[];
+}
+
 export interface ExercisesResponse {
   data: GapFillExercise[];
   total: number;

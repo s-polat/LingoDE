@@ -1,4 +1,4 @@
-import { analyzeWord, analyzeWordsBatch, extractWordsFromText, extractWordsFromImage } from '../services/claude.service.js';
+import { analyzeWord, analyzeWordsBatch, extractWordsFromText, extractWordsFromImage, analyzeWriting, generateWritingPrompt } from '../services/claude.service.js';
 import { extractTextFromFile } from '../services/file.service.js';
 
 export async function analyzeWordHandler(req, res) {
@@ -24,6 +24,22 @@ export async function analyzeWordsBatchHandler(req, res) {
 
   const analyses = await analyzeWordsBatch(words);
   res.json({ success: true, data: analyses });
+}
+
+export async function generateWritingPromptHandler(req, res) {
+  const { type } = req.query;
+  if (type !== 'brief' && type !== 'essay') return res.status(400).json({ success: false, message: 'type: brief veya essay olmalı' });
+  const result = await generateWritingPrompt(type);
+  res.json({ success: true, data: result });
+}
+
+export async function analyzeWritingHandler(req, res) {
+  const { type, prompt, text } = req.body;
+  if (!type || !prompt || !text) return res.status(400).json({ success: false, message: 'type, prompt ve text gerekli' });
+  if (text.length < 50) return res.status(400).json({ success: false, message: 'Metin çok kısa' });
+
+  const result = await analyzeWriting(type, prompt, text);
+  res.json({ success: true, data: result });
 }
 
 export async function extractFromFile(req, res) {

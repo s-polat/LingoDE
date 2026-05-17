@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import multer from 'multer';
-import { analyzeWordHandler, analyzeWordsBatchHandler, extractFromImage, extractFromFile } from '../controllers/ai.controller.js';
+import { analyzeWordHandler, analyzeWordsBatchHandler, extractFromImage, extractFromFile, analyzeWritingHandler, generateWritingPromptHandler } from '../controllers/ai.controller.js';
 
 const upload = multer({
   storage: multer.memoryStorage(),
@@ -19,5 +19,7 @@ router.post('/analyze', analyzeWordHandler);
 router.post('/analyze-batch', analyzeWordsBatchHandler);
 router.post('/extract-image', extractFromImage);
 router.post('/extract-file', upload.single('file'), extractFromFile);
+router.get('/schreiben-aufgabe', generateWritingPromptHandler);
+router.post('/schreiben', analyzeWritingHandler);
 
 export default router;
