@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { Redemittel, REDEMITTEL_DATA, REDEMITTEL_KATEGORIEN, shuffle } from './redemittel.data';
 
 type Step = 'pick' | 'learn' | 'quiz' | 'results';
@@ -10,7 +11,7 @@ interface QuizOption { text: string; correct: boolean; }
 @Component({
   selector: 'app-redemittel',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './redemittel.component.html',
 })
 export class RedemittelComponent {
@@ -22,6 +23,13 @@ export class RedemittelComponent {
   currentIndex = 0;
   flipped = false;
 
+  // Learn mode extras
+  userSentence = '';
+  scrambleActive = false;
+  scrambleSource = '';
+  scramblePool: string[] = [];
+  scrambleBuilt: string[] = [];
+
   quizOptions: QuizOption[] = [];
   selectedOption: string | null = null;
   answered = false;
@@ -32,6 +40,14 @@ export class RedemittelComponent {
   get current(): Redemittel { return this.queue[this.currentIndex]; }
   get progress(): number { return Math.round((this.currentIndex / this.queue.length) * 100); }
   get hasWeak(): boolean { return this.wiederholen.length > 0; }
+
+  get scrambleSentence(): string { return this.scrambleBuilt.join(' '); }
+  get scrambleCorrect(): boolean { return this.scrambleBuilt.join(' ') === this.scrambleSource; }
+  get scrambleDone(): boolean { return this.scramblePool.length === 0; }
+
+  get wasWrong(): boolean {
+    return !this.selectedOption || this.quizOptions.find(o => o.text === this.selectedOption)?.correct === false;
+  }
 
   get kategorienListe() {
     return [
@@ -59,21 +75,53 @@ export class RedemittelComponent {
       this.prepareQuiz();
       this.step = 'quiz';
     } else {
-      this.flipped = false;
+      this.resetLearnCard();
       this.step = 'learn';
     }
   }
 
-  // ── LEARN (kart) ──────────────────────────────────
+  // ── LEARN (kart) ──────────────────────────────────────────
   flip() { this.flipped = true; }
 
-  learnAnswer(known: boolean) {
-    if (known) this.bekannt.push(this.current.id);
+  resetLearnCard() {
+    this.flipped = false;
+    this.userSentence = '';
+    this.scrambleActive = false;
+    this.scramblePool = [];
+    this.scrambleBuilt = [];
+    this.scrambleSource = '';
+  }
+
+  learnConfidence(level: 1 | 2 | 3 | 4) {
+    if (level >= 3) this.bekannt.push(this.current.id);
     else this.wiederholen.push(this.current.id);
     this.advance('learn');
   }
 
-  // ── QUIZ (çoktan seçmeli) ──────────────────────────
+  openScramble(sentence: string) {
+    this.scrambleSource = sentence;
+    this.scramblePool = shuffle(sentence.split(' '));
+    this.scrambleBuilt = [];
+    this.scrambleActive = true;
+  }
+
+  scramblePick(index: number) {
+    this.scrambleBuilt.push(this.scramblePool[index]);
+    this.scramblePool = this.scramblePool.filter((_, i) => i !== index);
+  }
+
+  scrambleUndo() {
+    if (!this.scrambleBuilt.length) return;
+    const last = this.scrambleBuilt.pop()!;
+    this.scramblePool = [...this.scramblePool, last];
+  }
+
+  scrambleReset() {
+    this.scramblePool = shuffle(this.scrambleSource.split(' '));
+    this.scrambleBuilt = [];
+  }
+
+  // ── QUIZ (çoktan seçmeli) ──────────────────────────────────
   private prepareQuiz() {
     this.quizOptions = this.buildOptions(this.current);
     this.selectedOption = null;
@@ -104,7 +152,7 @@ export class RedemittelComponent {
     if (this.currentIndex < this.queue.length - 1) {
       this.currentIndex++;
       if (mode === 'quiz') this.prepareQuiz();
-      else this.flipped = false;
+      else this.resetLearnCard();
     } else {
       this.step = 'results';
     }
@@ -117,7 +165,7 @@ export class RedemittelComponent {
     return 'border-slate-100 text-slate-400 bg-slate-50';
   }
 
-  // ── RESULTS ───────────────────────────────────────
+  // ── RESULTS ───────────────────────────────────────────────
   retryWeak() {
     const weakIds = new Set(this.wiederholen);
     this.queue = shuffle(REDEMITTEL_DATA.filter(r => weakIds.has(r.id)));
@@ -125,7 +173,7 @@ export class RedemittelComponent {
     this.bekannt = [];
     this.wiederholen = [];
     if (this.mode === 'quiz') { this.prepareQuiz(); this.step = 'quiz'; }
-    else { this.flipped = false; this.step = 'learn'; }
+    else { this.resetLearnCard(); this.step = 'learn'; }
   }
 
   restart() { this.step = 'pick'; }
