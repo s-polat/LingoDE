@@ -41,9 +41,15 @@
     </div>
   } @else if (words.length === 0) {
     <div class="text-center py-16 text-slate-400">
-      <p class="text-4xl mb-3">📭</p>
-      <p class="font-medium">Henüz kelime yok</p>
-      <a routerLink="/vocabulary/add" class="text-primary-600 text-sm mt-1 block">İlk kelimeyi ekle →</a>
+      @if (search || selectedLevel) {
+        <p class="text-4xl mb-3">🔍</p>
+        <p class="font-medium">Sonuç bulunamadı</p>
+        <p class="text-sm mt-1">Farklı bir arama dene</p>
+      } @else {
+        <p class="text-4xl mb-3">📭</p>
+        <p class="font-medium">Henüz kelime yok</p>
+        <a routerLink="/vocabulary/add" class="text-primary-600 text-sm mt-1 block">İlk kelimeyi ekle →</a>
+      }
     </div>
   } @else {
     <div class="space-y-2">

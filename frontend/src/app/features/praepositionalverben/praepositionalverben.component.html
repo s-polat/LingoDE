@@ -59,6 +59,12 @@
     <!-- Kelime listesi -->
     @if (!loading) {
       <p class="text-xs text-slate-400">{{ filteredVerbs.length }} fiil</p>
+      @if (filteredVerbs.length === 0) {
+        <div class="text-center py-12 text-slate-400">
+          <p class="text-3xl mb-2">🔍</p>
+          <p class="text-sm">Sonuç bulunamadı.</p>
+        </div>
+      }
       <div class="space-y-2">
         @for (v of filteredVerbs; track v.verb + v.preposition) {
           <div class="bg-white rounded-xl shadow-sm p-3 space-y-1">
