@@ -69,6 +69,11 @@ export const routes: Routes = [
       import('./features/konjunktiv2/konjunktiv2.component').then((m) => m.Konjunktiv2Component),
   },
   {
+    path: 'sprachbausteine',
+    loadComponent: () =>
+      import('./features/sprachbausteine/sprachbausteine.component').then((m) => m.SprachbausteineComponent),
+  },
+  {
     path: 'profile',
     loadComponent: () =>
       import('./features/profile/profile.component').then((m) => m.ProfileComponent),
