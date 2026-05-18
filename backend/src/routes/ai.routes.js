@@ -1,6 +1,15 @@
 import { Router } from 'express';
 import multer from 'multer';
+import rateLimit from 'express-rate-limit';
 import { analyzeWordHandler, analyzeWordsBatchHandler, extractFromImage, extractFromFile, analyzeWritingHandler, generateWritingPromptHandler, generateHochschulePromptHandler, analyzeHochschuleWritingHandler, leseverstehenHandler, analyzeMuendlichHandler, generateTagesSchreibenHandler, analyzeTagesSchreibenHandler } from '../controllers/ai.controller.js';
+
+const aiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 dakika
+  max: 50,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { success: false, message: 'Çok fazla istek gönderildi. 15 dakika sonra tekrar dene.' },
+});
 
 const upload = multer({
   storage: multer.memoryStorage(),
@@ -14,6 +23,8 @@ const upload = multer({
 });
 
 const router = Router();
+
+router.use(aiLimiter);
 
 router.post('/analyze', analyzeWordHandler);
 router.post('/analyze-batch', analyzeWordsBatchHandler);
