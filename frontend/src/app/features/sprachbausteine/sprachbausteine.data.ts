@@ -200,6 +200,255 @@ export const SPRACHBAUSTEINE_TEXTE: SprachbausteineText[] = [
       },
     ],
   },
+
+  // ── TEXT 4 ─────────────────────────────────────────────────────
+  {
+    id: 4,
+    titel: 'Klimawandel und Umweltpolitik',
+    thema: 'Klima · Energie · Internationale Kooperation',
+    schwierigkeit: 'Fortgeschritten',
+    text:
+      'Der Klimawandel gilt [1] als eine der drängendsten Herausforderungen des 21. Jahrhunderts. [2] steigender Temperaturen und häufiger Extremwetterereignisse sind viele Regierungen [3] Druck geraten, ihre Klimaschutzziele zu verschärfen. [4] die Erderwärmung auf 1,5 Grad zu begrenzen, muss der weltweite CO₂-Ausstoß deutlich gesenkt werden. [5] wirtschaftlicher Sicht erfordert die Energiewende zwar erhebliche Investitionen, doch sind sich die meisten Experten [6] einig, dass sie sich langfristig lohnen. [7] diesem Zusammenhang spielt internationale Kooperation eine entscheidende Rolle. Die Weltgemeinschaft hat sich [8] geeinigt, gemeinsam gegen den Klimawandel vorzugehen, doch die Umsetzung scheitert häufig [9] dem nötigen politischen Willen. Nur durch kollektives Handeln lässt [10] eine gerechte und nachhaltige Zukunft gestalten.',
+    items: [
+      {
+        nr: 1,
+        optionen: ['allgemein', 'häufig', 'selten', 'kaum'],
+        erklaerung: '"gilt allgemein als" = "genel olarak ... kabul görür". "allgemein" burada "genel kabule göre" anlamında.',
+      },
+      {
+        nr: 2,
+        optionen: ['Angesichts', 'Trotz', 'Seit', 'Statt'],
+        erklaerung: '"Angesichts + Genitiv" = "... göz önüne alındığında, ... karşısında". "Trotz" zıtlık bildirir (yanlış); "Seit" zamansal.',
+      },
+      {
+        nr: 3,
+        optionen: ['unter', 'in', 'an', 'bei'],
+        erklaerung: '"unter Druck geraten" = "baskı altına girmek" kalıp ifade. "unter" değişmez.',
+      },
+      {
+        nr: 4,
+        optionen: ['Um', 'Für', 'Damit', 'Wegen'],
+        erklaerung: '"Um ... zu + Infinitiv" = amaç bildiren yapı. "Damit" farklı fiil formu gerektirir (Konjunktiv). "Für" bu yapıda kullanılmaz.',
+      },
+      {
+        nr: 5,
+        optionen: ['Aus', 'Von', 'Nach', 'Für'],
+        erklaerung: '"Aus wirtschaftlicher Sicht" = "ekonomik açıdan bakıldığında" standart akademik ifade.',
+      },
+      {
+        nr: 6,
+        optionen: ['darin', 'dabei', 'daran', 'davon'],
+        erklaerung: '"sich darin einig sein, dass ..." = "... konusunda hemfikir olmak". "darin" + "dass"-Satz standart kombinasyon.',
+      },
+      {
+        nr: 7,
+        optionen: ['In', 'Aus', 'Mit', 'Von'],
+        erklaerung: '"In diesem Zusammenhang" = "bu bağlamda" standart bağlaç ifade. "Aus diesem Zusammenhang" = bağlamdan koparma (farklı anlam).',
+      },
+      {
+        nr: 8,
+        optionen: ['darauf', 'dazu', 'dabei', 'daran'],
+        erklaerung: '"sich einigen auf etw." → zamir formu: "sich darauf geeinigt, X zu tun". "auf etw." → "darauf".',
+      },
+      {
+        nr: 9,
+        optionen: ['an', 'bei', 'für', 'mit'],
+        erklaerung: '"scheitern an + Dativ" = "... yüzünden başarısız olmak". "an" bu fiilin sabit edatı.',
+      },
+      {
+        nr: 10,
+        optionen: ['sich', 'es', 'man', 'das'],
+        erklaerung: '"lässt sich gestalten" = "şekillendirilebilir". "lassen + sich + Infinitiv" = pasif ikamesi (Passiversatz). "sich" zorunlu.',
+      },
+    ],
+  },
+
+  // ── TEXT 5 ─────────────────────────────────────────────────────
+  {
+    id: 5,
+    titel: 'Gesundheit und Prävention',
+    thema: 'Medizin · Lebensstil · Gesellschaft',
+    schwierigkeit: 'Mittel',
+    text:
+      'Experten weisen [1] hin, dass präventive Gesundheitsmaßnahmen das individuelle Krankheitsrisiko deutlich senken. Dennoch fällt es vielen Menschen schwer, ihren Lebensstil [2] Grund auf zu verändern, da es häufig [3] der nötigen Motivation fehlt. Gesundheitsorganisationen fordern [4] diesem Hintergrund, Prävention bereits im Kindesalter systematisch zu verankern. Schulen können in [5] Hinsicht besonders wirksam sein, da sie täglich [6] junge Menschen einwirken. Es [7] sich nicht leugnen, dass ein inaktiver Lebensstil langfristig erhebliche Schäden verursacht. Digitale Gesundheitsanwendungen können [8] dazu beitragen, gesunde Gewohnheiten in den Alltag zu integrieren. [9] man sich jedoch kritisch mit den eigenen Daten auseinandersetzt, lassen sich auch Risiken minimieren. Insgesamt steht [10] Zweifel, dass Prävention langfristig sowohl Kosten als auch Leid erheblich reduziert.',
+    items: [
+      {
+        nr: 1,
+        optionen: ['darauf', 'daran', 'davon', 'dabei'],
+        erklaerung: '"hinweisen auf etw." → zamir formu: "darauf hinweisen". "auf etw." → "darauf".',
+      },
+      {
+        nr: 2,
+        optionen: ['von', 'im', 'an', 'aus'],
+        erklaerung: '"von Grund auf" = "temelden, kökten" kalıp ifade. "von" sabit.',
+      },
+      {
+        nr: 3,
+        optionen: ['an', 'bei', 'für', 'mit'],
+        erklaerung: '"es fehlt an + Dativ" = "... eksik olmak, ... yetersiz kalmak". "an" değişmez.',
+      },
+      {
+        nr: 4,
+        optionen: ['Vor', 'Mit', 'Auf', 'In'],
+        erklaerung: '"vor diesem Hintergrund" = "bu bağlamda, bu arka plana karşın" standart gazetecilik ifadesi.',
+      },
+      {
+        nr: 5,
+        optionen: ['dieser', 'jener', 'solcher', 'gewisser'],
+        erklaerung: '"in dieser Hinsicht" = "bu açıdan, bu bağlamda". "diese" = konuşma bağlamındaki unsuru işaret eder.',
+      },
+      {
+        nr: 6,
+        optionen: ['auf', 'in', 'für', 'gegen'],
+        erklaerung: '"einwirken auf + Akkusativ" = "... üzerinde etki etmek, etkilemek". "auf" bu fiilin sabit edatı.',
+      },
+      {
+        nr: 7,
+        optionen: ['lässt', 'darf', 'kann', 'muss'],
+        erklaerung: '"es lässt sich nicht leugnen" = "inkâr edilemez" kalıp ifade. "lassen + sich + Infinitiv" = pasif ikamesi.',
+      },
+      {
+        nr: 8,
+        optionen: ['erheblich', 'kaum', 'selten', 'wenig'],
+        erklaerung: '"erheblich dazu beitragen" = "önemli ölçüde katkıda bulunmak". Bağlam olumlu → "erheblich". "kaum/selten/wenig" zıt anlam.',
+      },
+      {
+        nr: 9,
+        optionen: ['Wenn', 'Bevor', 'Damit', 'Obwohl'],
+        erklaerung: '"Wenn man sich mit etw. auseinandersetzt" = koşul cümlesi. "Bevor" sıralama, "Damit" amaç, "Obwohl" zıtlık bildirir.',
+      },
+      {
+        nr: 10,
+        optionen: ['außer', 'ohne', 'über', 'unter'],
+        erklaerung: '"außer Zweifel stehen" = "şüphe götürmez olmak" kalıp ifade. "außer" değişmez.',
+      },
+    ],
+  },
+
+  // ── TEXT 6 ─────────────────────────────────────────────────────
+  {
+    id: 6,
+    titel: 'Migration und Integration',
+    thema: 'Gesellschaft · Bildung · Chancengleichheit',
+    schwierigkeit: 'Fortgeschritten',
+    text:
+      'Migration ist ein [1] Teil der Menschheitsgeschichte und prägt seit jeher Kulturen und Gesellschaften. In modernen Demokratien wird Integration nicht nur [2] einer gesellschaftlichen Aufgabe, sondern auch als kulturelle Bereicherung verstanden. Einwanderer bringen vielfältige Qualifikationen und Perspektiven [3] sich, die dem Aufnahmeland zugutekommen können. Integration kann [4] gelingen, wenn beide Seiten – die aufnehmende Gesellschaft und die Zugewanderten – aktiv beitragen. Sprachkompetenz gilt als [5] Schlüssel für eine erfolgreiche Eingliederung. Studien zeigen, dass Kinder [6] Migrationshintergrund bessere Bildungschancen haben, wenn sprachliche Förderung früh einsetzt. In vielen Ländern gibt es jedoch [7] strukturelle Diskriminierung auf dem Arbeitsmarkt. Politik und Gesellschaft sind [8] aufgefordert, diese Hindernisse systematisch abzubauen. Kulturelle Vielfalt [9] daher als gesellschaftliche Ressource begriffen werden, nicht als Bedrohung. Integration ist kein einmaliger Prozess, sondern eine [10] gesellschaftliche Aufgabe.',
+    items: [
+      {
+        nr: 1,
+        optionen: ['grundlegender', 'grundlegendes', 'grundlegende', 'grundlegend'],
+        erklaerung: '"ein grundlegender Teil" — "Teil" eril (der Teil), Nominativ, belirsiz artikel sonrası güçlü çekim: "-er".',
+      },
+      {
+        nr: 2,
+        optionen: ['als', 'wie', 'für', 'von'],
+        erklaerung: '"nicht nur als X, sondern auch als Y" = kalıp zıtlık yapısı. "als" her iki konumda sabit.',
+      },
+      {
+        nr: 3,
+        optionen: ['mit', 'bei', 'an', 'in'],
+        erklaerung: '"mit sich bringen" = "beraberinde getirmek, bünyesinde barındırmak" kalıp ifade. "mit" sabit.',
+      },
+      {
+        nr: 4,
+        optionen: ['nur dann', 'immer', 'leicht', 'selten'],
+        erklaerung: '"nur dann ... wenn" = "ancak ... durumunda" koşul kalıbı. "nur dann" + "wenn" birlikte kullanılır.',
+      },
+      {
+        nr: 5,
+        optionen: ['entscheidender', 'entscheidenden', 'entscheidendes', 'entscheidende'],
+        erklaerung: '"gilt als entscheidender Schlüssel" — "als" sonrası Nominativ, "Schlüssel" eril → güçlü çekim: "-er".',
+      },
+      {
+        nr: 6,
+        optionen: ['mit', 'ohne', 'aus', 'von'],
+        erklaerung: '"Kinder mit Migrationshintergrund" = "göç geçmişi olan çocuklar". "mit" sabit bağlaç.',
+      },
+      {
+        nr: 7,
+        optionen: ['nach wie vor', 'immer seltener', 'kaum noch', 'längst keine'],
+        erklaerung: '"nach wie vor" = "hâlâ, hâlihazırda" kalıp ifade. Bağlam "dennoch" (bununla birlikte) → olumsuz durum devam ediyor.',
+      },
+      {
+        nr: 8,
+        optionen: ['dazu', 'dabei', 'daran', 'davon'],
+        erklaerung: '"dazu aufgefordert sein, X zu tun" = "X yapmaya davet edilmek/çağrılmak". "auffordern zu" → "dazu".',
+      },
+      {
+        nr: 9,
+        optionen: ['muss', 'soll', 'darf', 'kann'],
+        erklaerung: '"muss ... begriffen werden" = normatif yükümlülük. Bağlam: "tehdit değil, kaynak olarak" → güçlü zorunluluk → "muss".',
+      },
+      {
+        nr: 10,
+        optionen: ['dauerhafte', 'einmalige', 'kurzfristige', 'leichte'],
+        erklaerung: '"eine dauerhafte Aufgabe" — "eine" + dişil Nominativ → zayıf çekim: "-e". "einmalige" (tek seferlik) bağlamla çelişir.',
+      },
+    ],
+  },
+
+  // ── TEXT 7 ─────────────────────────────────────────────────────
+  {
+    id: 7,
+    titel: 'Wissenschaft und Forschung',
+    thema: 'Universität · Integrität · Wissenschaftskommunikation',
+    schwierigkeit: 'Fortgeschritten',
+    text:
+      'Wissenschaftliche Forschung bildet die [1] Grundlage gesellschaftlichen Fortschritts. Neue Erkenntnisse tragen [2] bei, globale Herausforderungen zu bewältigen. Forschende stehen [3] der Pflicht, ihre Ergebnisse transparent und nachvollziehbar zu kommunizieren, [4] die Öffentlichkeit fundierte Entscheidungen treffen kann. Im [5] mit anderen Ländern zeigt Deutschland eine hohe Forschungsintensität. Universitäten sind [6], eine Kultur der wissenschaftlichen Integrität aktiv zu fördern. Staatliche Fördergelder tragen [7] bei, dass viele Projekte überhaupt realisiert werden können. Ohne diese Unterstützung würden zahlreiche Vorhaben nicht [8] kommen. Gleichzeitig wächst die Bedeutung internationaler Kooperationen, da komplexe Probleme [9] nationaler Grenzen angegangen werden müssen. Angesichts dieser Entwicklungen kommt der Wissenschaftskommunikation eine [10] Bedeutung zu, denn nur ein informiertes Publikum kann Forschungsergebnisse sinnvoll einordnen.',
+    items: [
+      {
+        nr: 1,
+        optionen: ['wesentliche', 'wesentlichen', 'wesentlicher', 'wesentliches'],
+        erklaerung: '"die wesentliche Grundlage" — "die" (bestimmter Artikel) + dişil Nominativ → zayıf çekim: "-e".',
+      },
+      {
+        nr: 2,
+        optionen: ['dazu', 'dabei', 'daran', 'davon'],
+        erklaerung: '"dazu beitragen, X zu tun" = "X yapmaya katkıda bulunmak". "beitragen zu" → zamir: "dazu".',
+      },
+      {
+        nr: 3,
+        optionen: ['in', 'unter', 'vor', 'bei'],
+        erklaerung: '"in der Pflicht stehen" = "yükümlülük sahibi olmak, sorumlu olmak" kalıp ifade. "in" değişmez.',
+      },
+      {
+        nr: 4,
+        optionen: ['damit', 'sodass', 'obwohl', 'wenn'],
+        erklaerung: '"damit" = amaç bağlacı (Finalsatz): araştırmacıların kasıtlı amacı kamuoyunu bilgilendirmek. "sodass" sonuç bildirirdi.',
+      },
+      {
+        nr: 5,
+        optionen: ['Vergleich', 'Gegensatz', 'Verhältnis', 'Unterschied'],
+        erklaerung: '"im Vergleich mit" = "-le karşılaştırıldığında". "Gegensatz/Verhältnis/Unterschied" "zu" edatını gerektirir ("zu" değil "mit").',
+      },
+      {
+        nr: 6,
+        optionen: ['dazu verpflichtet', 'dazu aufgefordert', 'daran interessiert', 'davon befreit'],
+        erklaerung: '"dazu verpflichtet sein, X zu tun" = "X yapmakla yükümlü olmak". Bağlam normatif → "verpflichtet". "davon befreit" = muaf olmak (zıt anlam).',
+      },
+      {
+        nr: 7,
+        optionen: ['wesentlich', 'kaum', 'wenig', 'selten'],
+        erklaerung: '"wesentlich dazu beitragen" = "önemli ölçüde katkıda bulunmak". Bağlam olumlu → "wesentlich". Diğerleri olumsuz/zayıf anlam.',
+      },
+      {
+        nr: 8,
+        optionen: ['zustande', 'zuwege', 'heraus', 'durch'],
+        erklaerung: '"zustande kommen" = "gerçekleşmek, hayata geçmek" kalıp ifade. "zuwege kommen" daha az yaygın; "heraus/durch kommen" farklı anlam.',
+      },
+      {
+        nr: 9,
+        optionen: ['jenseits', 'diesseits', 'innerhalb', 'außerhalb'],
+        erklaerung: '"jenseits nationaler Grenzen" = "ulusal sınırların ötesinde" akademik kalıp ifade. "außerhalb" fiziksel dışarıda olma, "jenseits" kavramsal aşma.',
+      },
+      {
+        nr: 10,
+        optionen: ['wachsende', 'wachsender', 'wachsendes', 'wachsendem'],
+        erklaerung: '"eine wachsende Bedeutung" — "eine" (belirsiz artikel) + dişil Nominativ → zayıf çekim: "-e".',
+      },
+    ],
+  },
+
 ];
 
 export function shuffleOptions(arr: string[]): string[] {
