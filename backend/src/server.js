@@ -13,7 +13,11 @@ import { requireAuth } from './middleware/auth.middleware.js';
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(cors({ origin: process.env.FRONTEND_URL }));
+const allowedOrigins = (process.env.FRONTEND_URL || '')
+  .split(',')
+  .map(o => o.trim())
+  .filter(Boolean);
+app.use(cors({ origin: allowedOrigins.length === 1 ? allowedOrigins[0] : allowedOrigins }));
 app.use(express.json({ limit: '20mb' }));
 app.use(express.urlencoded({ extended: true, limit: '20mb' }));
 
@@ -31,5 +35,5 @@ app.use((err, _req, res, _next) => {
 });
 
 connectDB().then(() => {
-  app.listen(PORT, () => console.log(`Backend çalışıyor: http://localhost:${PORT}`));
+  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 });
