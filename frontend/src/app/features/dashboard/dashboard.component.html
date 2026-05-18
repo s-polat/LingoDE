@@ -63,10 +63,18 @@
     }
   }
 
-  <!-- Hızlı Erişim -->
+  <!-- Hızlı Başla -->
   <div>
-    <h2 class="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-3">Hızlı Erişim</h2>
+    <h2 class="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-3">Hızlı Başla</h2>
     <div class="grid grid-cols-2 gap-3">
+      <a routerLink="/games/flashcard"
+         class="flex items-center gap-3 bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow">
+        <span class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center text-xl">🃏</span>
+        <div>
+          <p class="font-semibold text-slate-700 text-sm">Flashcard</p>
+          <p class="text-xs text-slate-400">Tekrar yap</p>
+        </div>
+      </a>
       <a routerLink="/vocabulary/add"
          class="flex items-center gap-3 bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow">
         <span class="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center text-xl">📷</span>
@@ -75,12 +83,12 @@
           <p class="text-xs text-slate-400">Kamera / Dosya</p>
         </div>
       </a>
-      <a routerLink="/games/flashcard"
+      <a routerLink="/tagesschreiben"
          class="flex items-center gap-3 bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow">
-        <span class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center text-xl">🃏</span>
+        <span class="w-10 h-10 bg-amber-100 rounded-lg flex items-center justify-center text-xl">📅</span>
         <div>
-          <p class="font-semibold text-slate-700 text-sm">Flashcard</p>
-          <p class="text-xs text-slate-400">Tekrar yap</p>
+          <p class="font-semibold text-slate-700 text-sm">Tages-Schreiben</p>
+          <p class="text-xs text-slate-400">Günlük pratik</p>
         </div>
       </a>
       <a routerLink="/grammar"
@@ -91,116 +99,12 @@
           <p class="text-xs text-slate-400">Dersler</p>
         </div>
       </a>
-      <a routerLink="/games/matching"
-         class="flex items-center gap-3 bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow">
-        <span class="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center text-xl">🎯</span>
-        <div>
-          <p class="font-semibold text-slate-700 text-sm">Eşleştirme</p>
-          <p class="text-xs text-slate-400">Oyun</p>
-        </div>
-      </a>
-      <a routerLink="/praepositionalverben"
-         class="col-span-2 flex items-center gap-3 bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow">
-        <span class="w-10 h-10 bg-pink-100 rounded-lg flex items-center justify-center text-xl">🔗</span>
-        <div>
-          <p class="font-semibold text-slate-700 text-sm">Präpositionalverben</p>
-          <p class="text-xs text-slate-400">Edatlı fiiller & boşluk doldurma</p>
-        </div>
-      </a>
-      <a routerLink="/nvv"
-         class="col-span-2 flex items-center gap-3 bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow">
-        <span class="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center text-xl">🧩</span>
-        <div>
-          <p class="font-semibold text-slate-700 text-sm">Nomen-Verb-Verbindungen</p>
-          <p class="text-xs text-slate-400">80 NVV ifadesi & boşluk doldurma</p>
-        </div>
-      </a>
-      <a routerLink="/schreibtrainer"
-         class="col-span-2 flex items-center gap-3 bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow">
-        <span class="w-10 h-10 bg-rose-100 rounded-lg flex items-center justify-center text-xl">✍️</span>
-        <div>
-          <p class="font-semibold text-slate-700 text-sm">Schreibtrainer</p>
-          <p class="text-xs text-slate-400">C1 yazma pratiği & AI değerlendirme</p>
-        </div>
-      </a>
-      <a routerLink="/redemittel"
-         class="col-span-2 flex items-center gap-3 bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow">
-        <span class="w-10 h-10 bg-violet-100 rounded-lg flex items-center justify-center text-xl">🗣️</span>
-        <div>
-          <p class="font-semibold text-slate-700 text-sm">Redemittel-Trainer</p>
-          <p class="text-xs text-slate-400">58 kalıp ifade · telc C1 yazma & konuşma</p>
-        </div>
-      </a>
-      <a routerLink="/passivtrainer"
-         class="col-span-2 flex items-center gap-3 bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow">
-        <span class="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center text-xl">🔄</span>
-        <div>
-          <p class="font-semibold text-slate-700 text-sm">Passiv-Trainer</p>
-          <p class="text-xs text-slate-400">Aktif → Pasif dönüşümü · 7 yapı · 54 alıştırma</p>
-        </div>
-      </a>
-      <a routerLink="/konjunktiv2"
-         class="col-span-2 flex items-center gap-3 bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow">
-        <span class="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center text-xl">💫</span>
-        <div>
-          <p class="font-semibold text-slate-700 text-sm">Konjunktiv II Trainer</p>
-          <p class="text-xs text-slate-400">İndikatif → Konj. II dönüşümü · 7 yapı · 56 alıştırma</p>
-        </div>
-      </a>
-      <a routerLink="/sprachbausteine"
-         class="col-span-2 flex items-center gap-3 bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow">
-        <span class="w-10 h-10 bg-violet-100 rounded-lg flex items-center justify-center text-xl">📝</span>
-        <div>
-          <p class="font-semibold text-slate-700 text-sm">Sprachbausteine</p>
-          <p class="text-xs text-slate-400">telc C1 boşluk doldurma · 7 metin · edat & bağlaç pratiği</p>
-        </div>
-      </a>
       <a routerLink="/leseverstehen"
-         class="col-span-2 flex items-center gap-3 bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow">
+         class="flex items-center gap-3 bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow">
         <span class="w-10 h-10 bg-teal-100 rounded-lg flex items-center justify-center text-xl">📖</span>
         <div>
           <p class="font-semibold text-slate-700 text-sm">Leseverstehen</p>
-          <p class="text-xs text-slate-400">Goethe C1 / TestDaF / DSH okuma pratiği</p>
-        </div>
-      </a>
-      <a routerLink="/muendlich"
-         class="col-span-2 flex items-center gap-3 bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow">
-        <span class="w-10 h-10 bg-sky-100 rounded-lg flex items-center justify-center text-xl">🎙️</span>
-        <div>
-          <p class="font-semibold text-slate-700 text-sm">Mündlicher Ausdruck</p>
-          <p class="text-xs text-slate-400">TELC C1 Kurzreferat · 16 tema · AI değerlendirme</p>
-        </div>
-      </a>
-      <a routerLink="/kollokationen"
-         class="col-span-2 flex items-center gap-3 bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow">
-        <span class="w-10 h-10 bg-teal-100 rounded-lg flex items-center justify-center text-xl">🔗</span>
-        <div>
-          <p class="font-semibold text-slate-700 text-sm">Kollokationen</p>
-          <p class="text-xs text-slate-400">TELC C1 · 60 sabit ifade · boşluk doldurma</p>
-        </div>
-      </a>
-      <a routerLink="/satzstellung"
-         class="col-span-2 flex items-center gap-3 bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow">
-        <span class="w-10 h-10 bg-violet-100 rounded-lg flex items-center justify-center text-xl">🧱</span>
-        <div>
-          <p class="font-semibold text-slate-700 text-sm">Satzstellung</p>
-          <p class="text-xs text-slate-400">TELC C1 · 40 alıştırma · kelime sıralaması</p>
-        </div>
-      </a>
-      <a routerLink="/tagesschreiben"
-         class="col-span-2 flex items-center gap-3 bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow">
-        <span class="w-10 h-10 bg-amber-100 rounded-lg flex items-center justify-center text-xl">📅</span>
-        <div>
-          <p class="font-semibold text-slate-700 text-sm">Tages-Schreiben</p>
-          <p class="text-xs text-slate-400">Günlük 15 dk yazma pratiği · AI değerlendirme · seri</p>
-        </div>
-      </a>
-      <a routerLink="/hochschulschreibtrainer"
-         class="col-span-2 flex items-center gap-3 bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow">
-        <span class="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center text-xl">🎓</span>
-        <div>
-          <p class="font-semibold text-slate-700 text-sm">Hochschul-Schreibtrainer</p>
-          <p class="text-xs text-slate-400">TestDaF / DSH yazma pratiği & AI değerlendirme</p>
+          <p class="text-xs text-slate-400">Okuma pratiği</p>
         </div>
       </a>
     </div>

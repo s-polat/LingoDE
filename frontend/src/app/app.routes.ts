@@ -117,6 +117,12 @@ export const routes: Routes = [
       import('./features/tagesschreiben/tagesschreiben.component').then((m) => m.TagesschreibenComponent),
   },
   {
+    path: 'yazma',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./features/yazma/yazma.component').then((m) => m.YazmaComponent),
+  },
+  {
     path: 'profile',
     canActivate: [authGuard],
     loadComponent: () =>

@@ -15,8 +15,8 @@ export class AppComponent {
   navItems = [
     { path: '/dashboard', label: 'Ana Sayfa', icon: 'home' },
     { path: '/vocabulary', label: 'Kelimeler', icon: 'book' },
-    { path: '/games', label: 'Oyunlar', icon: 'game' },
+    { path: '/yazma', label: 'Yazma', icon: 'pencil' },
     { path: '/grammar', label: 'Gramer', icon: 'graduation' },
-    { path: '/praepositionalverben', label: 'Edatlar', icon: 'link' },
+    { path: '/games', label: 'Oyunlar', icon: 'game' },
   ];
 }

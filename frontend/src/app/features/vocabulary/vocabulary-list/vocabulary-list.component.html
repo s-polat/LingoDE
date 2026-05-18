@@ -2,10 +2,38 @@
 
   <!-- Başlık + Ekle butonu -->
   <div class="flex items-center justify-between">
-    <h2 class="text-xl font-bold text-slate-800">Kelimelerim</h2>
+    <h2 class="text-xl font-bold text-slate-800">Kelimeler</h2>
     <a routerLink="/vocabulary/add"
        class="bg-primary-600 text-white px-4 py-2 rounded-xl text-sm font-semibold flex items-center gap-1">
       + Ekle
+    </a>
+  </div>
+
+  <!-- Kelime Araçları -->
+  <div class="flex gap-3 overflow-x-auto pb-1 -mx-4 px-4">
+    <a routerLink="/nvv"
+       class="flex-shrink-0 flex items-center gap-2 bg-white rounded-xl px-3 py-2.5 shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+      <span class="text-lg">🧩</span>
+      <div>
+        <p class="text-xs font-semibold text-slate-700 whitespace-nowrap">NVV</p>
+        <p class="text-xs text-slate-400">Nomen-Verb</p>
+      </div>
+    </a>
+    <a routerLink="/kollokationen"
+       class="flex-shrink-0 flex items-center gap-2 bg-white rounded-xl px-3 py-2.5 shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+      <span class="text-lg">🔗</span>
+      <div>
+        <p class="text-xs font-semibold text-slate-700 whitespace-nowrap">Kollokationen</p>
+        <p class="text-xs text-slate-400">60 ifade</p>
+      </div>
+    </a>
+    <a routerLink="/praepositionalverben"
+       class="flex-shrink-0 flex items-center gap-2 bg-white rounded-xl px-3 py-2.5 shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+      <span class="text-lg">📌</span>
+      <div>
+        <p class="text-xs font-semibold text-slate-700 whitespace-nowrap">Präpositionen</p>
+        <p class="text-xs text-slate-400">Edatlı fiiller</p>
+      </div>
     </a>
   </div>
 

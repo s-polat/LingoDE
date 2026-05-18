@@ -1,0 +1,26 @@
+<div class="p-4 pb-8 space-y-4">
+
+  <div class="bg-gradient-to-r from-rose-500 to-pink-600 rounded-2xl p-5 text-white">
+    <h1 class="text-xl font-bold">Yazma & Pratik</h1>
+    <p class="text-rose-100 text-sm mt-1">TELC C1 · TestDaF · DSH sınav pratiği</p>
+  </div>
+
+  <div class="space-y-3">
+    @for (tool of tools; track tool.path) {
+      <a [routerLink]="tool.path"
+         class="flex items-center gap-3 bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow">
+        <span class="w-12 h-12 rounded-xl flex items-center justify-center text-2xl flex-shrink-0" [class]="tool.color">
+          {{ tool.emoji }}
+        </span>
+        <div class="min-w-0">
+          <p class="font-semibold text-slate-800 text-sm">{{ tool.title }}</p>
+          <p class="text-xs text-slate-400 mt-0.5">{{ tool.desc }}</p>
+        </div>
+        <svg class="w-4 h-4 text-slate-300 flex-shrink-0 ml-auto" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+        </svg>
+      </a>
+    }
+  </div>
+
+</div>
