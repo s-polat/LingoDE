@@ -1,9 +1,18 @@
 <div class="flex flex-col h-full max-w-lg mx-auto relative">
   <!-- Header -->
-  <header class="bg-primary-700 text-white px-4 py-3 flex items-center justify-between shadow-md flex-shrink-0">
-    <div class="flex items-center gap-2">
-      <span class="text-2xl">🇩🇪</span>
-      <span class="font-bold text-lg tracking-tight">LingoDe</span>
+  <header class="text-white px-4 py-3.5 flex items-center justify-between flex-shrink-0 relative overflow-hidden"
+          style="background: linear-gradient(135deg, #1a0533 0%, #4c1d95 55%, #7c3aed 100%); box-shadow: 0 2px 24px rgba(109,40,217,0.5);">
+    <!-- Orange glow — ikonun turuncu aksanını yansıtır -->
+    <div class="absolute right-0 top-0 w-36 h-full pointer-events-none"
+         style="background: radial-gradient(ellipse at 80% 50%, rgba(249,115,22,0.18) 0%, transparent 70%);"></div>
+    <div class="flex items-center gap-3 relative">
+      <img src="icons/icon-64x64.png" alt="LingoDe"
+           class="w-10 h-10 rounded-xl flex-shrink-0"
+           style="box-shadow: 0 0 18px rgba(167,139,250,0.65), 0 4px 14px rgba(0,0,0,0.45), -1px -1px 3px rgba(255,255,255,0.18);">
+      <div class="leading-none">
+        <p class="font-bold text-lg tracking-tight">LingoDe</p>
+        <p class="text-xs mt-0.5" style="color: rgba(196,181,253,0.85);">Almanca öğrenme</p>
+      </div>
     </div>
   </header>
 
