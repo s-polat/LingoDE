@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { ToastComponent } from './shared/components/toast/toast.component';
+import { AuthService } from './core/services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -10,6 +11,7 @@ import { ToastComponent } from './shared/components/toast/toast.component';
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
+  auth = inject(AuthService);
   navItems = [
     { path: '/dashboard', label: 'Ana Sayfa', icon: 'home' },
     { path: '/vocabulary', label: 'Kelimeler', icon: 'book' },
