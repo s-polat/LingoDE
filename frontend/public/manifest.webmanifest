@@ -1,7 +1,7 @@
 {
   "name": "LingoDe",
   "short_name": "LingoDe",
-  "description": "Almanca öğrenme uygulaması",
+  "description": "German language learning app for TELC C1 exam preparation",
   "theme_color": "#1a0533",
   "background_color": "#1a0533",
   "display": "standalone",
