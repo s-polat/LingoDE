@@ -65,14 +65,14 @@ export async function reviewWord(req, res) {
   await word.save();
 
   const inc = { $inc: { reviewed: 1, ...(quality >= 3 ? { correct: 1 } : {}) } };
-  await ActivityLog.findOneAndUpdate({ date: todayStr() }, inc, { upsert: true });
+  await ActivityLog.findOneAndUpdate({ userId: req.user.uid, date: todayStr() }, inc, { upsert: true });
 
   res.json({ success: true, data: word });
 }
 
 export async function getActivity(req, res) {
   const days = 30;
-  const logs = await ActivityLog.find().sort({ date: -1 }).limit(days);
+  const logs = await ActivityLog.find({ userId: req.user.uid }).sort({ date: -1 }).limit(days);
   const map = Object.fromEntries(logs.map((l) => [l.date, { reviewed: l.reviewed, correct: l.correct }]));
 
   const result = [];
