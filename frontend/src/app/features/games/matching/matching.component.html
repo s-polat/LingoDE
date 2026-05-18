@@ -94,7 +94,7 @@
 
     <!-- Üst bar -->
     <div class="flex items-center justify-between">
-      <button (click)="backToSetup()" class="text-slate-400 text-sm">← Çık</button>
+      <button (click)="backToSetup()" class="text-slate-400 text-sm hover:text-slate-600 transition-colors">← Çık</button>
       <div class="flex gap-4 text-sm">
         <span class="text-slate-500">⏱ <strong class="text-slate-700">{{ formatTime(seconds) }}</strong></span>
         <span class="text-slate-500">🎯 <strong class="text-slate-700">{{ matchedCount }}/{{ totalPairs }}</strong></span>
