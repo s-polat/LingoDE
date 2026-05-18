@@ -54,7 +54,7 @@
       <div class="space-y-2">
         @for (opt of mcOptions; track opt) {
           <button (click)="selectOption(opt)"
-                  class="w-full text-left px-4 py-3 rounded-xl border text-sm font-medium transition-colors"
+                  class="w-full text-left px-4 py-3.5 rounded-xl border text-sm font-medium transition-colors min-h-[48px] flex items-center"
                   [class]="optionClass(opt)">
             {{ opt }}
           </button>

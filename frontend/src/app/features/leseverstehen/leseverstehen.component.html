@@ -110,7 +110,7 @@
           <div class="space-y-2">
             @for (opt of frage.optionen; track $index) {
               <button (click)="setAnswer(frage.nr, opt[0])"
-                      class="w-full text-left px-4 py-2.5 rounded-xl border text-sm transition-colors"
+                      class="w-full text-left px-4 py-3.5 rounded-xl border text-sm transition-colors min-h-[48px] flex items-center"
                       [class]="userAnswers[frage.nr] === opt[0]
                         ? 'border-teal-400 bg-teal-50 text-teal-800 font-medium'
                         : 'border-slate-100 text-slate-700 hover:border-teal-200'">
@@ -124,7 +124,7 @@
           <div class="space-y-2">
             @for (opt of frage.optionen; track $index) {
               <button (click)="setAnswer(frage.nr, opt[0])"
-                      class="w-full text-left px-4 py-2.5 rounded-xl border text-sm transition-colors"
+                      class="w-full text-left px-4 py-3.5 rounded-xl border text-sm transition-colors min-h-[48px] flex items-center"
                       [class]="userAnswers[frage.nr] === opt[0]
                         ? 'border-teal-400 bg-teal-50 text-teal-800 font-medium'
                         : 'border-slate-100 text-slate-700 hover:border-teal-200'">
