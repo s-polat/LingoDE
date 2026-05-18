@@ -64,6 +64,11 @@ export const routes: Routes = [
       import('./features/passivtrainer/passivtrainer.component').then((m) => m.PassivtrainerComponent),
   },
   {
+    path: 'konjunktiv2',
+    loadComponent: () =>
+      import('./features/konjunktiv2/konjunktiv2.component').then((m) => m.Konjunktiv2Component),
+  },
+  {
     path: 'profile',
     loadComponent: () =>
       import('./features/profile/profile.component').then((m) => m.ProfileComponent),
