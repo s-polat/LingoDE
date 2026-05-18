@@ -1,7 +1,34 @@
+export interface KalipNvv {
+  type: 'nvv';
+  phrase: string;
+  noun: string;
+  verb: string;
+  article: string;
+  equivalent_verb: string;
+  meaning_tr: string;
+  example_de: string;
+  example_tr: string;
+  category: string;
+}
+
+export interface KalipPv {
+  type: 'pv';
+  verb: string;
+  preposition: string;
+  case: string;
+  meaning_tr: string;
+  example_de: string;
+  example_tr: string;
+  level: string;
+}
+
+export type Kalip = KalipNvv | KalipPv;
+
 export interface SprachbausteineItem {
   nr: number;
   optionen: [string, string, string, string]; // [0] = doğru cevap
   erklaerung: string;
+  kalip?: Kalip;
 }
 
 export interface SprachbausteineText {
@@ -33,6 +60,18 @@ export const SPRACHBAUSTEINE_TEXTE: SprachbausteineText[] = [
         nr: 2,
         optionen: ['zur', 'für', 'in', 'an'],
         erklaerung: '"zur Verfügung stehen" = "mevcut olmak" sabit ifade. "zu" + Dativ → "zur".',
+        kalip: {
+          type: 'nvv',
+          phrase: 'zur Verfügung stehen',
+          noun: 'Verfügung',
+          verb: 'stehen',
+          article: 'die',
+          equivalent_verb: 'verfügbar sein',
+          meaning_tr: 'mevcut olmak, erişilebilir olmak',
+          example_de: 'Das Angebot steht allen Nutzern zur Verfügung.',
+          example_tr: 'Teklif tüm kullanıcılara açıktır.',
+          category: 'Zustand',
+        },
       },
       {
         nr: 3,
@@ -48,11 +87,33 @@ export const SPRACHBAUSTEINE_TEXTE: SprachbausteineText[] = [
         nr: 5,
         optionen: ['an', 'bei', 'für', 'mit'],
         erklaerung: '"es fehlt an + Dativ" = "... eksik" sabit ifade. "an" bu yapıda değişmez.',
+        kalip: {
+          type: 'pv',
+          verb: 'fehlen',
+          preposition: 'an',
+          case: 'Dativ',
+          meaning_tr: '... eksik olmak, ... yetersiz kalmak',
+          example_de: 'Es fehlt an der notwendigen technischen Ausstattung.',
+          example_tr: 'Gerekli teknik donanım eksiktir.',
+          level: 'B2',
+        },
       },
       {
         nr: 6,
         optionen: ['außer', 'ohne', 'über', 'unter'],
         erklaerung: '"außer Zweifel stehen" = "şüphe götürmez olmak". Kalıp ifade, "außer" değişmez.',
+        kalip: {
+          type: 'nvv',
+          phrase: 'außer Zweifel stehen',
+          noun: 'Zweifel',
+          verb: 'stehen',
+          article: 'der',
+          equivalent_verb: 'unzweifelhaft sein',
+          meaning_tr: 'şüphe götürmez olmak',
+          example_de: 'Es steht außer Zweifel, dass digitale Kompetenzen unverzichtbar sind.',
+          example_tr: 'Dijital becerilerin zorunlu olduğu şüphe götürmez.',
+          category: 'Zustand',
+        },
       },
       {
         nr: 7,
@@ -100,11 +161,31 @@ export const SPRACHBAUSTEINE_TEXTE: SprachbausteineText[] = [
         nr: 3,
         optionen: ['auf', 'für', 'an', 'gegen'],
         erklaerung: '"reagieren auf + Akkusativ" = "...e tepki vermek / yanıt vermek". "auf" bu fiilin sabit edatı.',
+        kalip: {
+          type: 'pv',
+          verb: 'reagieren',
+          preposition: 'auf',
+          case: 'Akkusativ',
+          meaning_tr: '... tepki vermek, yanıt vermek',
+          example_de: 'Unternehmen reagieren auf die steigende Nachfrage.',
+          example_tr: 'Şirketler artan talebe yanıt veriyor.',
+          level: 'B2',
+        },
       },
       {
         nr: 4,
         optionen: ['darauf', 'daran', 'davon', 'dabei'],
         erklaerung: '"hinweisen auf etwas" → zamir formu: "darauf hinweisen". "auf etw." → "darauf".',
+        kalip: {
+          type: 'pv',
+          verb: 'hinweisen',
+          preposition: 'auf',
+          case: 'Akkusativ',
+          meaning_tr: '... dikkat çekmek, işaret etmek',
+          example_de: 'Kritiker weisen darauf hin, dass Greenwashing weit verbreitet ist.',
+          example_tr: 'Eleştirmenler, greenwashing\'in yaygın olduğuna dikkat çekiyor.',
+          level: 'C1',
+        },
       },
       {
         nr: 5,
@@ -115,6 +196,18 @@ export const SPRACHBAUSTEINE_TEXTE: SprachbausteineText[] = [
         nr: 6,
         optionen: ['die Lage', 'der Lage', 'eine Lage', 'einer Lage'],
         erklaerung: '"in die Lage versetzen" = "imkân tanımak, muktedir kılmak". Akküzatif: "die Lage". Kalıp ifade.',
+        kalip: {
+          type: 'nvv',
+          phrase: 'in die Lage versetzen',
+          noun: 'Lage',
+          verb: 'versetzen',
+          article: 'die',
+          equivalent_verb: 'ermöglichen',
+          meaning_tr: 'imkân tanımak, muktedir kılmak',
+          example_de: 'Die Maßnahmen sollen Verbraucher in die Lage versetzen, bewusste Entscheidungen zu treffen.',
+          example_tr: 'Önlemler tüketicilerin bilinçli kararlar almasını sağlamalıdır.',
+          category: 'Handlung',
+        },
       },
       {
         nr: 7,
@@ -135,6 +228,18 @@ export const SPRACHBAUSTEINE_TEXTE: SprachbausteineText[] = [
         nr: 10,
         optionen: ['Ausdruck', 'Wort', 'Vorschein', 'Geltung'],
         erklaerung: '"zum Ausdruck bringen" = "dile getirmek, ifade etmek" kalıp ifade. "zum Ausdruck" sabit.',
+        kalip: {
+          type: 'nvv',
+          phrase: 'zum Ausdruck bringen',
+          noun: 'Ausdruck',
+          verb: 'bringen',
+          article: 'der',
+          equivalent_verb: 'ausdrücken',
+          meaning_tr: 'dile getirmek, ifade etmek',
+          example_de: 'Das Kunstwerk bringt gesellschaftliche Werte zum Ausdruck.',
+          example_tr: 'Sanat eseri toplumsal değerleri ifade etmektedir.',
+          category: 'Kommunikation',
+        },
       },
     ],
   },
@@ -157,6 +262,16 @@ export const SPRACHBAUSTEINE_TEXTE: SprachbausteineText[] = [
         nr: 2,
         optionen: ['zwischen', 'in', 'durch', 'über'],
         erklaerung: '"zwischen ... wechseln" = "... arasında geçiş yapmak". "wechseln" fiili "zwischen + Dativ" ile kullanılır.',
+        kalip: {
+          type: 'pv',
+          verb: 'wechseln',
+          preposition: 'zwischen',
+          case: 'Dativ',
+          meaning_tr: '... arasında geçiş yapmak',
+          example_de: 'Mehrsprachige Kinder können leichter zwischen verschiedenen Perspektiven wechseln.',
+          example_tr: 'Çok dilli çocuklar farklı bakış açıları arasında daha kolay geçiş yapabilir.',
+          level: 'B2',
+        },
       },
       {
         nr: 3,
@@ -187,6 +302,16 @@ export const SPRACHBAUSTEINE_TEXTE: SprachbausteineText[] = [
         nr: 8,
         optionen: ['dazu', 'dabei', 'darauf', 'daran'],
         erklaerung: '"raten zu + Dativ" → zamir formu: "dazu raten, etwas zu tun". "zu etw." → "dazu".',
+        kalip: {
+          type: 'pv',
+          verb: 'raten',
+          preposition: 'zu',
+          case: 'Dativ',
+          meaning_tr: '... tavsiye etmek, önermek',
+          example_de: 'Experten raten dazu, beide Sprachen konsequent zu fördern.',
+          example_tr: 'Uzmanlar her iki dili düzenli olarak desteklemeyi tavsiye ediyor.',
+          level: 'B2',
+        },
       },
       {
         nr: 9,
@@ -224,6 +349,18 @@ export const SPRACHBAUSTEINE_TEXTE: SprachbausteineText[] = [
         nr: 3,
         optionen: ['unter', 'in', 'an', 'bei'],
         erklaerung: '"unter Druck geraten" = "baskı altına girmek" kalıp ifade. "unter" değişmez.',
+        kalip: {
+          type: 'nvv',
+          phrase: 'unter Druck geraten',
+          noun: 'Druck',
+          verb: 'geraten',
+          article: 'der',
+          equivalent_verb: 'unter Stress stehen',
+          meaning_tr: 'baskı altına girmek',
+          example_de: 'Viele Regierungen sind unter Druck geraten, ihre Klimaschutzziele zu verschärfen.',
+          example_tr: 'Pek çok hükümet iklim koruma hedeflerini sıkılaştırmak için baskı altına girdi.',
+          category: 'Zustand',
+        },
       },
       {
         nr: 4,
@@ -249,11 +386,31 @@ export const SPRACHBAUSTEINE_TEXTE: SprachbausteineText[] = [
         nr: 8,
         optionen: ['darauf', 'dazu', 'dabei', 'daran'],
         erklaerung: '"sich einigen auf etw." → zamir formu: "sich darauf geeinigt, X zu tun". "auf etw." → "darauf".',
+        kalip: {
+          type: 'pv',
+          verb: 'sich einigen',
+          preposition: 'auf',
+          case: 'Akkusativ',
+          meaning_tr: '... üzerinde uzlaşmak, anlaşmak',
+          example_de: 'Die Weltgemeinschaft hat sich darauf geeinigt, gemeinsam vorzugehen.',
+          example_tr: 'Dünya topluluğu birlikte hareket etmek için anlaşmıştır.',
+          level: 'C1',
+        },
       },
       {
         nr: 9,
         optionen: ['an', 'bei', 'für', 'mit'],
         erklaerung: '"scheitern an + Dativ" = "... yüzünden başarısız olmak". "an" bu fiilin sabit edatı.',
+        kalip: {
+          type: 'pv',
+          verb: 'scheitern',
+          preposition: 'an',
+          case: 'Dativ',
+          meaning_tr: '... yüzünden başarısız olmak, ... engeliyle karşılaşmak',
+          example_de: 'Die Umsetzung scheitert häufig an dem nötigen politischen Willen.',
+          example_tr: 'Uygulama çoğu zaman gerekli siyasi irade eksikliği nedeniyle başarısız oluyor.',
+          level: 'C1',
+        },
       },
       {
         nr: 10,
@@ -301,6 +458,16 @@ export const SPRACHBAUSTEINE_TEXTE: SprachbausteineText[] = [
         nr: 6,
         optionen: ['auf', 'in', 'für', 'gegen'],
         erklaerung: '"einwirken auf + Akkusativ" = "... üzerinde etki etmek, etkilemek". "auf" bu fiilin sabit edatı.',
+        kalip: {
+          type: 'pv',
+          verb: 'einwirken',
+          preposition: 'auf',
+          case: 'Akkusativ',
+          meaning_tr: '... üzerinde etki etmek, etkilemek',
+          example_de: 'Schulen können täglich auf junge Menschen einwirken.',
+          example_tr: 'Okullar her gün genç insanlar üzerinde etki bırakabilir.',
+          level: 'C1',
+        },
       },
       {
         nr: 7,
@@ -348,6 +515,18 @@ export const SPRACHBAUSTEINE_TEXTE: SprachbausteineText[] = [
         nr: 3,
         optionen: ['mit', 'bei', 'an', 'in'],
         erklaerung: '"mit sich bringen" = "beraberinde getirmek, bünyesinde barındırmak" kalıp ifade. "mit" sabit.',
+        kalip: {
+          type: 'nvv',
+          phrase: 'mit sich bringen',
+          noun: 'sich',
+          verb: 'bringen',
+          article: '—',
+          equivalent_verb: 'zur Folge haben',
+          meaning_tr: 'beraberinde getirmek, gerektirmek',
+          example_de: 'Einwanderer bringen vielfältige Qualifikationen mit sich.',
+          example_tr: 'Göçmenler beraberinde çeşitli nitelikler getiriyor.',
+          category: 'Handlung',
+        },
       },
       {
         nr: 4,
@@ -373,6 +552,16 @@ export const SPRACHBAUSTEINE_TEXTE: SprachbausteineText[] = [
         nr: 8,
         optionen: ['dazu', 'dabei', 'daran', 'davon'],
         erklaerung: '"dazu aufgefordert sein, X zu tun" = "X yapmaya davet edilmek/çağrılmak". "auffordern zu" → "dazu".',
+        kalip: {
+          type: 'pv',
+          verb: 'auffordern',
+          preposition: 'zu',
+          case: 'Dativ',
+          meaning_tr: '... yapmaya çağırmak, davet etmek',
+          example_de: 'Politik und Gesellschaft sind dazu aufgefordert, Hindernisse abzubauen.',
+          example_tr: 'Siyaset ve toplum engelleri ortadan kaldırmaya çağrılmaktadır.',
+          level: 'C1',
+        },
       },
       {
         nr: 9,
@@ -405,11 +594,33 @@ export const SPRACHBAUSTEINE_TEXTE: SprachbausteineText[] = [
         nr: 2,
         optionen: ['dazu', 'dabei', 'daran', 'davon'],
         erklaerung: '"dazu beitragen, X zu tun" = "X yapmaya katkıda bulunmak". "beitragen zu" → zamir: "dazu".',
+        kalip: {
+          type: 'pv',
+          verb: 'beitragen',
+          preposition: 'zu',
+          case: 'Dativ',
+          meaning_tr: '... katkıda bulunmak',
+          example_de: 'Neue Erkenntnisse tragen dazu bei, globale Herausforderungen zu bewältigen.',
+          example_tr: 'Yeni bulgular küresel zorluklarla başa çıkmaya katkıda bulunur.',
+          level: 'B2',
+        },
       },
       {
         nr: 3,
         optionen: ['in', 'unter', 'vor', 'bei'],
         erklaerung: '"in der Pflicht stehen" = "yükümlülük sahibi olmak, sorumlu olmak" kalıp ifade. "in" değişmez.',
+        kalip: {
+          type: 'nvv',
+          phrase: 'in der Pflicht stehen',
+          noun: 'Pflicht',
+          verb: 'stehen',
+          article: 'die',
+          equivalent_verb: 'verpflichtet sein',
+          meaning_tr: 'yükümlülük sahibi olmak, sorumlu olmak',
+          example_de: 'Forschende stehen in der Pflicht, ihre Ergebnisse transparent zu kommunizieren.',
+          example_tr: 'Araştırmacılar sonuçlarını şeffaf biçimde iletmekle yükümlüdür.',
+          category: 'Zustand',
+        },
       },
       {
         nr: 4,
@@ -435,6 +646,18 @@ export const SPRACHBAUSTEINE_TEXTE: SprachbausteineText[] = [
         nr: 8,
         optionen: ['zustande', 'zuwege', 'heraus', 'durch'],
         erklaerung: '"zustande kommen" = "gerçekleşmek, hayata geçmek" kalıp ifade. "zuwege kommen" daha az yaygın; "heraus/durch kommen" farklı anlam.',
+        kalip: {
+          type: 'nvv',
+          phrase: 'zustande kommen',
+          noun: 'Zustande',
+          verb: 'kommen',
+          article: '—',
+          equivalent_verb: 'gelingen, entstehen',
+          meaning_tr: 'gerçekleşmek, hayata geçmek',
+          example_de: 'Ohne finanzielle Unterstützung würden viele Projekte nicht zustande kommen.',
+          example_tr: 'Mali destek olmadan pek çok proje gerçekleşemezdi.',
+          category: 'Handlung',
+        },
       },
       {
         nr: 9,

@@ -1,15 +1,19 @@
-import { readFileSync } from 'fs';
+import { readFileSync, writeFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-const allVerbs = JSON.parse(
-  readFileSync(join(__dirname, '../data/praepositionalverben.json'), 'utf-8')
-);
+const __dirname  = dirname(fileURLToPath(import.meta.url));
+const PV_PATH       = join(__dirname, '../data/praepositionalverben.json');
+const PV_SAVED_PATH = join(__dirname, '../data/pv-saved.json');
+
+let allVerbs   = JSON.parse(readFileSync(PV_PATH,       'utf-8'));
+let savedVerbs = JSON.parse(readFileSync(PV_SAVED_PATH, 'utf-8'));
+
+function pool() { return [...allVerbs, ...savedVerbs]; }
 
 export function getAll(req, res) {
   const { level, search } = req.query;
-  let result = allVerbs;
+  let result = pool();
   if (level) result = result.filter((v) => v.level === level);
   if (search) {
     const q = search.toLowerCase();
@@ -21,44 +25,65 @@ export function getAll(req, res) {
 }
 
 export function lookupVerb(req, res) {
-  const verb = req.params.verb.toLowerCase();
-  const matches = allVerbs.filter((v) => v.verb.toLowerCase() === verb);
+  const verb    = req.params.verb.toLowerCase();
+  const matches = pool().filter((v) => v.verb.toLowerCase() === verb);
   res.json({ success: true, data: matches });
 }
 
 export function getExercises(req, res) {
   const { level, page = 1 } = req.query;
   const pageSize = 20;
-  let pool = allVerbs;
-  if (level) pool = pool.filter((v) => v.level === level);
+  let p = pool();
+  if (level) p = p.filter((v) => v.level === level);
 
-  // shuffle deterministically enough for pagination
-  const shuffled = [...pool].sort((a, b) => (a.verb + a.preposition).localeCompare(b.verb + b.preposition));
-  const start = (page - 1) * pageSize;
-  const batch = shuffled.slice(start, start + pageSize);
+  const shuffled = [...p].sort((a, b) => (a.verb + a.preposition).localeCompare(b.verb + b.preposition));
+  const start    = (page - 1) * pageSize;
+  const batch    = shuffled.slice(start, start + pageSize);
 
   const exercises = batch.map((v) => ({
-    id: `${v.verb}-${v.preposition}`,
-    verb: v.verb,
+    id:               `${v.verb}-${v.preposition}`,
+    verb:             v.verb,
     sentence_with_gap: buildGap(v),
-    options: buildOptions(v, pool),
-    answer: v.preposition,
-    meaning_tr: v.meaning_tr,
-    example_tr: v.example_tr,
-    case: v.case,
-    level: v.level,
+    options:          buildOptions(v, p),
+    answer:           v.preposition,
+    meaning_tr:       v.meaning_tr,
+    example_tr:       v.example_tr,
+    case:             v.case,
+    level:            v.level,
   }));
 
   res.json({
     success: true,
-    data: exercises,
-    total: shuffled.length,
-    page: Number(page),
-    pages: Math.ceil(shuffled.length / pageSize),
+    data:    exercises,
+    total:   shuffled.length,
+    page:    Number(page),
+    pages:   Math.ceil(shuffled.length / pageSize),
   });
 }
 
-// Almanın'da edatlar çoğu zaman belirli artikelle birleşik yazılır (zum, zur, am, beim, vom, …)
+export function addVerb(req, res) {
+  const entry = req.body;
+  if (!entry || !entry.verb || !entry.preposition) {
+    return res.status(400).json({ success: false, message: 'verb ve preposition gerekli' });
+  }
+
+  const p      = pool();
+  const exists = p.some(
+    (v) =>
+      v.verb.toLowerCase()        === entry.verb.toLowerCase() &&
+      v.preposition.toLowerCase() === entry.preposition.toLowerCase()
+  );
+  if (exists) {
+    return res.status(409).json({ success: false, message: 'Zaten listende var' });
+  }
+
+  const newEntry = { ...entry, saved: true };
+  savedVerbs.push(newEntry);
+  writeFileSync(PV_SAVED_PATH, JSON.stringify(savedVerbs, null, 2), 'utf-8');
+
+  res.status(201).json({ success: true, data: newEntry });
+}
+
 const CONTRACTIONS = {
   zu:    ['zum', 'zur'],
   an:    ['am', 'ans'],
@@ -77,15 +102,13 @@ const CONTRACTIONS = {
 
 function buildGap(entry) {
   const sentence = entry.example_de;
-  const prep = entry.preposition.toLowerCase();
+  const prep     = entry.preposition.toLowerCase();
 
-  // Önce edatın kendisini ara
   const directRegex = new RegExp(`(?<![\\w])${prep}(?![\\w])`, 'i');
   if (directRegex.test(sentence)) {
     return sentence.replace(directRegex, '___');
   }
 
-  // Bulunamazsa birleşik formları dene (zum, zur, am, …)
   for (const contraction of (CONTRACTIONS[prep] || [])) {
     const cRegex = new RegExp(`(?<![\\w])${contraction}(?![\\w])`, 'i');
     if (cRegex.test(sentence)) {
@@ -93,14 +116,13 @@ function buildGap(entry) {
     }
   }
 
-  // Yedek: cümle olduğu gibi döner (JSON'da hata varsa)
   return sentence;
 }
 
-function buildOptions(entry, pool) {
-  const correct = entry.preposition;
-  const distractors = [...new Set(pool.map((v) => v.preposition))]
-    .filter((p) => p !== correct)
+function buildOptions(entry, p) {
+  const correct     = entry.preposition;
+  const distractors = [...new Set(p.map((v) => v.preposition))]
+    .filter((pr) => pr !== correct)
     .sort(() => Math.random() - 0.5)
     .slice(0, 3);
   return shuffle([correct, ...distractors]);

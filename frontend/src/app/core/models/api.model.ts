@@ -118,3 +118,49 @@ export interface ExercisesResponse {
   page: number;
   pages: number;
 }
+
+export interface TagesSchreibenKategorie {
+  punkte: number;
+  feedback: string;
+}
+
+export interface TagesSchreibenFeedback {
+  gesamtpunkte: number;
+  niveau: string;
+  kategorien: Record<string, TagesSchreibenKategorie>;
+  korrekturen: WritingKorrektur[];
+  verbesserungen: string[];
+}
+
+export interface TagesSchreibenArgumantasyon {
+  modus: 'argumantasyon';
+  thema: string;
+  leitfrage: string;
+  aufgabe: string;
+  hinweis: string;
+}
+
+export interface TagesSchreibenZusammenfassung {
+  modus: 'zusammenfassung';
+  thema: string;
+  text: string;
+  aufgabe: string;
+  wortanzahl_ziel: number;
+}
+
+export type TagesSchreibenPrompt = TagesSchreibenArgumantasyon | TagesSchreibenZusammenfassung;
+
+export interface MuendlichKategorie {
+  punkte: number;
+  feedback: string;
+}
+
+export interface MuendlichFeedback {
+  niveau: string;
+  gesamtpunkte: number;
+  kategorien: Record<string, MuendlichKategorie>;
+  impulskarten_behandelt: string[];
+  impulskarten_fehlend: string[];
+  verbesserungen: string[];
+  musterformulierungen: string[];
+}

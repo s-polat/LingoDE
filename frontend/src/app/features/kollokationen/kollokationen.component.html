@@ -1,0 +1,141 @@
+<div class="p-4 pb-8 space-y-4">
+
+  <h2 class="text-xl font-bold text-slate-800">🔗 Kollokationen</h2>
+
+  <!-- ───── SEÇİM ───── -->
+  @if (step === 'pick') {
+    <div class="bg-teal-50 border border-teal-100 rounded-xl px-4 py-3 space-y-1">
+      <p class="text-xs font-bold text-teal-700 uppercase tracking-wide">TELC C1 · 60 Kollokation</p>
+      <p class="text-xs text-teal-900 leading-relaxed">
+        Sabit fiil-isim birleşimleri. Boşluğu doğru kelimeyle tamamla.
+      </p>
+    </div>
+
+    <div>
+      <p class="text-xs font-bold text-slate-500 uppercase tracking-wide mb-2">Kategori</p>
+      <div class="flex flex-wrap gap-2">
+        @for (k of kategorien; track k) {
+          <button (click)="selectKategorie(k)"
+                  class="px-3 py-1.5 rounded-full text-xs font-semibold border transition-colors"
+                  [class]="selectedKategorie === k
+                    ? 'bg-teal-500 text-white border-teal-500'
+                    : 'bg-white text-slate-600 border-slate-200 hover:border-teal-300'">
+            {{ k }}
+          </button>
+        }
+      </div>
+    </div>
+
+    <button (click)="start()"
+            class="w-full py-4 bg-teal-500 text-white rounded-2xl font-bold text-sm shadow">
+      Başla →
+    </button>
+  }
+
+  <!-- ───── EGZERSİZ ───── -->
+  @if (step === 'exercise') {
+    <div class="space-y-1">
+      <div class="flex items-center justify-between text-xs text-slate-400">
+        <span class="font-medium text-slate-600 truncate max-w-[60%]">{{ currentItem.kategorie }}</span>
+        <span>{{ currentNr }} / {{ totalItems }}</span>
+      </div>
+      <div class="h-1.5 bg-slate-100 rounded-full overflow-hidden">
+        <div class="h-full bg-teal-500 rounded-full transition-all" [style.width.%]="progress"></div>
+      </div>
+    </div>
+
+    <!-- Cümle -->
+    <div class="bg-white rounded-2xl shadow-md p-5 space-y-4">
+      <div class="bg-slate-50 rounded-xl px-4 py-3">
+        <p class="text-sm text-slate-800 leading-loose" [innerHTML]="renderedSatz()"></p>
+      </div>
+
+      <!-- Seçenekler -->
+      <div class="space-y-2">
+        @for (opt of mcOptions; track opt) {
+          <button (click)="selectOption(opt)"
+                  class="w-full text-left px-4 py-3 rounded-xl border text-sm font-medium transition-colors"
+                  [class]="optionClass(opt)">
+            {{ opt }}
+          </button>
+        }
+      </div>
+
+      <!-- Cevap sonrası -->
+      @if (answered) {
+        <div class="rounded-xl px-4 py-2.5"
+             [class]="isCorrect ? 'bg-green-50 border border-green-200' : 'bg-red-50 border border-red-200'">
+          <p class="text-xs font-bold uppercase tracking-wide"
+             [class]="isCorrect ? 'text-green-700' : 'text-red-600'">
+            {{ isCorrect ? '✓ Doğru' : '✗ Yanlış — Doğru: ' + currentItem.optionen[0] }}
+          </p>
+          <p class="text-xs font-semibold mt-0.5"
+             [class]="isCorrect ? 'text-green-600' : 'text-red-500'">
+            {{ currentItem.kollokation }}
+          </p>
+        </div>
+
+        <div class="bg-amber-50 border border-amber-100 rounded-xl px-4 py-3">
+          <p class="text-xs font-bold text-amber-700 uppercase tracking-wide mb-1">💡 Açıklama</p>
+          <p class="text-xs text-amber-900 leading-relaxed">{{ currentItem.erklaerung }}</p>
+        </div>
+
+        <button (click)="next()"
+                class="w-full py-3 bg-teal-500 text-white rounded-xl font-semibold text-sm">
+          {{ currentNr < totalItems ? 'Devam →' : 'Sonuçlar →' }}
+        </button>
+      }
+    </div>
+  }
+
+  <!-- ───── SONUÇLAR ───── -->
+  @if (step === 'results') {
+    <div class="bg-white rounded-2xl shadow p-5 space-y-3">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-xs text-slate-400 uppercase tracking-wide font-semibold">Sonuç</p>
+          <p class="text-4xl font-bold text-slate-800 mt-1">%{{ score }}</p>
+        </div>
+        <div class="text-right space-y-1">
+          <p class="text-sm text-green-600 font-semibold">✓ {{ correctCount }} doğru</p>
+          <p class="text-sm text-red-500 font-semibold">✗ {{ wrongItems.length }} yanlış</p>
+          <p class="text-xs text-slate-400">{{ totalItems }} toplam</p>
+        </div>
+      </div>
+      <div class="h-2 bg-slate-100 rounded-full overflow-hidden">
+        <div class="h-full rounded-full transition-all"
+             [class]="score >= 80 ? 'bg-green-500' : score >= 60 ? 'bg-teal-500' : 'bg-red-400'"
+             [style.width.%]="score"></div>
+      </div>
+    </div>
+
+    @if (wrongItems.length > 0) {
+      <div class="space-y-2">
+        <p class="text-xs font-bold text-slate-500 uppercase tracking-wide">Yanlış Cevaplar</p>
+        @for (item of wrongItems; track item.id) {
+          <div class="bg-white rounded-xl shadow-sm p-3 border-l-4 border-teal-300">
+            <div class="flex items-center justify-between mb-1">
+              <span class="text-xs font-bold text-teal-700">{{ item.kollokation }}</span>
+              <span class="text-xs bg-green-100 text-green-700 font-semibold px-2 py-0.5 rounded-full">
+                ✓ {{ item.optionen[0] }}
+              </span>
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed">{{ item.erklaerung }}</p>
+          </div>
+        }
+      </div>
+    }
+
+    <div class="grid grid-cols-2 gap-3">
+      <button (click)="restart()"
+              class="py-3 rounded-xl bg-white border border-slate-200 text-slate-600 font-medium text-sm">
+        ← Menü
+      </button>
+      <button (click)="retry()"
+              class="py-3 rounded-xl bg-teal-500 text-white font-semibold text-sm">
+        Tekrar Dene
+      </button>
+    </div>
+  }
+
+</div>

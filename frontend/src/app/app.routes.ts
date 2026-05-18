@@ -74,6 +74,26 @@ export const routes: Routes = [
       import('./features/sprachbausteine/sprachbausteine.component').then((m) => m.SprachbausteineComponent),
   },
   {
+    path: 'muendlich',
+    loadComponent: () =>
+      import('./features/muendlich/muendlich.component').then((m) => m.MuendlichComponent),
+  },
+  {
+    path: 'kollokationen',
+    loadComponent: () =>
+      import('./features/kollokationen/kollokationen.component').then((m) => m.KollokationenComponent),
+  },
+  {
+    path: 'satzstellung',
+    loadComponent: () =>
+      import('./features/satzstellung/satzstellung.component').then((m) => m.SatzstellungComponent),
+  },
+  {
+    path: 'tagesschreiben',
+    loadComponent: () =>
+      import('./features/tagesschreiben/tagesschreiben.component').then((m) => m.TagesschreibenComponent),
+  },
+  {
     path: 'profile',
     loadComponent: () =>
       import('./features/profile/profile.component').then((m) => m.ProfileComponent),

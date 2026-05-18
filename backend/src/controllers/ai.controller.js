@@ -1,4 +1,4 @@
-import { analyzeWord, analyzeWordsBatch, extractWordsFromText, extractWordsFromImage, analyzeWriting, generateWritingPrompt, generateHochschulePrompt, analyzeHochschuleWriting, generateLeseverstehen } from '../services/claude.service.js';
+import { analyzeWord, analyzeWordsBatch, extractWordsFromText, extractWordsFromImage, analyzeWriting, generateWritingPrompt, generateHochschulePrompt, analyzeHochschuleWriting, generateLeseverstehen, analyzeMuendlich, generateTagesSchreiben, analyzeTagesSchreiben } from '../services/claude.service.js';
 import { extractTextFromFile } from '../services/file.service.js';
 
 export async function analyzeWordHandler(req, res) {
@@ -63,6 +63,35 @@ export async function analyzeHochschuleWritingHandler(req, res) {
   if (!type || !prompt || !text) return res.status(400).json({ success: false, message: 'type, prompt ve text gerekli' });
   if (text.length < 50) return res.status(400).json({ success: false, message: 'Metin çok kısa' });
   const result = await analyzeHochschuleWriting(type, prompt, text);
+  res.json({ success: true, data: result });
+}
+
+export async function generateTagesSchreibenHandler(req, res) {
+  const { modus } = req.query;
+  if (modus !== 'argumantasyon' && modus !== 'zusammenfassung') {
+    return res.status(400).json({ success: false, message: 'modus: argumantasyon veya zusammenfassung olmalı' });
+  }
+  const result = await generateTagesSchreiben(modus);
+  res.json({ success: true, data: result });
+}
+
+export async function analyzeTagesSchreibenHandler(req, res) {
+  const { modus, aufgabe, text } = req.body;
+  if (!modus || !aufgabe || !text) {
+    return res.status(400).json({ success: false, message: 'modus, aufgabe ve text gerekli' });
+  }
+  if (text.length < 30) return res.status(400).json({ success: false, message: 'Metin çok kısa' });
+  const result = await analyzeTagesSchreiben(modus, aufgabe, text);
+  res.json({ success: true, data: result });
+}
+
+export async function analyzeMuendlichHandler(req, res) {
+  const { leitfrage, impulskarten, text } = req.body;
+  if (!leitfrage || !impulskarten?.length || !text) {
+    return res.status(400).json({ success: false, message: 'leitfrage, impulskarten ve text gerekli' });
+  }
+  if (text.length < 50) return res.status(400).json({ success: false, message: 'Metin çok kısa' });
+  const result = await analyzeMuendlich(leitfrage, impulskarten, text);
   res.json({ success: true, data: result });
 }
 

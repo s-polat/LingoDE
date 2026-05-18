@@ -1,0 +1,240 @@
+<div class="p-4 pb-8 space-y-4">
+
+  <h2 class="text-xl font-bold text-slate-800">📅 Tages-Schreiben</h2>
+
+  <!-- ───── HOME ───── -->
+  @if (step === 'home') {
+    <div class="bg-amber-50 border border-amber-100 rounded-xl px-4 py-3 space-y-1">
+      <p class="text-xs font-bold text-amber-700 uppercase tracking-wide">Günlük Yazma Pratiği</p>
+      <p class="text-xs text-amber-900 leading-relaxed">
+        Her gün 15 dakika yaz. Seri yap, C1 seviyeni geliştir.
+      </p>
+    </div>
+
+    @if (streak > 0) {
+      <div class="bg-white rounded-xl shadow-sm p-4 flex items-center gap-3">
+        <span class="text-3xl">🔥</span>
+        <div>
+          <p class="text-xs text-slate-400 uppercase tracking-wide font-semibold">Seri</p>
+          <p class="text-2xl font-bold text-orange-500">{{ streak }} gün</p>
+        </div>
+      </div>
+    }
+
+    @if (error) {
+      <p class="text-xs text-red-500 bg-red-50 rounded-lg px-3 py-2">{{ error }}</p>
+    }
+
+    <div>
+      <p class="text-xs font-bold text-slate-500 uppercase tracking-wide mb-2">Mod Seç</p>
+      <div class="space-y-2">
+        <button (click)="selectModus('argumantasyon')"
+                class="w-full rounded-xl border p-4 text-left transition-colors"
+                [class]="modus === 'argumantasyon'
+                  ? 'bg-amber-500 border-amber-500 text-white'
+                  : 'bg-white border-slate-200 text-slate-700 hover:border-amber-300'">
+          <div class="flex items-center gap-3">
+            <span class="text-2xl">💬</span>
+            <div>
+              <p class="font-semibold text-sm">Argümantasyon</p>
+              <p class="text-xs opacity-75 mt-0.5">Bir konuya kendi görüşünü savun · 100–150 kelime</p>
+            </div>
+          </div>
+        </button>
+        <button (click)="selectModus('zusammenfassung')"
+                class="w-full rounded-xl border p-4 text-left transition-colors"
+                [class]="modus === 'zusammenfassung'
+                  ? 'bg-amber-500 border-amber-500 text-white'
+                  : 'bg-white border-slate-200 text-slate-700 hover:border-amber-300'">
+          <div class="flex items-center gap-3">
+            <span class="text-2xl">📖</span>
+            <div>
+              <p class="font-semibold text-sm">Lese + Zusammenfassung</p>
+              <p class="text-xs opacity-75 mt-0.5">Kısa metni oku ve özetle · 60–80 kelime</p>
+            </div>
+          </div>
+        </button>
+      </div>
+    </div>
+
+    <button (click)="start()"
+            class="w-full py-4 bg-amber-500 text-white rounded-2xl font-bold text-sm shadow">
+      Başla →
+    </button>
+  }
+
+  <!-- ───── LOADING ───── -->
+  @if (step === 'loading') {
+    <div class="flex flex-col items-center justify-center py-16 gap-4">
+      <div class="w-10 h-10 border-4 border-amber-400 border-t-transparent rounded-full animate-spin"></div>
+      <p class="text-sm text-slate-500">Görev hazırlanıyor…</p>
+    </div>
+  }
+
+  <!-- ───── AUFGABE ───── -->
+  @if (step === 'aufgabe' && aufgabe) {
+    <!-- Timer -->
+    <div class="flex items-center justify-between bg-white rounded-xl shadow-sm px-4 py-3">
+      <div class="flex items-center gap-2">
+        <span class="text-lg">⏱️</span>
+        <span class="text-sm font-medium text-slate-500">Süre</span>
+      </div>
+      <span class="text-2xl font-bold tabular-nums" [class]="timerColor">{{ timerDisplay }}</span>
+    </div>
+
+    <!-- Argümantasyon mode -->
+    @if (aufgabe.modus === 'argumantasyon') {
+      <div class="bg-amber-50 border border-amber-100 rounded-xl p-4 space-y-2">
+        <p class="text-xs font-bold text-amber-700 uppercase tracking-wide">Konu</p>
+        <p class="text-sm font-semibold text-slate-800">{{ asArgumantasyon(aufgabe).thema }}</p>
+        <p class="text-sm text-amber-900">{{ asArgumantasyon(aufgabe).leitfrage }}</p>
+      </div>
+      <div class="bg-white rounded-xl shadow-sm px-4 py-3">
+        <p class="text-xs font-bold text-slate-500 uppercase tracking-wide mb-1">Görev</p>
+        <p class="text-sm text-slate-700">{{ asArgumantasyon(aufgabe).aufgabe }}</p>
+      </div>
+      <div class="bg-blue-50 border border-blue-100 rounded-xl px-4 py-3">
+        <p class="text-xs font-bold text-blue-700 uppercase tracking-wide mb-1">💡 İpucu</p>
+        <p class="text-xs text-blue-900">{{ asArgumantasyon(aufgabe).hinweis }}</p>
+      </div>
+    }
+
+    <!-- Zusammenfassung mode -->
+    @if (aufgabe.modus === 'zusammenfassung') {
+      <div class="bg-amber-50 border border-amber-100 rounded-xl p-4 space-y-2">
+        <p class="text-xs font-bold text-amber-700 uppercase tracking-wide mb-2">Konu: {{ asZusammenfassung(aufgabe).thema }}</p>
+        <div class="max-h-72 overflow-y-auto pr-1">
+          <p class="text-sm text-slate-800 leading-relaxed" style="white-space: pre-wrap;">{{ asZusammenfassung(aufgabe).text }}</p>
+        </div>
+      </div>
+      <div class="bg-white rounded-xl shadow-sm px-4 py-3">
+        <p class="text-xs font-bold text-slate-500 uppercase tracking-wide mb-1">Görev</p>
+        <p class="text-sm text-slate-700">{{ asZusammenfassung(aufgabe).aufgabe }}</p>
+        <p class="text-xs text-slate-400 mt-1">Hedef: {{ asZusammenfassung(aufgabe).wortanzahl_ziel }} kelime</p>
+      </div>
+    }
+
+    <!-- Textarea -->
+    <div class="space-y-2">
+      <div class="flex items-center justify-between">
+        <p class="text-xs font-bold text-slate-500 uppercase tracking-wide">Yazın</p>
+        <span class="text-xs font-semibold"
+              [class]="wordCount >= wordTargetMin ? 'text-green-600' : 'text-slate-400'">
+          {{ wordCount }} kelime · hedef {{ wordTarget }}
+        </span>
+      </div>
+      <textarea
+        [(ngModel)]="text"
+        rows="8"
+        placeholder="Buraya yazın…"
+        class="w-full rounded-xl border border-slate-200 p-3 text-sm text-slate-800 resize-none focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-300">
+      </textarea>
+    </div>
+
+    @if (error) {
+      <p class="text-xs text-red-500 bg-red-50 rounded-lg px-3 py-2">{{ error }}</p>
+    }
+
+    <button (click)="submit()"
+            [disabled]="text.trim().length < 30"
+            class="w-full py-3 rounded-xl font-semibold text-sm transition-colors"
+            [class]="text.trim().length < 30
+              ? 'bg-slate-200 text-slate-400 cursor-not-allowed'
+              : 'bg-amber-500 text-white'">
+      Değerlendir →
+    </button>
+  }
+
+  <!-- ───── EVALUATING ───── -->
+  @if (step === 'evaluating') {
+    <div class="flex flex-col items-center justify-center py-16 gap-4">
+      <div class="w-10 h-10 border-4 border-amber-400 border-t-transparent rounded-full animate-spin"></div>
+      <p class="text-sm text-slate-500">AI değerlendiriyor…</p>
+    </div>
+  }
+
+  <!-- ───── ERGEBNIS ───── -->
+  @if (step === 'ergebnis' && feedback) {
+    <!-- Score card -->
+    <div class="bg-white rounded-2xl shadow p-5 space-y-3">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-xs text-slate-400 uppercase tracking-wide font-semibold">Gesamtpunkte</p>
+          <p class="text-4xl font-bold mt-1" [class]="scoreColor">{{ feedback.gesamtpunkte }}<span class="text-lg text-slate-400">/100</span></p>
+        </div>
+        <div class="text-right">
+          <p class="text-xs text-slate-400 uppercase tracking-wide">Seviye</p>
+          <p class="text-xl font-bold text-amber-600 mt-1">{{ feedback.niveau }}</p>
+        </div>
+      </div>
+      <div class="h-2 bg-slate-100 rounded-full overflow-hidden">
+        <div class="h-full rounded-full transition-all"
+             [class]="feedback.gesamtpunkte >= 80 ? 'bg-green-500' : feedback.gesamtpunkte >= 60 ? 'bg-amber-400' : 'bg-red-400'"
+             [style.width.%]="feedback.gesamtpunkte"></div>
+      </div>
+    </div>
+
+    <!-- Kategoriler -->
+    <div class="bg-white rounded-xl shadow-sm p-4 space-y-3">
+      <p class="text-xs font-bold text-slate-500 uppercase tracking-wide">Kategoriler</p>
+      @for (kat of kategorienList; track kat.key) {
+        <div class="space-y-1">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold text-slate-700">{{ kat.label }}</span>
+            <span class="text-xs font-bold"
+                  [class]="kat.value.punkte >= 27 ? 'text-green-600' : kat.value.punkte >= 20 ? 'text-amber-600' : 'text-red-500'">
+              {{ kat.value.punkte }}/34
+            </span>
+          </div>
+          <div class="h-1.5 bg-slate-100 rounded-full overflow-hidden">
+            <div class="h-full rounded-full transition-all"
+                 [class]="kat.value.punkte >= 27 ? 'bg-green-400' : kat.value.punkte >= 20 ? 'bg-amber-400' : 'bg-red-400'"
+                 [style.width.%]="(kat.value.punkte / 34) * 100"></div>
+          </div>
+          <p class="text-xs text-slate-500 leading-relaxed">{{ kat.value.feedback }}</p>
+        </div>
+      }
+    </div>
+
+    <!-- Düzeltmeler -->
+    @if (feedback.korrekturen.length > 0) {
+      <div class="space-y-2">
+        <p class="text-xs font-bold text-slate-500 uppercase tracking-wide">Düzeltmeler</p>
+        @for (k of feedback.korrekturen; track k.original) {
+          <div class="bg-white rounded-xl shadow-sm p-3 border-l-4 border-amber-300 space-y-1">
+            <p class="text-xs text-red-600 line-through">{{ k.original }}</p>
+            <p class="text-xs font-semibold text-green-700">✓ {{ k.korrektur }}</p>
+            <p class="text-xs text-slate-500">{{ k.erklaerung }}</p>
+          </div>
+        }
+      </div>
+    }
+
+    <!-- İyileştirme önerileri -->
+    @if (feedback.verbesserungen.length > 0) {
+      <div class="bg-blue-50 border border-blue-100 rounded-xl p-4">
+        <p class="text-xs font-bold text-blue-700 uppercase tracking-wide mb-2">💡 İyileştirme Önerileri</p>
+        <ul class="space-y-1">
+          @for (v of feedback.verbesserungen; track v) {
+            <li class="text-xs text-blue-900 flex gap-2">
+              <span class="shrink-0">→</span>
+              <span>{{ v }}</span>
+            </li>
+          }
+        </ul>
+      </div>
+    }
+
+    <div class="grid grid-cols-2 gap-3">
+      <button (click)="restart()"
+              class="py-3 rounded-xl bg-white border border-slate-200 text-slate-600 font-medium text-sm">
+        ← Menü
+      </button>
+      <button (click)="start()"
+              class="py-3 rounded-xl bg-amber-500 text-white font-semibold text-sm">
+        Tekrar Dene
+      </button>
+    </div>
+  }
+
+</div>

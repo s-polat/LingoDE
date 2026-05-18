@@ -1,0 +1,213 @@
+<div class="p-4 pb-8 space-y-4">
+
+  <h2 class="text-xl font-bold text-slate-800">🎙️ Mündlicher Ausdruck</h2>
+
+  <!-- ───── TEMA SEÇ ───── -->
+  @if (step === 'pick') {
+    <div class="bg-sky-50 border border-sky-100 rounded-xl px-4 py-3 space-y-1">
+      <p class="text-xs font-bold text-sky-700 uppercase tracking-wide">TELC C1 · Teil 1: Kurzreferat</p>
+      <p class="text-xs text-sky-900 leading-relaxed">
+        Bir tema seç. Leitfrage'yi oku, 3 Impulskarte'yi ele al.
+        Vortragını yaz ve AI değerlendirmesi al.
+      </p>
+    </div>
+
+    <div class="space-y-3">
+      @for (thema of themata; track thema.id) {
+        <button (click)="pick(thema)"
+                class="w-full bg-white rounded-2xl shadow p-4 text-left hover:shadow-md transition-shadow border border-transparent hover:border-sky-200">
+          <div class="flex items-start justify-between gap-2 mb-2">
+            <span class="text-xs px-2 py-0.5 rounded-full font-semibold"
+                  [class]="kategorieColor(thema.kategorie)">{{ thema.kategorie }}</span>
+          </div>
+          <p class="text-sm font-semibold text-slate-800 leading-snug mb-2">{{ thema.leitfrage }}</p>
+          <div class="flex flex-wrap gap-1.5">
+            @for (impuls of thema.impulskarten; track impuls) {
+              <span class="text-xs bg-sky-50 border border-sky-200 text-sky-700 px-2 py-0.5 rounded-full font-medium">
+                {{ impuls }}
+              </span>
+            }
+          </div>
+        </button>
+      }
+    </div>
+  }
+
+  <!-- ───── UYGULAMA ───── -->
+  @if (step === 'practice') {
+
+    <!-- Leitfrage -->
+    <div class="bg-gradient-to-br from-sky-500 to-sky-700 rounded-2xl p-5 text-white">
+      <p class="text-xs font-bold uppercase tracking-wide opacity-75 mb-1">Leitfrage</p>
+      <p class="text-base font-semibold leading-snug">{{ selectedThema!.leitfrage }}</p>
+    </div>
+
+    <!-- Impulskarten -->
+    <div>
+      <p class="text-xs font-bold text-slate-500 uppercase tracking-wide mb-2">Impulskarten</p>
+      <div class="flex flex-wrap gap-2">
+        @for (impuls of selectedThema!.impulskarten; track impuls) {
+          <span class="px-3 py-1.5 bg-sky-100 text-sky-800 rounded-xl text-sm font-semibold border border-sky-200">
+            ◆ {{ impuls }}
+          </span>
+        }
+      </div>
+    </div>
+
+    <!-- Redemittel açılır -->
+    <div class="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
+      <button (click)="showRedemittel = !showRedemittel"
+              class="w-full flex items-center justify-between px-4 py-3 text-sm font-semibold text-slate-700">
+        <span>📋 Redemittel & Struktur</span>
+        <span class="text-slate-400 text-lg leading-none">{{ showRedemittel ? '−' : '+' }}</span>
+      </button>
+      @if (showRedemittel) {
+        <div class="border-t border-slate-100 px-4 py-3 space-y-3">
+          @for (gruppe of redemittel; track gruppe.titel) {
+            <div>
+              <p class="text-xs font-bold text-sky-600 uppercase tracking-wide mb-1">{{ gruppe.titel }}</p>
+              <ul class="space-y-0.5">
+                @for (satz of gruppe.saetze; track satz) {
+                  <li class="text-xs text-slate-600 leading-relaxed">› {{ satz }}</li>
+                }
+              </ul>
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- Textarea -->
+    <div class="space-y-1">
+      <div class="flex items-center justify-between">
+        <p class="text-xs font-bold text-slate-500 uppercase tracking-wide">Vortragstext</p>
+        <span class="text-xs" [class]="wordCount >= 150 ? 'text-green-600 font-semibold' : 'text-slate-400'">
+          {{ wordCount }} kelime {{ wordCount < 150 ? '(en az 150 önerilir)' : '✓' }}
+        </span>
+      </div>
+      <textarea [(ngModel)]="vortragText"
+                rows="10"
+                placeholder="Vortragstext auf Deutsch schreiben... Einleitung → Hauptteil (alle 3 Impulskarten) → Schluss"
+                class="w-full rounded-xl border border-slate-200 p-3 text-sm text-slate-800 resize-none focus:outline-none focus:border-sky-400 focus:ring-1 focus:ring-sky-400 leading-relaxed">
+      </textarea>
+    </div>
+
+    @if (error) {
+      <p class="text-xs text-red-600 text-center">{{ error }}</p>
+    }
+
+    <div class="grid grid-cols-2 gap-3">
+      <button (click)="restart()"
+              class="py-3 rounded-xl bg-white border border-slate-200 text-slate-600 font-medium text-sm">
+        ← Temalar
+      </button>
+      <button (click)="evaluate()"
+              [disabled]="loading || wordCount < 10"
+              class="py-3 rounded-xl font-semibold text-sm transition-colors"
+              [class]="loading || wordCount < 10 ? 'bg-slate-200 text-slate-400 cursor-not-allowed' : 'bg-sky-500 text-white'">
+        {{ loading ? 'Değerlendiriliyor…' : 'KI-Bewertung →' }}
+      </button>
+    </div>
+  }
+
+  <!-- ───── SONUÇ ───── -->
+  @if (step === 'result' && feedback) {
+
+    <!-- Genel skor -->
+    <div class="bg-white rounded-2xl shadow p-5">
+      <div class="flex items-center justify-between mb-3">
+        <div>
+          <p class="text-xs text-slate-400 uppercase tracking-wide font-semibold">Ergebnis</p>
+          <p class="text-4xl font-bold mt-0.5" [class]="scoreColor">{{ feedback.gesamtpunkte }}/100</p>
+        </div>
+        <span class="text-2xl font-bold px-4 py-2 rounded-xl bg-sky-50 text-sky-700 border border-sky-200">
+          {{ feedback.niveau }}
+        </span>
+      </div>
+      <div class="h-2 bg-slate-100 rounded-full overflow-hidden">
+        <div class="h-full rounded-full transition-all" [class]="scoreBarColor"
+             [style.width.%]="feedback.gesamtpunkte"></div>
+      </div>
+    </div>
+
+    <!-- 4 kategori -->
+    <div class="space-y-3">
+      @for (entry of [
+        { key: 'aufgabenerfuellung', label: 'Aufgabenerfüllung' },
+        { key: 'kohaerenz',          label: 'Kohärenz & Struktur' },
+        { key: 'wortschatz',         label: 'Wortschatz & Ausdruck' },
+        { key: 'grammatik',          label: 'Grammatik' }
+      ]; track entry.key) {
+        <div class="bg-white rounded-xl shadow-sm p-4">
+          <div class="flex items-center justify-between mb-1.5">
+            <p class="text-xs font-bold text-slate-600">{{ entry.label }}</p>
+            <span class="text-sm font-bold text-sky-700">
+              {{ feedback.kategorien[entry.key].punkte }}/25
+            </span>
+          </div>
+          <div class="h-1.5 bg-slate-100 rounded-full overflow-hidden mb-2">
+            <div class="h-full bg-sky-400 rounded-full transition-all"
+                 [style.width.%]="feedback.kategorien[entry.key].punkte * 4"></div>
+          </div>
+          <p class="text-xs text-slate-600 leading-relaxed">{{ feedback.kategorien[entry.key].feedback }}</p>
+        </div>
+      }
+    </div>
+
+    <!-- Impulskarten coverage -->
+    <div class="bg-white rounded-xl shadow-sm p-4">
+      <p class="text-xs font-bold text-slate-500 uppercase tracking-wide mb-2">Impulskarten</p>
+      <div class="space-y-1.5">
+        @for (impuls of selectedThema!.impulskarten; track impuls) {
+          @if (feedback.impulskarten_behandelt.includes(impuls)) {
+            <div class="flex items-center gap-2 text-xs text-green-700">
+              <span class="w-4 h-4 bg-green-100 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">✓</span>
+              {{ impuls }}
+            </div>
+          } @else {
+            <div class="flex items-center gap-2 text-xs text-red-600">
+              <span class="w-4 h-4 bg-red-100 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">✗</span>
+              {{ impuls }} — ele alınmadı
+            </div>
+          }
+        }
+      </div>
+    </div>
+
+    <!-- Verbesserungen -->
+    @if (feedback.verbesserungen?.length) {
+      <div class="space-y-2">
+        <p class="text-xs font-bold text-slate-500 uppercase tracking-wide">Verbesserungsvorschläge</p>
+        @for (v of feedback.verbesserungen; track v) {
+          <div class="bg-amber-50 border border-amber-100 rounded-xl px-4 py-2.5">
+            <p class="text-xs text-amber-900 leading-relaxed">▸ {{ v }}</p>
+          </div>
+        }
+      </div>
+    }
+
+    <!-- Musterformulierungen -->
+    @if (feedback.musterformulierungen?.length) {
+      <div class="space-y-2">
+        <p class="text-xs font-bold text-slate-500 uppercase tracking-wide">Musterformulierungen (C1)</p>
+        @for (m of feedback.musterformulierungen; track m) {
+          <div class="bg-sky-50 border border-sky-100 rounded-xl px-4 py-2.5">
+            <p class="text-xs text-sky-900 leading-relaxed italic">„{{ m }}"</p>
+          </div>
+        }
+      </div>
+    }
+
+    <div class="grid grid-cols-2 gap-3">
+      <button (click)="restart()"
+              class="py-3 rounded-xl bg-white border border-slate-200 text-slate-600 font-medium text-sm">
+        ← Temalar
+      </button>
+      <button (click)="retry()"
+              class="py-3 rounded-xl bg-sky-500 text-white font-semibold text-sm">
+        Tekrar Yaz
+      </button>
+    </div>
+  }
+
+</div>

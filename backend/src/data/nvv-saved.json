@@ -1,0 +1,28 @@
+[
+  {
+    "phrase": "in der Pflicht stehen",
+    "noun": "Pflicht",
+    "verb": "stehen",
+    "article": "die",
+    "equivalent_verb": "verpflichtet sein",
+    "meaning_tr": "yükümlülük sahibi olmak, sorumlu olmak",
+    "example_de": "Forschende stehen in der Pflicht, ihre Ergebnisse transparent zu kommunizieren.",
+    "example_tr": "Araştırmacılar sonuçlarını şeffaf biçimde iletmekle yükümlüdür.",
+    "category": "Zustand",
+    "id": 81,
+    "saved": true
+  },
+  {
+    "phrase": "zustande kommen",
+    "noun": "Zustande",
+    "verb": "kommen",
+    "article": "—",
+    "equivalent_verb": "gelingen, entstehen",
+    "meaning_tr": "gerçekleşmek, hayata geçmek",
+    "example_de": "Ohne finanzielle Unterstützung würden viele Projekte nicht zustande kommen.",
+    "example_tr": "Mali destek olmadan pek çok proje gerçekleşemezdi.",
+    "category": "Handlung",
+    "id": 82,
+    "saved": true
+  }
+]

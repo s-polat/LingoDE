@@ -460,6 +460,141 @@ Maximal 4 Korrekturen, 2 Stärken, 3 Verbesserungsvorschläge. Feedback auf Tür
   return parseJson(response.content[0].text);
 }
 
+export async function generateTagesSchreiben(modus) {
+  if (modus === 'argumantasyon') {
+    const response = await client.messages.create({
+      model: 'claude-haiku-4-5-20251001',
+      max_tokens: 512,
+      messages: [{
+        role: 'user',
+        content: `Erstelle eine kurze TELC C1 Schreibaufgabe (Erörterung/Argümantasyon).
+Antworte NUR mit diesem JSON (kein Markdown):
+{
+  "modus": "argumantasyon",
+  "thema": "Thema in 2–3 Wörtern",
+  "leitfrage": "Eine konkrete Pro/Kontra-Frage",
+  "aufgabe": "Schreiben Sie einen kurzen Text (100–150 Wörter) ...",
+  "hinweis": "Struktur: Einleitungssatz + 2 Argumente mit Beispiel + Schlusssatz"
+}
+Themen-Pool (zufällig wählen): Homeoffice, soziale Medien, vegetarische Ernährung, lebenslanges Lernen, Stadtleben vs. Landleben, KI im Bildungssystem, Elternzeit für Väter, Digitale Detox, Studiengebühren, ehrenamtliche Arbeit, Reisen vs. Sesshaftigkeit, Mehrsprachigkeit.`,
+      }],
+    });
+    return parseJson(response.content[0].text);
+  } else {
+    const response = await client.messages.create({
+      model: 'claude-haiku-4-5-20251001',
+      max_tokens: 2048,
+      messages: [{
+        role: 'user',
+        content: `Erstelle einen deutschen Lesetext (400–450 Wörter, ca. 1 Seite) auf C1-Niveau zu einem gesellschaftlichen oder wissenschaftlichen Thema (journalistischer oder sachlicher Stil), plus eine Zusammenfassungsaufgabe.
+Der Text soll mehrere Absätze haben, verschiedene Aspekte des Themas beleuchten und C1-typische Strukturen enthalten (Nominalisierungen, Passiv, Konnektoren, Fachwortschatz).
+Antworte NUR mit diesem JSON (kein Markdown, kein Zeilenumbruch innerhalb von Strings):
+{
+  "modus": "zusammenfassung",
+  "thema": "Thema in 2–3 Wörtern",
+  "text": "Lesetext 400–450 Wörter, C1-Niveau, mehrere Absätze mit \\n\\n getrennt",
+  "aufgabe": "Fassen Sie den Text in 6–8 Sätzen zusammen. Gehen Sie auf die wichtigsten Aspekte ein. Verwenden Sie eigene Formulierungen.",
+  "wortanzahl_ziel": 100
+}`,
+      }],
+    });
+    return parseJson(response.content[0].text);
+  }
+}
+
+export async function analyzeTagesSchreiben(modus, aufgabe, text) {
+  const isZusammenfassung = modus === 'zusammenfassung';
+
+  const kategorienPrompt = isZusammenfassung
+    ? `- vollstaendigkeit (0-34): Wurden alle Kernpunkte erfasst?
+- formulierung (0-33): Eigene Formulierungen (kein Copy-Paste)?
+- sprachlicheKorrektheit (0-33): Grammatik, Wortschatz, Satzstruktur.`
+    : `- wortschatz (0-34): C1-Vokabular, Kollokationen, themenspezifische Ausdrücke.
+- grammatik (0-33): Korrektheit komplexer Strukturen (Nebensätze, Passiv, Konjunktiv).
+- kohaerenz (0-33): Logischer Aufbau, Konnektoren, Argumentation.`;
+
+  const kategorienFormat = isZusammenfassung
+    ? `"vollstaendigkeit": { "punkte": <0-34>, "feedback": "Türkçe" },
+    "formulierung": { "punkte": <0-33>, "feedback": "Türkçe" },
+    "sprachlicheKorrektheit": { "punkte": <0-33>, "feedback": "Türkçe" }`
+    : `"wortschatz": { "punkte": <0-34>, "feedback": "Türkçe" },
+    "grammatik": { "punkte": <0-33>, "feedback": "Türkçe" },
+    "kohaerenz": { "punkte": <0-33>, "feedback": "Türkçe" }`;
+
+  const response = await client.messages.create({
+    model: 'claude-opus-4-5',
+    max_tokens: 1500,
+    messages: [{
+      role: 'user',
+      content: `Du bist ein TELC C1 Deutschlehrer. Bewerte diesen kurzen Text.
+
+Aufgabentyp: ${isZusammenfassung ? 'Zusammenfassung' : 'Kurze Erörterung (100–150 Wörter)'}
+Aufgabe: "${aufgabe}"
+
+Text:
+"""
+${text}
+"""
+
+Bewertungskriterien:
+${kategorienPrompt}
+
+Antworte NUR mit diesem JSON (kein Markdown):
+{
+  "gesamtpunkte": <0-100>,
+  "niveau": "B1" | "B2" | "C1" | "C2",
+  "kategorien": { ${kategorienFormat} },
+  "korrekturen": [{ "original": "...", "korrektur": "...", "erklaerung": "..." }],
+  "verbesserungen": ["...", "..."]
+}
+Max 3 Korrekturen, 2 Verbesserungsvorschläge. Alles auf Türkisch außer deutschen Beispielen.`,
+    }],
+  });
+  return parseJson(response.content[0].text);
+}
+
+export async function analyzeMuendlich(leitfrage, impulskarten, text) {
+  const response = await client.messages.create({
+    model: 'claude-opus-4-5',
+    max_tokens: 2048,
+    messages: [{
+      role: 'user',
+      content: `Du bist ein TELC-Prüfer und bewertest einen Vortragstext für die TELC C1 Mündlicher Ausdruck Prüfung (Teil 1: Kurzreferat).
+
+Leitfrage: "${leitfrage}"
+Impulskarten: ${impulskarten.join(' | ')}
+
+Text des Kandidaten:
+"""
+${text}
+"""
+
+Bewerte nach TELC C1 Kriterien (je 0–25 Punkte). Antworte NUR mit diesem JSON (kein Markdown):
+{
+  "niveau": "B2" | "C1" | "C2",
+  "gesamtpunkte": <0-100>,
+  "kategorien": {
+    "aufgabenerfuellung": { "punkte": <0-25>, "feedback": "Türkçe feedback" },
+    "kohaerenz": { "punkte": <0-25>, "feedback": "Türkçe feedback" },
+    "wortschatz": { "punkte": <0-25>, "feedback": "Türkçe feedback" },
+    "grammatik": { "punkte": <0-25>, "feedback": "Türkçe feedback" }
+  },
+  "impulskarten_behandelt": ["hangi impuls karten işlendi"],
+  "impulskarten_fehlend": ["hangi impuls karten eksik"],
+  "verbesserungen": ["öneri 1", "öneri 2", "öneri 3"],
+  "musterformulierungen": ["C1 düzeyinde örnek cümle 1", "örnek cümle 2"]
+}
+Kriteriendetails:
+- aufgabenerfuellung: Wurde die Leitfrage beantwortet? Alle 3 Impulskarten angesprochen? Klare Struktur (Einleitung/Hauptteil/Schluss)?
+- kohaerenz: Logischer Aufbau, Kohäsionsmittel (Konnektoren), Argumentationskette.
+- wortschatz: C1-Niveau Vokabular, fachsprachliche Ausdrücke, Redemittel.
+- grammatik: Komplexe Strukturen, Nebensätze, Passiv, Konjunktiv II, korrekte Flexion.
+Alle Feedback-Texte auf Türkisch. Musterformulierungen auf Deutsch.`,
+    }],
+  });
+  return parseJson(response.content[0].text);
+}
+
 export async function extractWordsFromImage(base64Image, mediaType = 'image/jpeg') {
   const response = await client.messages.create({
     model: 'claude-opus-4-5',

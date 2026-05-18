@@ -24,4 +24,8 @@ export class PraepositionalverbenService {
     if (level) params['level'] = level;
     return this.http.get<ExercisesResponse>(`${this.base}/exercises`, { params });
   }
+
+  save(entry: PraepositionalverbEntry): Observable<ApiResponse<PraepositionalverbEntry>> {
+    return this.http.post<ApiResponse<PraepositionalverbEntry>>(this.base, entry);
+  }
 }

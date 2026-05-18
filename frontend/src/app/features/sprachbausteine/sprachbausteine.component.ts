@@ -1,12 +1,16 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { HttpErrorResponse } from '@angular/common/http';
 import {
   SprachbausteineText, SprachbausteineItem,
   SPRACHBAUSTEINE_TEXTE, shuffleOptions,
 } from './sprachbausteine.data';
+import { NvvService } from '../../core/services/nvv.service';
+import { PraepositionalverbenService } from '../../core/services/praepositionalverben.service';
 
-type Step = 'pick' | 'exercise' | 'results';
+type Step      = 'pick' | 'exercise' | 'results';
+type SaveState = 'idle' | 'saving' | 'saved' | 'exists' | 'error';
 
 @Component({
   selector: 'app-sprachbausteine',
@@ -16,6 +20,8 @@ type Step = 'pick' | 'exercise' | 'results';
 })
 export class SprachbausteineComponent {
   private sanitizer = inject(DomSanitizer);
+  private nvvSvc    = inject(NvvService);
+  private pvSvc     = inject(PraepositionalverbenService);
 
   step: Step = 'pick';
   selectedText: SprachbausteineText | null = null;
@@ -25,7 +31,8 @@ export class SprachbausteineComponent {
   selectedOption: string | null = null;
   answered = false;
 
-  // gap nr → kullanıcının seçtiği cevap
+  saveState: SaveState = 'idle';
+
   answers = new Map<number, string>();
 
   readonly texte = SPRACHBAUSTEINE_TEXTE;
@@ -59,8 +66,6 @@ export class SprachbausteineComponent {
   }
   get hasWrong(): boolean { return this.wrongItems.length > 0; }
 
-  // Metni [1], [2] ... badge'leri ile SafeHtml olarak döndürür.
-  // Inline style kullanır — Tailwind JIT tarama sorununu önler.
   get renderedText(): SafeHtml {
     if (!this.selectedText) return this.sanitizer.bypassSecurityTrustHtml('');
     const html = this.currentText.text.replace(/\[(\d+)\]/g, (_, nr) => {
@@ -76,21 +81,20 @@ export class SprachbausteineComponent {
       'display:inline-flex;align-items:center;justify-content:center;' +
       'min-width:22px;height:22px;border-radius:5px;' +
       'font-size:11px;font-weight:700;margin:0 2px;vertical-align:middle;';
-    // aktif soru (henüz cevaplanmadı)
     if (nr === this.currentNr && !this.answered) {
       return base + 'background:#6366f1;color:#fff;box-shadow:0 0 0 2px #a5b4fc;';
     }
     const ans = this.answers.get(nr);
-    if (!ans) return base + 'background:#f1f5f9;color:#94a3b8;'; // henüz gelmedi
+    if (!ans) return base + 'background:#f1f5f9;color:#94a3b8;';
     const item = this.currentText.items.find(i => i.nr === nr)!;
     return ans === item.optionen[0]
-      ? base + 'background:#bbf7d0;color:#166534;'   // doğru
-      : base + 'background:#fecaca;color:#991b1b;';  // yanlış
+      ? base + 'background:#bbf7d0;color:#166534;'
+      : base + 'background:#fecaca;color:#991b1b;';
   }
 
   start(text: SprachbausteineText) {
     this.selectedText = text;
-    this.currentNr = 1;
+    this.currentNr    = 1;
     this.answers.clear();
     this.resetQuestion();
     this.step = 'exercise';
@@ -98,14 +102,15 @@ export class SprachbausteineComponent {
 
   private resetQuestion() {
     this.selectedOption = null;
-    this.answered = false;
-    this.mcOptions = shuffleOptions([...this.currentItem.optionen]);
+    this.answered       = false;
+    this.saveState      = 'idle';
+    this.mcOptions      = shuffleOptions([...this.currentItem.optionen]);
   }
 
   selectOption(opt: string) {
     if (this.answered) return;
     this.selectedOption = opt;
-    this.answered = true;
+    this.answered       = true;
     this.answers.set(this.currentNr, opt);
   }
 
@@ -114,6 +119,31 @@ export class SprachbausteineComponent {
     if (opt === this.currentItem.optionen[0]) return 'border-green-400 bg-green-50 text-green-800 font-semibold';
     if (opt === this.selectedOption) return 'border-red-400 bg-red-50 text-red-700';
     return 'border-slate-100 text-slate-400 bg-slate-50';
+  }
+
+  saveKalip() {
+    const kalip = this.currentItem.kalip;
+    if (!kalip || this.saveState === 'saving' || this.saveState === 'saved') return;
+
+    this.saveState = 'saving';
+
+    if (kalip.type === 'nvv') {
+      const { type, ...entry } = kalip;
+      this.nvvSvc.save(entry as any).subscribe({
+        next: ()  => { this.saveState = 'saved'; },
+        error: (e: HttpErrorResponse) => {
+          this.saveState = e.status === 409 ? 'exists' : 'error';
+        },
+      });
+    } else {
+      const { type, ...entry } = kalip;
+      this.pvSvc.save(entry as any).subscribe({
+        next: ()  => { this.saveState = 'saved'; },
+        error: (e: HttpErrorResponse) => {
+          this.saveState = e.status === 409 ? 'exists' : 'error';
+        },
+      });
+    }
   }
 
   next() {
@@ -125,6 +155,6 @@ export class SprachbausteineComponent {
     }
   }
 
-  retry() { this.start(this.currentText); }
+  retry()   { this.start(this.currentText); }
   restart() { this.step = 'pick'; this.selectedText = null; }
 }

@@ -17,6 +17,7 @@ type Step = 'input' | 'extracting' | 'select' | 'analyzing' | 'review' | 'done';
 })
 export class VocabularyAddComponent {
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
+
   @ViewChild('videoEl') videoEl!: ElementRef<HTMLVideoElement>;
   @ViewChild('canvasEl') canvasEl!: ElementRef<HTMLCanvasElement>;
 

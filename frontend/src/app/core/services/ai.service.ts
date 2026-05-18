@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { ApiResponse, AiWordAnalysis, ExtractedWordsResult, WritingFeedback, HochschuleFeedback, LeseverstehenExercise } from '../models/api.model';
+import { ApiResponse, AiWordAnalysis, ExtractedWordsResult, WritingFeedback, HochschuleFeedback, LeseverstehenExercise, MuendlichFeedback, TagesSchreibenPrompt, TagesSchreibenFeedback } from '../models/api.model';
 
 @Injectable({ providedIn: 'root' })
 export class AiService {
@@ -48,5 +48,17 @@ export class AiService {
 
   analyzeHochschuleWriting(type: 'testdaf' | 'dsh', prompt: string, text: string): Observable<ApiResponse<HochschuleFeedback>> {
     return this.http.post<ApiResponse<HochschuleFeedback>>(`${this.base}/hochschule`, { type, prompt, text });
+  }
+
+  analyzeMuendlich(leitfrage: string, impulskarten: string[], text: string): Observable<ApiResponse<MuendlichFeedback>> {
+    return this.http.post<ApiResponse<MuendlichFeedback>>(`${this.base}/muendlich`, { leitfrage, impulskarten, text });
+  }
+
+  getTagesSchreiben(modus: 'argumantasyon' | 'zusammenfassung'): Observable<ApiResponse<TagesSchreibenPrompt>> {
+    return this.http.get<ApiResponse<TagesSchreibenPrompt>>(`${this.base}/tagesschreiben`, { params: { modus } });
+  }
+
+  analyzeTagesSchreiben(modus: string, aufgabe: string, text: string): Observable<ApiResponse<TagesSchreibenFeedback>> {
+    return this.http.post<ApiResponse<TagesSchreibenFeedback>>(`${this.base}/tagesschreiben`, { modus, aufgabe, text });
   }
 }

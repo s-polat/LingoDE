@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import multer from 'multer';
-import { analyzeWordHandler, analyzeWordsBatchHandler, extractFromImage, extractFromFile, analyzeWritingHandler, generateWritingPromptHandler, generateHochschulePromptHandler, analyzeHochschuleWritingHandler, leseverstehenHandler } from '../controllers/ai.controller.js';
+import { analyzeWordHandler, analyzeWordsBatchHandler, extractFromImage, extractFromFile, analyzeWritingHandler, generateWritingPromptHandler, generateHochschulePromptHandler, analyzeHochschuleWritingHandler, leseverstehenHandler, analyzeMuendlichHandler, generateTagesSchreibenHandler, analyzeTagesSchreibenHandler } from '../controllers/ai.controller.js';
 
 const upload = multer({
   storage: multer.memoryStorage(),
@@ -24,5 +24,8 @@ router.post('/schreiben', analyzeWritingHandler);
 router.get('/leseverstehen', leseverstehenHandler);
 router.get('/hochschule-aufgabe', generateHochschulePromptHandler);
 router.post('/hochschule', analyzeHochschuleWritingHandler);
+router.post('/muendlich', analyzeMuendlichHandler);
+router.get('/tagesschreiben', generateTagesSchreibenHandler);
+router.post('/tagesschreiben', analyzeTagesSchreibenHandler);
 
 export default router;

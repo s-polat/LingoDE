@@ -24,4 +24,8 @@ export class NvvService {
     if (category) params['category'] = category;
     return this.http.get<PagedResponse<NvvExercise[]>>(`${this.base}/exercises`, { params });
   }
+
+  save(entry: Omit<NvvEntry, 'id'>): Observable<ApiResponse<NvvEntry>> {
+    return this.http.post<ApiResponse<NvvEntry>>(this.base, entry);
+  }
 }
