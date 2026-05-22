@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AiService } from '../../core/services/ai.service';
 import { MuendlichFeedback } from '../../core/models/api.model';
+import { SessionService } from '../../core/services/session.service';
 import {
   MuendlichThema, MUENDLICH_THEMATA,
   REDEMITTEL_GRUPPEN, KATEGORIE_FARBEN,
@@ -18,6 +19,7 @@ type Step = 'pick' | 'practice' | 'result';
 })
 export class MuendlichComponent {
   private aiSvc = inject(AiService);
+  private sessionService = inject(SessionService);
 
   step: Step = 'pick';
   selectedThema: MuendlichThema | null = null;
@@ -77,6 +79,11 @@ export class MuendlichComponent {
         this.feedback = r.data;
         this.step     = 'result';
         this.loading  = false;
+        this.sessionService.save({
+          type: 'muendlich',
+          score: r.data.gesamtpunkte,
+          note: r.data.niveau,
+        });
       },
       error: () => {
         this.error   = 'Bir hata oluştu. Tekrar dene.';

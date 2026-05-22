@@ -8,6 +8,7 @@ import aiRoutes from './routes/ai.routes.js';
 import grammarRoutes from './routes/grammar.routes.js';
 import praepositionalverbenRoutes from './routes/praepositionalverben.routes.js';
 import nvvRoutes from './routes/nvv.routes.js';
+import sessionRoutes from './routes/session.routes.js';
 import { requireAuth } from './middleware/auth.middleware.js';
 
 const app = express();
@@ -26,6 +27,7 @@ app.use('/api/ai', requireAuth, aiRoutes);
 app.use('/api/grammar', requireAuth, grammarRoutes);
 app.use('/api/praepositionalverben', requireAuth, praepositionalverbenRoutes);
 app.use('/api/nvv', requireAuth, nvvRoutes);
+app.use('/api/sessions', requireAuth, sessionRoutes);
 
 app.get('/api/health', (_, res) => res.json({ status: 'ok' }));
 

@@ -93,12 +93,18 @@ export async function getActivity(req, res) {
   res.json({ success: true, data: { activity: result.reverse(), streak } });
 }
 
-export async function getStats(req, res) {
-  const [total, byLevel, dueToday] = await Promise.all([
+export async function getStats(_req, res) {
+  const [total, byLevel, dueToday, newCount, learningCount, masteredCount] = await Promise.all([
     Word.countDocuments(),
     Word.aggregate([{ $group: { _id: '$level', count: { $sum: 1 } } }]),
     Word.countDocuments({ sm2_next_review: { $lte: new Date() } }),
+    Word.countDocuments({ sm2_repetitions: 0 }),
+    Word.countDocuments({ sm2_repetitions: { $gt: 0, $lt: 3 } }),
+    Word.countDocuments({ sm2_repetitions: { $gte: 3 } }),
   ]);
 
-  res.json({ success: true, data: { total, byLevel, dueToday } });
+  res.json({
+    success: true,
+    data: { total, byLevel, dueToday, mastery: { new: newCount, learning: learningCount, mastered: masteredCount } },
+  });
 }

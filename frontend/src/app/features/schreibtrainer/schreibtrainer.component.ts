@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AiService } from '../../core/services/ai.service';
 import { WritingFeedback } from '../../core/models/api.model';
+import { SessionService } from '../../core/services/session.service';
 
 type TaskType = 'brief' | 'essay';
 type Step = 'pick' | 'loading' | 'write' | 'analyzing' | 'feedback';
@@ -15,6 +16,7 @@ type Step = 'pick' | 'loading' | 'write' | 'analyzing' | 'feedback';
 })
 export class SchreibtrainerComponent {
   private aiService = inject(AiService);
+  private sessionService = inject(SessionService);
 
   step: Step = 'pick';
   taskType: TaskType = 'brief';
@@ -73,7 +75,18 @@ export class SchreibtrainerComponent {
     this.step = 'analyzing';
     this.error = '';
     this.aiService.analyzeWriting(this.taskType, this.prompt, this.text).subscribe({
-      next: (res) => { this.feedback = res.data; this.step = 'feedback'; },
+      next: (res) => {
+        this.feedback = res.data;
+        this.step = 'feedback';
+        this.sessionService.save({
+          type: 'schreibtrainer',
+          subtype: this.taskType,
+          score: Math.round((res.data.gesamtpunkte / 25) * 100),
+          rawScore: res.data.gesamtpunkte,
+          maxScore: 25,
+          note: res.data.gesamtnote,
+        });
+      },
       error: () => { this.error = 'Analiz başarısız, tekrar dene.'; this.step = 'write'; },
     });
   }

@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AiService } from '../../core/services/ai.service';
 import { LeseverstehenExercise } from '../../core/models/api.model';
+import { SessionService } from '../../core/services/session.service';
 
 type ExamType = 'goethe' | 'telc' | 'testdaf' | 'dsh';
 type Step = 'pick' | 'loading' | 'read' | 'results';
@@ -14,6 +15,7 @@ type Step = 'pick' | 'loading' | 'read' | 'results';
 })
 export class LeseverstehenComponent {
   private aiService = inject(AiService);
+  private sessionService = inject(SessionService);
 
   step: Step = 'pick';
   examType: ExamType = 'goethe';
@@ -67,6 +69,14 @@ export class LeseverstehenComponent {
   submit() {
     if (!this.allAnswered) return;
     this.step = 'results';
+    this.sessionService.save({
+      type: 'leseverstehen',
+      subtype: this.examType,
+      score: this.scorePercent,
+      rawScore: this.correctCount,
+      maxScore: this.totalQuestions,
+      note: this.grade().label,
+    });
   }
 
   restart() {

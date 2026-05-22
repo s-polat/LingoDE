@@ -18,5 +18,6 @@ export class AppComponent {
     { path: '/yazma', label: 'Yazma', icon: 'pencil' },
     { path: '/grammar', label: 'Gramer', icon: 'graduation' },
     { path: '/games', label: 'Oyunlar', icon: 'game' },
+    { path: '/profile', label: 'Profil', icon: 'user' },
   ];
 }

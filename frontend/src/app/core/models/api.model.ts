@@ -155,6 +155,37 @@ export interface MuendlichKategorie {
   feedback: string;
 }
 
+export type SessionType = 'schreibtrainer' | 'muendlich' | 'hochschul' | 'tagesschreiben' | 'leseverstehen' | 'grammar';
+
+export interface CreateSessionDto {
+  type: SessionType;
+  subtype?: string;
+  score: number;
+  rawScore?: number;
+  maxScore?: number;
+  note?: string;
+}
+
+export interface ExerciseSession extends CreateSessionDto {
+  _id: string;
+  userId: string;
+  date: string;
+  createdAt: string;
+}
+
+export interface SessionByType {
+  _id: { type: string; subtype?: string };
+  avgScore: number;
+  count: number;
+  lastScore: number;
+  lastNote?: string;
+}
+
+export interface SessionStats {
+  recent: ExerciseSession[];
+  byType: SessionByType[];
+}
+
 export interface MuendlichFeedback {
   niveau: string;
   gesamtpunkte: number;

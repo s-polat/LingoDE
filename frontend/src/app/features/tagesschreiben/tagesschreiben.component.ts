@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AiService } from '../../core/services/ai.service';
 import { TagesSchreibenPrompt, TagesSchreibenFeedback, TagesSchreibenArgumantasyon, TagesSchreibenZusammenfassung } from '../../core/models/api.model';
+import { SessionService } from '../../core/services/session.service';
 
 type Step = 'home' | 'loading' | 'aufgabe' | 'evaluating' | 'ergebnis';
 type Modus = 'argumantasyon' | 'zusammenfassung';
@@ -19,6 +20,7 @@ const TIMER_SECONDS = 15 * 60;
 })
 export class TagesschreibenComponent implements OnDestroy {
   private ai = inject(AiService);
+  private sessionService = inject(SessionService);
 
   step: Step = 'home';
   modus: Modus = 'argumantasyon';
@@ -124,6 +126,12 @@ export class TagesschreibenComponent implements OnDestroy {
         this.feedback = res.data;
         this.step = 'ergebnis';
         this.updateStreak();
+        this.sessionService.save({
+          type: 'tagesschreiben',
+          subtype: this.modus,
+          score: res.data.gesamtpunkte,
+          note: res.data.niveau,
+        });
       },
       error: () => {
         this.error = 'Değerlendirme başarısız, tekrar dene.';

@@ -46,7 +46,7 @@ export class WordService {
     return this.http.post<ApiResponse<Word>>(`${this.base}/${id}/review`, { quality });
   }
 
-  getStats(): Observable<ApiResponse<{ total: number; byLevel: { _id: string; count: number }[]; dueToday: number }>> {
+  getStats(): Observable<ApiResponse<{ total: number; byLevel: { _id: string; count: number }[]; dueToday: number; mastery: { new: number; learning: number; mastered: number } }>> {
     return this.http.get<ApiResponse<any>>(`${this.base}/stats`);
   }
 

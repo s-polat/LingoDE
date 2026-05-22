@@ -1,6 +1,7 @@
-import { Component, Input, signal, OnChanges } from '@angular/core';
+import { Component, Input, signal, OnChanges, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GrammarExercise } from '../../../core/models/grammar.model';
+import { SessionService } from '../../../core/services/session.service';
 
 @Component({
   selector: 'app-grammar-exercise',
@@ -10,6 +11,9 @@ import { GrammarExercise } from '../../../core/models/grammar.model';
 })
 export class GrammarExerciseComponent implements OnChanges {
   @Input() exercises: GrammarExercise[] = [];
+  @Input() topic = '';
+
+  private sessionService = inject(SessionService);
 
   currentIndex = signal(0);
   selectedAnswer = signal<string | null>(null);
@@ -77,6 +81,13 @@ export class GrammarExerciseComponent implements OnChanges {
       this.showFeedback.set(false);
     } else {
       this.done.set(true);
+      this.sessionService.save({
+        type: 'grammar',
+        subtype: this.topic,
+        score: Math.round((this.score() / this.total) * 100),
+        rawScore: this.score(),
+        maxScore: this.total,
+      });
     }
     setTimeout(() => {
       const main = this.getScrollContainer();

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AiService } from '../../core/services/ai.service';
 import { HochschuleFeedback } from '../../core/models/api.model';
+import { SessionService } from '../../core/services/session.service';
 
 type ExamType = 'testdaf' | 'dsh';
 type Step = 'pick' | 'loading' | 'write' | 'analyzing' | 'feedback';
@@ -15,6 +16,7 @@ type Step = 'pick' | 'loading' | 'write' | 'analyzing' | 'feedback';
 })
 export class HochschulschreibtrainerComponent {
   private aiService = inject(AiService);
+  private sessionService = inject(SessionService);
 
   step: Step = 'pick';
   examType: ExamType = 'testdaf';
@@ -78,7 +80,18 @@ export class HochschulschreibtrainerComponent {
     this.step = 'analyzing';
     this.error = '';
     this.aiService.analyzeHochschuleWriting(this.examType, this.prompt, this.text).subscribe({
-      next: (res) => { this.feedback = res.data; this.step = 'feedback'; },
+      next: (res) => {
+        this.feedback = res.data;
+        this.step = 'feedback';
+        this.sessionService.save({
+          type: 'hochschul',
+          subtype: this.examType,
+          score: Math.round((res.data.gesamtpunkte / res.data.maxpunkte) * 100),
+          rawScore: res.data.gesamtpunkte,
+          maxScore: res.data.maxpunkte,
+          note: res.data.note,
+        });
+      },
       error: () => { this.error = 'Analiz başarısız, tekrar dene.'; this.step = 'write'; },
     });
   }

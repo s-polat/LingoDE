@@ -90,7 +90,7 @@
             <p class="text-xs font-semibold text-slate-400 uppercase tracking-wide">Alıştırmalar</p>
             <button (click)="showExercises.set(false)" class="text-xs text-slate-400 hover:text-slate-600">✕ Kapat</button>
           </div>
-          <app-grammar-exercise [exercises]="lesson.exercises" />
+          <app-grammar-exercise [exercises]="lesson.exercises" [topic]="lesson.title" />
         }
       </div>
     }
