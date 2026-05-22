@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://api.deutsch-lernen.onrender.com/api',
+  apiUrl: 'https://lingode.onrender.com/api',
   firebase: {
     apiKey: 'AIzaSyCCue264e2BLQavoTJvU1sKqnajL8AHiqw',
     authDomain: 'lingode-9ad0a.firebaseapp.com',
