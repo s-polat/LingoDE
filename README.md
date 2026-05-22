@@ -7,6 +7,8 @@
 
 > **PWA:** Add to Home Screen on iOS (Safari → Share → Add to Home Screen) or Android (Chrome → Add to Home Screen) for a full native app experience.
 
+> **⚠️ Access:** This app is whitelisted to exactly 2 users. If Google blocks you at login — that's not a bug, that's the entire security model. Think of it as a very exclusive language school with a 0% acceptance rate for new applicants.
+
 ---
 
 ## What makes it different
