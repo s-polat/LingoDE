@@ -41,7 +41,12 @@
     <!-- İlerleme -->
     <div class="space-y-1">
       <div class="flex items-center justify-between text-xs text-slate-400">
-        <span class="font-medium text-slate-600 truncate max-w-[70%]">{{ currentText.titel }}</span>
+        <div class="flex items-center gap-2">
+          @if (currentNr > 1) {
+            <button (click)="prev()" class="text-slate-400 hover:text-indigo-600 transition-colors font-medium">← Önceki</button>
+          }
+          <span class="font-medium text-slate-600 truncate max-w-[70%]">{{ currentText.titel }}</span>
+        </div>
         <span>{{ currentNr }} / {{ totalItems }}</span>
       </div>
       <div class="h-1.5 bg-slate-100 rounded-full overflow-hidden">

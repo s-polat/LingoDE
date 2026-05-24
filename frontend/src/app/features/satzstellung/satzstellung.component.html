@@ -49,6 +49,9 @@
           {{ typLabels[currentItem.typ] }}
         </span>
         <span>{{ currentNr }} / {{ totalItems }}</span>
+        @if (currentIndex > 0) {
+          <button (click)="prev()" class="text-slate-400 hover:text-violet-600 transition-colors text-sm font-medium">← Önceki</button>
+        }
       </div>
       <div class="h-1.5 bg-slate-100 rounded-full overflow-hidden">
         <div class="h-full bg-violet-500 rounded-full transition-all" [style.width.%]="progress"></div>

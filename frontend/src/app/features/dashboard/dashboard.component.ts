@@ -4,6 +4,7 @@ import { RouterLink } from '@angular/router';
 import { forkJoin } from 'rxjs';
 
 import { WordService } from '../../core/services/word.service';
+import { AuthService } from '../../core/services/auth.service';
 
 type DayActivity = { date: string; reviewed: number; correct: number };
 
@@ -15,6 +16,17 @@ type DayActivity = { date: string; reviewed: number; correct: number };
 })
 export class DashboardComponent implements OnInit {
   private wordService = inject(WordService);
+  private auth = inject(AuthService);
+
+  get greeting(): { text: string; sub: string } {
+    const h = new Date().getHours();
+    const name = this.auth.currentUser()?.displayName?.split(' ')[0] ?? '';
+    const namePart = name ? `, ${name}` : '';
+    if (h >= 5 && h < 12) return { text: `Guten Morgen${namePart}! ☀️`, sub: 'Bugün erken başladın, harika!' };
+    if (h >= 12 && h < 18) return { text: `Guten Tag${namePart}! 🌤️`, sub: 'LingoDe ile biraz Almanca çalışalım.' };
+    if (h >= 18 && h < 22) return { text: `Guten Abend${namePart}! 🌅`, sub: 'Akşam tekrarı en verimli zamandır.' };
+    return { text: `Gute Nacht${namePart}! 🌙`, sub: 'Geç saatte de öğrenmek değerlidir.' };
+  }
 
   stats: { total: number; byLevel: { _id: string; count: number }[]; dueToday: number } | null = null;
   streak = 0;

@@ -19,12 +19,14 @@ export class SatzstellungComponent {
   queue: SatzstellungExercise[] = [];
   currentIndex = 0;
 
-  available: string[] = [];  // kalan kelimeler
-  built: string[]     = [];  // kullanıcının oluşturduğu cümle
+  available: string[] = [];
+  built: string[]     = [];
   answered = false;
   isCorrect = false;
 
   wrongItems: SatzstellungExercise[] = [];
+
+  private historyMap = new Map<number, { built: string[]; available: string[]; isCorrect: boolean }>();
 
   readonly alleTypen  = ALLE_TYPEN;
   readonly typLabels  = TYP_LABELS;
@@ -51,6 +53,7 @@ export class SatzstellungComponent {
     this.queue        = [...pool].sort(() => Math.random() - 0.5);
     this.currentIndex = 0;
     this.wrongItems   = [];
+    this.historyMap.clear();
     this.loadQuestion();
     this.step = 'exercise';
   }
@@ -60,6 +63,18 @@ export class SatzstellungComponent {
     this.built     = [];
     this.answered  = false;
     this.isCorrect = false;
+  }
+
+  private restoreOrLoad() {
+    const saved = this.historyMap.get(this.currentIndex);
+    if (saved) {
+      this.built     = [...saved.built];
+      this.available = [...saved.available];
+      this.answered  = true;
+      this.isCorrect = saved.isCorrect;
+    } else {
+      this.loadQuestion();
+    }
   }
 
   placeWord(word: string, idx: number) {
@@ -81,12 +96,23 @@ export class SatzstellungComponent {
     this.isCorrect = normalize(this.built.join(' ')) === normalize(this.currentItem.loesung);
     this.answered  = true;
     if (!this.isCorrect) this.wrongItems.push(this.currentItem);
+    this.historyMap.set(this.currentIndex, {
+      built: [...this.built],
+      available: [...this.available],
+      isCorrect: this.isCorrect,
+    });
+  }
+
+  prev() {
+    if (this.currentIndex === 0) return;
+    this.currentIndex--;
+    this.restoreOrLoad();
   }
 
   next() {
     if (this.currentIndex < this.totalItems - 1) {
       this.currentIndex++;
-      this.loadQuestion();
+      this.restoreOrLoad();
     } else {
       this.step = 'results';
     }

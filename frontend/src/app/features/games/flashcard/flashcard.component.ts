@@ -10,6 +10,7 @@ import { Word, CefrLevel } from '../../../core/models/word.model';
   standalone: true,
   imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './flashcard.component.html',
+  styleUrl: './flashcard.component.scss',
 })
 export class FlashcardComponent implements OnInit {
   private wordService = inject(WordService);
@@ -24,6 +25,11 @@ export class FlashcardComponent implements OnInit {
 
   sessionCorrect = 0;
   sessionTotal = 0;
+
+  private touchStartX = 0;
+  private touchStartY = 0;
+  private lastInteractionWasTouch = false;
+  swipeClass = '';
 
   ngOnInit() { this.load(); }
 
@@ -44,14 +50,11 @@ export class FlashcardComponent implements OnInit {
 
   flip() { this.flipped = !this.flipped; }
 
-  // quality: 1=Bilmedim, 3=Zorlandım, 5=Bildim
   rate(quality: 1 | 3 | 5) {
     if (!this.word) return;
     this.sessionTotal++;
     if (quality >= 3) this.sessionCorrect++;
-
     this.wordService.reviewWord(this.word._id!, quality).subscribe();
-
     this.flipped = false;
     if (this.current < this.words.length - 1) {
       this.current++;
@@ -62,5 +65,47 @@ export class FlashcardComponent implements OnInit {
 
   get accuracy(): number {
     return this.sessionTotal > 0 ? Math.round((this.sessionCorrect / this.sessionTotal) * 100) : 0;
+  }
+
+  onCardClick() {
+    if (this.lastInteractionWasTouch) {
+      this.lastInteractionWasTouch = false;
+      return;
+    }
+    this.flip();
+  }
+
+  onTouchStart(e: TouchEvent) {
+    this.lastInteractionWasTouch = true;
+    this.touchStartX = e.changedTouches[0].clientX;
+    this.touchStartY = e.changedTouches[0].clientY;
+    this.swipeClass = '';
+  }
+
+  onTouchMove(e: TouchEvent) {
+    if (!this.flipped) return;
+    const dx = e.changedTouches[0].clientX - this.touchStartX;
+    const dy = e.changedTouches[0].clientY - this.touchStartY;
+    if (Math.abs(dx) > 20 && Math.abs(dx) > Math.abs(dy)) {
+      this.swipeClass = dx > 0 ? 'swiping-right' : 'swiping-left';
+    }
+  }
+
+  onTouchEnd(e: TouchEvent) {
+    this.swipeClass = '';
+    const dx = e.changedTouches[0].clientX - this.touchStartX;
+    const dy = e.changedTouches[0].clientY - this.touchStartY;
+    const isHorizontalSwipe = Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5;
+
+    if (!isHorizontalSwipe) {
+      this.flip();
+      return;
+    }
+
+    if (this.flipped) {
+      this.rate(dx > 0 ? 5 : 1);
+    } else {
+      this.flip();
+    }
   }
 }

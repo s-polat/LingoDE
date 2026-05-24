@@ -34,6 +34,7 @@ export class SprachbausteineComponent {
   saveState: SaveState = 'idle';
 
   answers = new Map<number, string>();
+  private historyMap = new Map<number, { selectedOption: string | null; mcOptions: string[] }>();
 
   readonly texte = SPRACHBAUSTEINE_TEXTE;
 
@@ -96,6 +97,7 @@ export class SprachbausteineComponent {
     this.selectedText = text;
     this.currentNr    = 1;
     this.answers.clear();
+    this.historyMap.clear();
     this.resetQuestion();
     this.step = 'exercise';
   }
@@ -107,11 +109,24 @@ export class SprachbausteineComponent {
     this.mcOptions      = shuffleOptions([...this.currentItem.optionen]);
   }
 
+  private restoreOrReset() {
+    const saved = this.historyMap.get(this.currentNr);
+    if (saved) {
+      this.selectedOption = saved.selectedOption;
+      this.mcOptions      = saved.mcOptions;
+      this.answered       = true;
+      this.saveState      = 'idle';
+    } else {
+      this.resetQuestion();
+    }
+  }
+
   selectOption(opt: string) {
     if (this.answered) return;
     this.selectedOption = opt;
     this.answered       = true;
     this.answers.set(this.currentNr, opt);
+    this.historyMap.set(this.currentNr, { selectedOption: opt, mcOptions: [...this.mcOptions] });
   }
 
   optionClass(opt: string): string {
@@ -146,10 +161,16 @@ export class SprachbausteineComponent {
     }
   }
 
+  prev() {
+    if (this.currentNr <= 1) return;
+    this.currentNr--;
+    this.restoreOrReset();
+  }
+
   next() {
     if (this.currentNr < this.totalItems) {
       this.currentNr++;
-      this.resetQuestion();
+      this.restoreOrReset();
     } else {
       this.step = 'results';
     }

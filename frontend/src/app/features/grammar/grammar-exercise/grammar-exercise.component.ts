@@ -21,33 +21,16 @@ export class GrammarExerciseComponent implements OnChanges {
   score = signal(0);
   done = signal(false);
 
-  ngOnChanges() {
-    this.restart();
-  }
+  private historyMap = new Map<number, { selected: string; correct: boolean }>();
 
-  get current(): GrammarExercise {
-    return this.exercises[this.currentIndex()];
-  }
+  ngOnChanges() { this.restart(); }
 
-  get total(): number {
-    return this.exercises.length;
-  }
-
-  get isCorrect(): boolean {
-    return this.selectedAnswer() === this.current?.answer;
-  }
-
-  get isFillInBlank(): boolean {
-    return this.current?.question.includes('___');
-  }
-
-  get questionParts(): string[] {
-    return this.current?.question.split('___') ?? [];
-  }
-
-  get progressPercent(): number {
-    return ((this.currentIndex() + 1) / this.total) * 100;
-  }
+  get current(): GrammarExercise { return this.exercises[this.currentIndex()]; }
+  get total(): number { return this.exercises.length; }
+  get isCorrect(): boolean { return this.selectedAnswer() === this.current?.answer; }
+  get isFillInBlank(): boolean { return this.current?.question.includes('___'); }
+  get questionParts(): string[] { return this.current?.question.split('___') ?? []; }
+  get progressPercent(): number { return ((this.currentIndex() + 1) / this.total) * 100; }
 
   get scoreEmoji(): string {
     const ratio = this.score() / this.total;
@@ -57,28 +40,36 @@ export class GrammarExerciseComponent implements OnChanges {
     return '📚';
   }
 
-  private getScrollContainer(): HTMLElement | null {
-    return document.querySelector('main');
-  }
+  private getScrollContainer(): HTMLElement | null { return document.querySelector('main'); }
 
   select(option: string): void {
     if (this.showFeedback()) return;
     this.selectedAnswer.set(option);
     this.showFeedback.set(true);
-    if (option === this.current.answer) {
-      this.score.update(s => s + 1);
-    }
+    const correct = option === this.current.answer;
+    if (correct) this.score.update(s => s + 1);
+    this.historyMap.set(this.currentIndex(), { selected: option, correct });
     setTimeout(() => {
       const main = this.getScrollContainer();
       if (main) main.scrollTo({ top: main.scrollHeight, behavior: 'smooth' });
     }, 100);
   }
 
+  prev(): void {
+    if (this.currentIndex() === 0) return;
+    this.currentIndex.update(i => i - 1);
+    this.restoreState(this.currentIndex());
+    setTimeout(() => {
+      const main = this.getScrollContainer();
+      const el = document.getElementById('exercise-card');
+      if (main && el) main.scrollTo({ top: el.offsetTop - 16, behavior: 'smooth' });
+    }, 50);
+  }
+
   next(): void {
     if (this.currentIndex() < this.total - 1) {
       this.currentIndex.update(i => i + 1);
-      this.selectedAnswer.set(null);
-      this.showFeedback.set(false);
+      this.restoreState(this.currentIndex());
     } else {
       this.done.set(true);
       this.sessionService.save({
@@ -96,7 +87,19 @@ export class GrammarExerciseComponent implements OnChanges {
     }, 50);
   }
 
+  private restoreState(index: number): void {
+    const saved = this.historyMap.get(index);
+    if (saved) {
+      this.selectedAnswer.set(saved.selected);
+      this.showFeedback.set(true);
+    } else {
+      this.selectedAnswer.set(null);
+      this.showFeedback.set(false);
+    }
+  }
+
   restart(): void {
+    this.historyMap.clear();
     this.currentIndex.set(0);
     this.selectedAnswer.set(null);
     this.showFeedback.set(false);
@@ -108,12 +111,8 @@ export class GrammarExerciseComponent implements OnChanges {
     if (!this.showFeedback()) {
       return 'border-slate-200 text-slate-700 hover:border-primary-400 hover:bg-primary-50';
     }
-    if (option === this.current.answer) {
-      return 'border-green-500 bg-green-50 text-green-800 font-semibold';
-    }
-    if (option === this.selectedAnswer()) {
-      return 'border-red-400 bg-red-50 text-red-700';
-    }
+    if (option === this.current.answer) return 'border-green-500 bg-green-50 text-green-800 font-semibold';
+    if (option === this.selectedAnswer()) return 'border-red-400 bg-red-50 text-red-700';
     return 'border-slate-200 text-slate-400';
   }
 }

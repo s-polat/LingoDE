@@ -36,7 +36,12 @@
   @if (step === 'exercise') {
     <div class="space-y-1">
       <div class="flex items-center justify-between text-xs text-slate-400">
-        <span class="font-medium text-slate-600 truncate max-w-[60%]">{{ currentItem.kategorie }}</span>
+        <div class="flex items-center gap-2">
+          @if (currentIndex > 0) {
+            <button (click)="prev()" class="text-slate-400 hover:text-teal-600 transition-colors font-medium">← Önceki</button>
+          }
+          <span class="font-medium text-slate-600 truncate max-w-[60%]">{{ currentItem.kategorie }}</span>
+        </div>
         <span>{{ currentNr }} / {{ totalItems }}</span>
       </div>
       <div class="h-1.5 bg-slate-100 rounded-full overflow-hidden">

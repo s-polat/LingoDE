@@ -20,12 +20,18 @@
 
   } @else if (current) {
     <!-- İlerleme -->
-    <div class="flex items-center gap-3">
+    <div class="flex items-center gap-2">
+      @if (currentIndex() > 0) {
+        <button (click)="prev()"
+                class="flex-shrink-0 text-slate-400 hover:text-primary-600 transition-colors text-sm font-medium px-1">
+          ←
+        </button>
+      }
       <div class="flex-1 bg-slate-100 rounded-full h-1.5">
         <div class="bg-primary-500 h-1.5 rounded-full transition-all"
              [style.width.%]="progressPercent"></div>
       </div>
-      <span class="text-xs text-slate-400 font-medium">{{ currentIndex() + 1 }}/{{ total }}</span>
+      <span class="text-xs text-slate-400 font-medium flex-shrink-0">{{ currentIndex() + 1 }}/{{ total }}</span>
     </div>
 
     <!-- Soru Kartı -->

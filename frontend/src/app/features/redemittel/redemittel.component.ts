@@ -23,7 +23,6 @@ export class RedemittelComponent {
   currentIndex = 0;
   flipped = false;
 
-  // Learn mode extras
   userSentence = '';
   scrambleActive = false;
   scrambleSource = '';
@@ -36,6 +35,8 @@ export class RedemittelComponent {
 
   bekannt: number[] = [];
   wiederholen: number[] = [];
+
+  private historyMap = new Map<number, { selectedOption: string | null; quizOptions: QuizOption[] }>();
 
   get current(): Redemittel { return this.queue[this.currentIndex]; }
   get progress(): number { return Math.round((this.currentIndex / this.queue.length) * 100); }
@@ -70,6 +71,7 @@ export class RedemittelComponent {
     this.currentIndex = 0;
     this.bekannt = [];
     this.wiederholen = [];
+    this.historyMap.clear();
 
     if (this.mode === 'quiz') {
       this.prepareQuiz();
@@ -80,7 +82,7 @@ export class RedemittelComponent {
     }
   }
 
-  // ── LEARN (kart) ──────────────────────────────────────────
+  // ── LEARN ──────────────────────────────────────────────────
   flip() { this.flipped = true; }
 
   resetLearnCard() {
@@ -121,7 +123,7 @@ export class RedemittelComponent {
     this.scrambleBuilt = [];
   }
 
-  // ── QUIZ (çoktan seçmeli) ──────────────────────────────────
+  // ── QUIZ ───────────────────────────────────────────────────
   private prepareQuiz() {
     this.quizOptions = this.buildOptions(this.current);
     this.selectedOption = null;
@@ -138,12 +140,33 @@ export class RedemittelComponent {
     return shuffle([{ text: correct, correct: true }, ...distractors]);
   }
 
+  private restoreOrPrepare() {
+    const saved = this.historyMap.get(this.currentIndex);
+    if (saved) {
+      this.quizOptions    = saved.quizOptions;
+      this.selectedOption = saved.selectedOption;
+      this.answered       = true;
+    } else {
+      this.prepareQuiz();
+    }
+  }
+
   selectOption(opt: QuizOption) {
     if (this.answered) return;
     this.selectedOption = opt.text;
     this.answered = true;
     if (opt.correct) this.bekannt.push(this.current.id);
     else this.wiederholen.push(this.current.id);
+    this.historyMap.set(this.currentIndex, {
+      selectedOption: opt.text,
+      quizOptions: [...this.quizOptions],
+    });
+  }
+
+  prevQuestion() {
+    if (this.currentIndex === 0) return;
+    this.currentIndex--;
+    this.restoreOrPrepare();
   }
 
   nextQuestion() { this.advance('quiz'); }
@@ -151,7 +174,7 @@ export class RedemittelComponent {
   private advance(mode: 'learn' | 'quiz') {
     if (this.currentIndex < this.queue.length - 1) {
       this.currentIndex++;
-      if (mode === 'quiz') this.prepareQuiz();
+      if (mode === 'quiz') this.restoreOrPrepare();
       else this.resetLearnCard();
     } else {
       this.step = 'results';
@@ -165,13 +188,14 @@ export class RedemittelComponent {
     return 'border-slate-100 text-slate-400 bg-slate-50';
   }
 
-  // ── RESULTS ───────────────────────────────────────────────
+  // ── RESULTS ────────────────────────────────────────────────
   retryWeak() {
     const weakIds = new Set(this.wiederholen);
     this.queue = shuffle(REDEMITTEL_DATA.filter(r => weakIds.has(r.id)));
     this.currentIndex = 0;
     this.bekannt = [];
     this.wiederholen = [];
+    this.historyMap.clear();
     if (this.mode === 'quiz') { this.prepareQuiz(); this.step = 'quiz'; }
     else { this.resetLearnCard(); this.step = 'learn'; }
   }

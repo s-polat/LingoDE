@@ -1,0 +1,42 @@
+.flip-container {
+  perspective: 1200px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.flip-inner {
+  display: grid;
+  transition: transform 0.48s cubic-bezier(0.4, 0.2, 0.2, 1);
+  transform-style: preserve-3d;
+
+  &.flipped {
+    transform: rotateY(180deg);
+  }
+}
+
+.flip-front,
+.flip-back {
+  grid-area: 1 / 1;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  min-height: 208px;
+}
+
+.flip-back {
+  transform: rotateY(180deg);
+}
+
+.swipe-hint {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.5rem;
+  opacity: 0;
+  transition: opacity 0.15s;
+  pointer-events: none;
+
+  &.left  { left: 1rem; }
+  &.right { right: 1rem; }
+}
+
+.flip-container.swiping-left  .swipe-hint.left  { opacity: 0.5; }
+.flip-container.swiping-right .swipe-hint.right { opacity: 0.5; }

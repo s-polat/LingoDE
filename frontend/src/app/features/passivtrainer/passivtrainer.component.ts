@@ -2,12 +2,23 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
-  PassivExercise, PassivKategorie,
+  PassivExercise,
   PASSIV_DATA, PASSIV_KATEGORIEN_LISTE,
   shuffleExercises, shuffleStrings,
 } from './passivtrainer.data';
 
 type Step = 'pick' | 'exercise' | 'results';
+
+interface PassivHistory {
+  typ: string;
+  selectedOption: string | null;
+  answered: boolean;
+  userInput: string;
+  revealed: boolean;
+  mcOptions: string[];
+  rated: boolean;
+  ratedCorrect?: boolean;
+}
 
 @Component({
   selector: 'app-passivtrainer',
@@ -22,17 +33,17 @@ export class PassivtrainerComponent {
   queue: PassivExercise[] = [];
   currentIndex = 0;
 
-  // Umformung modu
   userInput = '';
   revealed = false;
 
-  // Lückentext modu
   mcOptions: string[] = [];
   selectedOption: string | null = null;
   answered = false;
 
   bekannt: number[] = [];
   wiederholen: number[] = [];
+
+  private historyMap = new Map<number, PassivHistory>();
 
   readonly kategorienListe = [
     { name: 'Alle', emoji: '📚', formel: 'Tüm yapılar', count: PASSIV_DATA.length },
@@ -55,6 +66,7 @@ export class PassivtrainerComponent {
     this.currentIndex = 0;
     this.bekannt = [];
     this.wiederholen = [];
+    this.historyMap.clear();
     this.resetExercise();
     this.step = 'exercise';
   }
@@ -74,20 +86,51 @@ export class PassivtrainerComponent {
     this.mcOptions = shuffleStrings([...opts]);
   }
 
-  // ── UMFORMUNG ──────────────────────────────────────────────
+  private restoreOrReset() {
+    const saved = this.historyMap.get(this.currentIndex);
+    if (saved) {
+      this.selectedOption = saved.selectedOption;
+      this.answered       = saved.answered;
+      this.userInput      = saved.userInput;
+      this.revealed       = saved.revealed;
+      this.mcOptions      = saved.mcOptions;
+    } else {
+      this.resetExercise();
+    }
+  }
+
   reveal() { this.revealed = true; }
 
   selfRate(correct: boolean) {
+    this.historyMap.set(this.currentIndex, {
+      typ: this.current.typ,
+      selectedOption: null,
+      answered: true,
+      userInput: this.userInput,
+      revealed: true,
+      mcOptions: [],
+      rated: true,
+      ratedCorrect: correct,
+    });
     if (correct) this.bekannt.push(this.current.id);
     else this.wiederholen.push(this.current.id);
     this.advance();
   }
 
-  // ── LÜCKENTEXT ─────────────────────────────────────────────
   selectOption(opt: string) {
     if (this.answered) return;
     this.selectedOption = opt;
     this.answered = true;
+    this.historyMap.set(this.currentIndex, {
+      typ: this.current.typ,
+      selectedOption: opt,
+      answered: true,
+      userInput: '',
+      revealed: false,
+      mcOptions: [...this.mcOptions],
+      rated: true,
+      ratedCorrect: this.isCorrectOption,
+    });
     if (this.isCorrectOption) this.bekannt.push(this.current.id);
     else this.wiederholen.push(this.current.id);
   }
@@ -99,24 +142,30 @@ export class PassivtrainerComponent {
     return 'border-slate-100 text-slate-400 bg-slate-50';
   }
 
+  prev() {
+    if (this.currentIndex === 0) return;
+    this.currentIndex--;
+    this.restoreOrReset();
+  }
+
   next() { this.advance(); }
 
   private advance() {
     if (this.currentIndex < this.queue.length - 1) {
       this.currentIndex++;
-      this.resetExercise();
+      this.restoreOrReset();
     } else {
       this.step = 'results';
     }
   }
 
-  // ── RESULTS ────────────────────────────────────────────────
   retryWeak() {
     const ids = new Set(this.wiederholen);
     this.queue = shuffleExercises(PASSIV_DATA.filter(e => ids.has(e.id)));
     this.currentIndex = 0;
     this.bekannt = [];
     this.wiederholen = [];
+    this.historyMap.clear();
     this.resetExercise();
     this.step = 'exercise';
   }

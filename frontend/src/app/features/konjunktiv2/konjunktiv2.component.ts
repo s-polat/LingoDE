@@ -2,12 +2,23 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
-  K2Exercise, K2Kategorie,
+  K2Exercise,
   K2_DATA, K2_KATEGORIEN_LISTE,
   shuffleK2, shuffleStrings,
 } from './konjunktiv2.data';
 
 type Step = 'pick' | 'exercise' | 'results';
+
+interface K2History {
+  typ: string;
+  selectedOption: string | null;
+  answered: boolean;
+  userInput: string;
+  revealed: boolean;
+  mcOptions: string[];
+  rated: boolean;
+  ratedCorrect?: boolean;
+}
 
 @Component({
   selector: 'app-konjunktiv2',
@@ -32,6 +43,8 @@ export class Konjunktiv2Component {
   bekannt: number[] = [];
   wiederholen: number[] = [];
 
+  private historyMap = new Map<number, K2History>();
+
   readonly kategorienListe = [
     { name: 'Alle', emoji: '📚', formel: 'Tüm yapılar', count: K2_DATA.length },
     ...K2_KATEGORIEN_LISTE,
@@ -53,6 +66,7 @@ export class Konjunktiv2Component {
     this.currentIndex = 0;
     this.bekannt = [];
     this.wiederholen = [];
+    this.historyMap.clear();
     this.resetExercise();
     this.step = 'exercise';
   }
@@ -67,9 +81,32 @@ export class Konjunktiv2Component {
     }
   }
 
+  private restoreOrReset() {
+    const saved = this.historyMap.get(this.currentIndex);
+    if (saved) {
+      this.selectedOption = saved.selectedOption;
+      this.answered       = saved.answered;
+      this.userInput      = saved.userInput;
+      this.revealed       = saved.revealed;
+      this.mcOptions      = saved.mcOptions;
+    } else {
+      this.resetExercise();
+    }
+  }
+
   reveal() { this.revealed = true; }
 
   selfRate(correct: boolean) {
+    this.historyMap.set(this.currentIndex, {
+      typ: this.current.typ,
+      selectedOption: null,
+      answered: true,
+      userInput: this.userInput,
+      revealed: true,
+      mcOptions: [],
+      rated: true,
+      ratedCorrect: correct,
+    });
     if (correct) this.bekannt.push(this.current.id);
     else this.wiederholen.push(this.current.id);
     this.advance();
@@ -79,6 +116,16 @@ export class Konjunktiv2Component {
     if (this.answered) return;
     this.selectedOption = opt;
     this.answered = true;
+    this.historyMap.set(this.currentIndex, {
+      typ: this.current.typ,
+      selectedOption: opt,
+      answered: true,
+      userInput: '',
+      revealed: false,
+      mcOptions: [...this.mcOptions],
+      rated: true,
+      ratedCorrect: this.isCorrectOption,
+    });
     if (this.isCorrectOption) this.bekannt.push(this.current.id);
     else this.wiederholen.push(this.current.id);
   }
@@ -90,12 +137,18 @@ export class Konjunktiv2Component {
     return 'border-slate-100 text-slate-400 bg-slate-50';
   }
 
+  prev() {
+    if (this.currentIndex === 0) return;
+    this.currentIndex--;
+    this.restoreOrReset();
+  }
+
   next() { this.advance(); }
 
   private advance() {
     if (this.currentIndex < this.queue.length - 1) {
       this.currentIndex++;
-      this.resetExercise();
+      this.restoreOrReset();
     } else {
       this.step = 'results';
     }
@@ -107,6 +160,7 @@ export class Konjunktiv2Component {
     this.currentIndex = 0;
     this.bekannt = [];
     this.wiederholen = [];
+    this.historyMap.clear();
     this.resetExercise();
     this.step = 'exercise';
   }

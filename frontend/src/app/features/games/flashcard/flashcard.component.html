@@ -79,46 +79,57 @@
         <span class="text-xs text-slate-400 flex-shrink-0">{{ current + 1 }} / {{ words.length }}</span>
       </div>
 
-      <!-- Kart (çevirilebilir) -->
-      <div (click)="flip()"
-           class="min-h-52 bg-white rounded-2xl shadow-md p-6 flex flex-col items-center justify-center text-center cursor-pointer select-none transition-all active:scale-95"
-           [class.ring-2]="flipped"
-           [class.ring-primary-300]="flipped">
+      <!-- Kart (3D çevirilebilir) -->
+      <div class="flip-container select-none relative"
+           [class]="swipeClass"
+           (click)="onCardClick()"
+           (touchstart)="onTouchStart($event)"
+           (touchmove)="onTouchMove($event)"
+           (touchend)="onTouchEnd($event)">
 
-        @if (!flipped) {
+        <span class="swipe-hint left">👎</span>
+        <span class="swipe-hint right">✅</span>
+
+        <div class="flip-inner" [class.flipped]="flipped">
+
           <!-- Ön yüz: Almanca -->
-          <div class="space-y-2">
-            <div class="flex items-baseline justify-center gap-2 flex-wrap">
-              @if (word.article) {
-                <span class="text-primary-500 font-medium text-lg">{{ word.article }}</span>
-              }
-              <span class="text-3xl font-bold text-slate-800">{{ word.german }}</span>
-            </div>
-            @if (word.plural) {
-              <p class="text-sm text-slate-400">Pl: {{ word.plural }}</p>
-            }
-            <span class="inline-block bg-primary-100 text-primary-700 text-xs font-bold px-2 py-0.5 rounded-full">
-              {{ word.level }}
-            </span>
-            <p class="text-slate-400 text-sm mt-4">Çevirmek için dokun 👆</p>
-          </div>
-        } @else {
-          <!-- Arka yüz: Türkçe + örnek -->
-          <div class="space-y-3 w-full">
-            @for (m of word.meanings; track $index) {
-              <div [class]="$index > 0 ? 'border-t border-slate-100 pt-3' : ''">
-                <p class="text-xl font-bold text-slate-800">{{ m.turkish }}</p>
-                @if (m.example_de) {
-                  <p class="text-sm text-slate-500 italic mt-1">{{ m.example_de }}</p>
-                  <p class="text-xs text-slate-400">{{ m.example_tr }}</p>
+          <div class="flip-front bg-white rounded-2xl shadow-md p-6 flex flex-col items-center justify-center text-center">
+            <div class="space-y-2">
+              <div class="flex items-baseline justify-center gap-2 flex-wrap">
+                @if (word.article) {
+                  <span class="text-primary-500 font-medium text-lg">{{ word.article }}</span>
                 }
+                <span class="text-3xl font-bold text-slate-800">{{ word.german }}</span>
               </div>
-            }
+              @if (word.plural) {
+                <p class="text-sm text-slate-400">Pl: {{ word.plural }}</p>
+              }
+              <span class="inline-block bg-primary-100 text-primary-700 text-xs font-bold px-2 py-0.5 rounded-full">
+                {{ word.level }}
+              </span>
+              <p class="text-slate-400 text-sm mt-4">Çevirmek için dokun 👆</p>
+            </div>
           </div>
-        }
+
+          <!-- Arka yüz: Türkçe + örnek -->
+          <div class="flip-back bg-white rounded-2xl shadow-md p-6 flex flex-col items-center justify-center">
+            <div class="space-y-3 w-full">
+              @for (m of word.meanings; track $index) {
+                <div [class]="$index > 0 ? 'border-t border-slate-100 pt-3' : ''">
+                  <p class="text-xl font-bold text-slate-800">{{ m.turkish }}</p>
+                  @if (m.example_de) {
+                    <p class="text-sm text-slate-500 italic mt-1">{{ m.example_de }}</p>
+                    <p class="text-xs text-slate-400">{{ m.example_tr }}</p>
+                  }
+                </div>
+              }
+            </div>
+          </div>
+
+        </div>
       </div>
 
-      <!-- Değerlendirme butonları (sadece çevrilmişken) -->
+      <!-- Değerlendirme butonları -->
       @if (flipped) {
         <div class="grid grid-cols-3 gap-3">
           <button (click)="rate(1)"
@@ -138,7 +149,9 @@
           </button>
         </div>
       } @else {
-        <p class="text-center text-xs text-slate-400">Karta dokun, ardından kendini değerlendir</p>
+        <p class="text-center text-xs text-slate-400">
+          Dokun veya kaydır &nbsp;·&nbsp; Çevir, sonra değerlendir
+        </p>
       }
 
     </div>

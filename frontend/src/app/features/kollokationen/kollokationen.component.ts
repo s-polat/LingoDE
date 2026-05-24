@@ -23,6 +23,8 @@ export class KollokationenComponent {
   answered = false;
   answers = new Map<number, string>();
 
+  private historyMap = new Map<number, { selectedOption: string | null; mcOptions: string[] }>();
+
   readonly kategorien = KATEGORIEN;
 
   get currentItem(): Kollokation  { return this.queue[this.currentIndex]; }
@@ -50,6 +52,7 @@ export class KollokationenComponent {
     this.queue        = [...pool].sort(() => Math.random() - 0.5);
     this.currentIndex = 0;
     this.answers.clear();
+    this.historyMap.clear();
     this.resetQuestion();
     this.step = 'exercise';
   }
@@ -60,11 +63,23 @@ export class KollokationenComponent {
     this.mcOptions      = shuffleOptions([...this.currentItem.optionen]);
   }
 
+  private restoreOrReset() {
+    const saved = this.historyMap.get(this.currentIndex);
+    if (saved) {
+      this.selectedOption = saved.selectedOption;
+      this.mcOptions      = saved.mcOptions;
+      this.answered       = true;
+    } else {
+      this.resetQuestion();
+    }
+  }
+
   selectOption(opt: string) {
     if (this.answered) return;
     this.selectedOption = opt;
     this.answered       = true;
     this.answers.set(this.currentItem.id, opt);
+    this.historyMap.set(this.currentIndex, { selectedOption: opt, mcOptions: [...this.mcOptions] });
   }
 
   optionClass(opt: string): string {
@@ -74,10 +89,16 @@ export class KollokationenComponent {
     return 'border-slate-100 text-slate-400 bg-slate-50';
   }
 
+  prev() {
+    if (this.currentIndex === 0) return;
+    this.currentIndex--;
+    this.restoreOrReset();
+  }
+
   next() {
     if (this.currentIndex < this.totalItems - 1) {
       this.currentIndex++;
-      this.resetQuestion();
+      this.restoreOrReset();
     } else {
       this.step = 'results';
     }

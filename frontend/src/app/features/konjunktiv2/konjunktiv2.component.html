@@ -30,7 +30,12 @@
     <!-- İlerleme -->
     <div class="space-y-1">
       <div class="flex items-center justify-between text-xs text-slate-400">
-        <span>{{ selectedKategorie }}</span>
+        <div class="flex items-center gap-2">
+          @if (currentIndex > 0) {
+            <button (click)="prev()" class="text-slate-400 hover:text-indigo-600 transition-colors font-medium">← Önceki</button>
+          }
+          <span>{{ selectedKategorie }}</span>
+        </div>
         <span>{{ currentIndex + 1 }} / {{ queue.length }}</span>
       </div>
       <div class="h-1.5 bg-slate-100 rounded-full overflow-hidden">

@@ -86,10 +86,29 @@ export class VocabularyAddComponent {
     });
   }
 
+  get isMultiWordInput(): boolean {
+    const t = this.manualWord.trim();
+    return t.includes(' ') || t.includes('\n') || t.length > 30;
+  }
+
   analyzeManual() {
-    if (!this.manualWord.trim()) return;
-    this.extractedWords = [this.manualWord.trim()];
-    this.selectedWords = new Set([this.manualWord.trim()]);
+    const text = this.manualWord.trim();
+    if (!text) return;
+
+    if (this.isMultiWordInput) {
+      this.step = 'extracting';
+      this.error = '';
+      const blob = new Blob([text], { type: 'text/plain' });
+      const file = new File([blob], 'metin.txt', { type: 'text/plain' });
+      this.aiService.extractFromFile(file).subscribe({
+        next: (res) => this.showWordSelection(res.data.words ?? []),
+        error: () => { this.error = 'Metin analizi başarısız.'; this.step = 'input'; },
+      });
+      return;
+    }
+
+    this.extractedWords = [text];
+    this.selectedWords = new Set([text]);
     this.startBatchAnalysis();
   }
 
