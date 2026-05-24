@@ -1,15 +1,28 @@
 <div class="flex flex-col h-full max-w-lg mx-auto relative">
   <!-- Header -->
   <header class="text-white px-4 py-3.5 flex items-center justify-between flex-shrink-0 overflow-hidden" style="background: linear-gradient(to right, #c084fc 0%, #7e22ce 45%, #3b0764 100%); box-shadow: 0 2px 24px rgba(59,7,100,0.7);">
-    <div class="flex items-center gap-3">
-      <img src="icons/icon-64x64.png" alt="LingoDe"
-           class="w-10 h-10 rounded-xl flex-shrink-0"
-           style="box-shadow: 0 0 18px rgba(167,139,250,0.65), 0 4px 14px rgba(0,0,0,0.45), -1px -1px 3px rgba(255,255,255,0.18);">
-      <div class="leading-none">
-        <p class="font-bold text-lg tracking-tight">LingoDe</p>
-        <p class="text-xs mt-0.5 tracking-wide" style="color: rgba(196,181,253,0.85);">Meister dein Deutsch</p>
+    @if (isSubPage) {
+      <!-- Sub-sayfa: Geri butonu + başlık -->
+      <div class="flex items-center gap-2 min-w-0">
+        <button (click)="goBack()" class="flex items-center justify-center w-9 h-9 rounded-xl bg-white/15 hover:bg-white/25 transition-colors flex-shrink-0">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+          </svg>
+        </button>
+        <p class="font-bold text-base tracking-tight truncate">{{ pageTitle }}</p>
       </div>
-    </div>
+    } @else {
+      <!-- Ana sayfa: Logo + isim -->
+      <div class="flex items-center gap-3">
+        <img src="icons/icon-64x64.png" alt="LingoDe"
+             class="w-10 h-10 rounded-xl flex-shrink-0"
+             style="box-shadow: 0 0 18px rgba(167,139,250,0.65), 0 4px 14px rgba(0,0,0,0.45), -1px -1px 3px rgba(255,255,255,0.18);">
+        <div class="leading-none">
+          <p class="font-bold text-lg tracking-tight">LingoDe</p>
+          <p class="text-xs mt-0.5 tracking-wide" style="color: rgba(196,181,253,0.85);">Meister dein Deutsch</p>
+        </div>
+      </div>
+    }
     @if (auth.isLoggedIn()) {
       <div class="flex items-center gap-1">
         <a routerLink="/profile"
