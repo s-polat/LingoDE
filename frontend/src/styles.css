@@ -19,6 +19,11 @@ body {
   padding-bottom: env(safe-area-inset-bottom);
 }
 
+/* iOS PWA'da overflow-y: auto olan alanlarda dokunmatik scroll */
+* {
+  -webkit-overflow-scrolling: touch;
+}
+
 @keyframes page-enter {
   from {
     opacity: 0;
