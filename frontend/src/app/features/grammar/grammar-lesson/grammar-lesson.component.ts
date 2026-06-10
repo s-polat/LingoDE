@@ -10,6 +10,7 @@ import { GrammarExerciseComponent } from '../grammar-exercise/grammar-exercise.c
   standalone: true,
   imports: [CommonModule, RouterLink, GrammarExerciseComponent],
   templateUrl: './grammar-lesson.component.html',
+  host: { class: 'flex flex-col h-full' },
 })
 export class GrammarLessonComponent implements OnInit {
   private grammarService = inject(GrammarService);
